@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MemberController">
+   <children>
+      <AnchorPane fx:id="anchorPaneSideMenu" prefHeight="700.0" prefWidth="275.0" style="-fx-background-color: #4d4545;">
+         <children>
+            <ImageView fx:id="lblAccount" fitHeight="25.0" fitWidth="25.0" layoutX="59.0" layoutY="661.0" onMouseClicked="#lblAccountClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/account.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="lblSettings" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="661.0" onMouseClicked="#lblSettingsClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/settings.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblWelcomeBack" alignment="CENTER" prefHeight="120.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Let's Get Reading!">
+               <font>
+                  <Font name="Segoe Print Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMemberName" alignment="CENTER" layoutX="52.0" layoutY="82.0" prefHeight="20.0" prefWidth="170.0" style="-fx-text-fill: #000000;">
+               <font>
+                  <Font name="Segoe UI" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblLibrary" layoutY="132.0" prefHeight="25.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Library">
+               <font>
+                  <Font name="Segoe UI Semibold" size="15.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <HBox fx:id="hBoxBooksAvailable" layoutY="165.0" onMouseClicked="#hBoxBooksAvailableClicked" prefHeight="35.0" prefWidth="275.0">
+               <children>
+                  <ImageView fx:id="imBooksAvailable" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="35.0" top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../icons/book.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblBooksAvailable" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Available Books">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="hBoxBooksList" layoutY="215.0" onMouseClicked="#hBoxBooksListClicked" prefHeight="35.0" prefWidth="275.0">
+               <children>
+                  <ImageView fx:id="imBookList" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="35.0" top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../icons/library_books.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblBooksList" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Book List">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="hBoxBooksRequest" layoutY="265.0" prefHeight="35.0" prefWidth="275.0">
+               <children>
+                  <ImageView fx:id="imBookRequest" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="35.0" top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../icons/library_add.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblBooksRequest" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Request a Book">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="hBoxMemberReturnDates" layoutY="315.0" prefHeight="35.0" prefWidth="275.0">
+               <children>
+                  <ImageView fx:id="imReturnDates" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="35.0" top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../icons/request_dates.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblMemberReturnDates" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Return Dates">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox fx:id="hBoxMemberTakenOut" layoutY="365.0" prefHeight="35.0" prefWidth="275.0">
+               <children>
+                  <ImageView fx:id="imTakenOut" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="35.0" top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../icons/suitcase.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblMemberTakenOut" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Taken Out">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="imExit" fitHeight="35.0" fitWidth="35.0" layoutX="1074.0" layoutY="2.0" onMouseClicked="#lblExitClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/exit.png" />
+         </image>
+      </ImageView>
+      <BorderPane fx:id="bpMain" layoutX="275.0" layoutY="37.0" prefHeight="663.0" prefWidth="834.0" />
+   </children>
+</AnchorPane>

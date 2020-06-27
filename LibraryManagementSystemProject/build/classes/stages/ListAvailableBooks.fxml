@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="663.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controllers.ListAvailableBooksController">
+   <children>
+      <AnchorPane fx:id="anchorPaneOutput" layoutY="100.0" prefHeight="563.0" prefWidth="834.0">
+         <children>
+            <TreeTableView prefHeight="563.0" prefWidth="834.0">
+              <columns>
+                <TreeTableColumn editable="false" prefWidth="150.0" resizable="false" sortable="false" text="BookID" />
+                <TreeTableColumn editable="false" minWidth="0.0" prefWidth="342.0" resizable="false" sortable="false" text="Title" />
+                  <TreeTableColumn editable="false" prefWidth="342.0" resizable="false" sortable="false" text="Authors" />
+              </columns>
+            </TreeTableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorPaneOptions" prefHeight="100.0" prefWidth="834.0" />
+   </children>
+</AnchorPane>
