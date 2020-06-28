@@ -18,14 +18,21 @@ public class Library {
     
     private static ResultSet fetched = null;
     private Postgres db = new Postgres();
-    private Members mem = new Members();
-    private Algorithms algor = new Algorithms();
     
-    public ArrayList fetchBooks(){
-        String query = "SELECT BookID, title, authors, amount FROM books";
+    private ArrayList<Books> books = null;
+    private ArrayList<BooksFix> booksFix = null;
+    private ArrayList<BooksRequest> booksRequest = null;
+    private ArrayList<BooksTakenOut> booksTakenOut = null;
+    private ArrayList<RegisteredUsers> registeredUsers = null;
+    private ArrayList<Staff> staff = null;
+    
+    
+    public ArrayList<Books> fetchBooks(){
+        String query = "SELECT * FROM books";
         fetched = db.fetch(query);
         
-        ArrayList<String> availableBooks = new ArrayList<>();
+        // Clearing ArrayList
+        books.clear();
         
         try{
             if(fetched.isBeforeFirst()){ // Checking if anything was returned
@@ -33,23 +40,82 @@ public class Library {
                     String id = fetched.getString("bookid");
                     String title = fetched.getString("title");
                     String authors = fetched.getString("authors");
+                    String genres = fetched.getString("genres");
+                    String isbn10 = fetched.getString("isbn10");
+                    String isbn13 = fetched.getString("isbn13");
                     int amount = fetched.getInt("amount");
-                    String book = String.format("%s - %s - %s - %d", id, title, authors, amount);
-                    availableBooks.add(book);
+                    
+                    books.add(new Books(id, title, authors, genres, isbn10, isbn13, amount));
                 }// END while                
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }
                 
-        return availableBooks;
+        return books;
     }
     
-    public ArrayList fetchAvailableBooks(){
-        String query = "SELECT BookID, title, authors FROM books WHERE amount > 0";
+    public ArrayList<Books> fetchBook(String searchBy){
+        String query = "SELECT * FROM books WHERE LOWER(title) LIKE '%" + searchBy + "%' OR LOWER(authors) LIKE '%" + searchBy + "%' OR LOWER(isbn10) LIKE '%" + searchBy + "%' OR LOWER(isbn13) LIKE '%" + searchBy + "%'";
         fetched = db.fetch(query);
         
-        ArrayList<String> availableBooks = new ArrayList<>();
+        // Clearing ArrayList
+        books.clear();
+        
+        try{
+            if(fetched.isBeforeFirst()){
+                while(fetched.next()){
+                    String id = fetched.getString("bookid");
+                    String title = fetched.getString("title");
+                    String authors = fetched.getString("authors");
+                    String genres = fetched.getString("genres");
+                    String isbn10 = fetched.getString("isbn10");
+                    String isbn13 = fetched.getString("isbn13");
+                    int amount = fetched.getInt("amount");
+                    
+                    books.add(new Books(id, title, authors, genres, isbn10, isbn13, amount));
+                }// END while
+            }// END if
+        }catch(SQLException err){
+            err.printStackTrace();
+        }
+        return books;
+    }
+    
+    public Books fetchBookByID(String bookID){
+        String query = "SELECT * FROM books WHERE LOWER(title) = LOWER('" + bookID + "')";
+        fetched = db.fetch(query);
+        
+        // Clearing ArrayList
+        books.clear();
+        
+        Books fetchedBook = null;
+        try{
+            if(fetched.isBeforeFirst()){
+                while(fetched.next()){
+                    String id = fetched.getString("bookid");
+                    String title = fetched.getString("title");
+                    String authors = fetched.getString("authors");
+                    String genres = fetched.getString("genres");
+                    String isbn10 = fetched.getString("isbn10");
+                    String isbn13 = fetched.getString("isbn13");
+                    int amount = fetched.getInt("amount");
+                    
+                    fetchedBook = new Books(id, title, authors, genres, isbn10, isbn13, amount);
+                }// END while
+            }// END if
+        }catch(SQLException err){
+            err.printStackTrace();
+        }
+        return fetchedBook;
+    }
+    
+    public ArrayList<Books> fetchAvailableBooks(){
+        String query = "SELECT * FROM books WHERE amount > 0";
+        fetched = db.fetch(query);
+        
+        // Clearing ArrayList
+        books.clear();
         
         try{
             if(fetched.isBeforeFirst()){ // Checking if anything was returned
@@ -57,15 +123,19 @@ public class Library {
                     String id = fetched.getString("bookid");
                     String title = fetched.getString("title");
                     String authors = fetched.getString("authors");
-                    String book = String.format("%s - %s - %s", id, title, authors);
-                    availableBooks.add(book);
+                    String genres = fetched.getString("genres");
+                    String isbn10 = fetched.getString("isbn10");
+                    String isbn13 = fetched.getString("isbn13");
+                    int amount = fetched.getInt("amount");
+                    
+                    books.add(new Books(id, title, authors, genres, isbn10, isbn13, amount));
                 }// END while                
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }
                 
-        return availableBooks;
+        return books;
     }// END fetchAvailableBooks()
     
     
@@ -92,8 +162,11 @@ public class Library {
     }// END fetchFixBooks()
     
     
-    public ArrayList fetchTakenOutBooks(String userID){
-        ArrayList<String> takenOutBooks = new ArrayList<>();
+    public ArrayList<BooksTakenOut> fetchTakenOutBooks(String userID){
+        
+        // Clearing ArrayList
+        booksTakenOut.clear();
+        
         if(userID == null){
             String query = "SELECT TakeOutID, BookID FROM taken_out WHERE returned = false";
             fetched = db.fetch(query);
@@ -104,8 +177,7 @@ public class Library {
                         String takeoutID = fetched.getString("takeoutid");
                         String bookid = fetched.getString("bookid");
 
-                        String books  = String.format("%s\t%s", takeoutID, bookid);
-                        takenOutBooks.add(books);                    
+                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, null, null, null, false));                    
                     }// END while
                 }// END if
             }catch(SQLException err){
@@ -121,8 +193,7 @@ public class Library {
                         String takeoutID = fetched.getString("takeoutid");
                         String bookid = fetched.getString("bookid");
 
-                        String books  = String.format("%s, %s", takeoutID, bookid);
-                        takenOutBooks.add(books);                    
+                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userID, null, null, false));                  
                     }// END while
                 }// END if
             }catch(SQLException err){
@@ -131,39 +202,41 @@ public class Library {
         }// END if
         
         
-        return takenOutBooks;
+        return booksTakenOut;
     }// END takeOut()
     
     
-    public ArrayList fetchTakeOutBookMembers(){
-        String query = "SELECT DISTINCT r.surname, r.first_name FROM registered_users AS r INNER JOIN taken_out AS t ON r.userID = t.userID WHERE returned = false";
+    public ArrayList<RegisteredUsers> fetchTakeOutBookMembers(){
+        String query = "SELECT DISTINCT r.* FROM registered_users AS r INNER JOIN taken_out AS t ON r.userID = t.userID WHERE returned = false";
         fetched = db.fetch(query);
         
-        ArrayList<String> members = new ArrayList<>();
+        // Clearing ArrayList
+        registeredUsers.clear();
         
         try{
             if(fetched.isBeforeFirst()){
                 while(fetched.next()){
+                    String userID = fetched.getString("userid");
                     String surname = fetched.getString("surname");
                     String firstName = fetched.getString("first_name");
                     
-                    String member = String.format("%s, %s", surname, firstName);
-                    members.add(member);
+                    registeredUsers.add(new RegisteredUsers(userID, firstName, surname, null, null, null));
                 }//END while
             }// END if
         }catch(SQLException err){
             err.printStackTrace();  
         }
-        return members;
+        return registeredUsers;
     }
     
     
-    public ArrayList fetchOutstandingBooks(){
+    public ArrayList<BooksTakenOut> fetchOutstandingBooks(){
         LocalDate dateNow = LocalDate.now();
         String query = "SELECT t.takeoutid, t.bookid, t.userid, t.date_takeout, t.date_return FROM taken_out AS t WHERE t.returned = false AND t.date_return < '" + dateNow + "'";
         fetched = db.fetch(query);
         
-        ArrayList<String> outstanding = new ArrayList<>();
+        // Clearing ArrayList
+        booksTakenOut.clear();
         
         try{
             if(fetched.isBeforeFirst()){
@@ -174,20 +247,22 @@ public class Library {
                     String takeoutDate = fetched.getString("date_takeout");
                     String returnDate = fetched.getString("date_return");
                     
-                    String book = String.format("%s - %s - %s - %s - %s", takeoutid, bookid, userid, takeoutDate, returnDate);
-                    outstanding.add(book);
+                    booksTakenOut.add(new BooksTakenOut(takeoutid, bookid, userid, takeoutDate, returnDate, false));
                 }// END while
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }
-        return outstanding;
+        return booksTakenOut;
     }// END fetchedOutstandingBooks()
     
     
-    public ArrayList fetchReturnDates(String id){
-        ArrayList<String> dates = new ArrayList<>();
-        if(id == null){
+    public ArrayList<BooksTakenOut> fetchReturnDates(String userID){
+        
+        // Clearing ArrayList
+        booksTakenOut.clear();
+        
+        if(userID == null){
             String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false";
             fetched = db.fetch(query);
             
@@ -199,8 +274,7 @@ public class Library {
                         String takeout = fetched.getString("date_taken_out");
                         String returnDate = fetched.getString("date_return");
 
-                        String books  = String.format("%s\t%s\t%s\t%s", takeoutID, bookid, takeout, returnDate);
-                        dates.add(books);                    
+                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, null, takeout, returnDate, false));                   
                     }// END while
                 }// END if
             }catch(SQLException err){
@@ -208,7 +282,7 @@ public class Library {
             }// END try-catch  
             
         }else{
-            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false AND userid = '" + id + "'";
+            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false AND userid = '" + userID + "'";
             fetched = db.fetch(query);
             
             try{
@@ -219,8 +293,7 @@ public class Library {
                         String takeout = fetched.getString("date_taken_out");
                         String returnDate = fetched.getString("date_return");
 
-                        String books  = String.format("%s\t%s\t%s\t%s", takeoutID, bookid, takeout, returnDate);
-                        dates.add(books);                               
+                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userID, takeout, returnDate, false));                              
                     }// END while
                 }// END if
             }catch(SQLException err){
@@ -228,60 +301,65 @@ public class Library {
             }// END try-catch  
             
         }// END if
-        return dates;
+        return booksTakenOut;
     }// END fetchReturnDates()
     
     
-    public ArrayList fetchStaff(){
-        String query = "SELECT r.first_name, r.surname FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid";
+    public ArrayList<Staff> fetchStaff(){
+        String query = "SELECT * FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid";
         fetched = db.fetch(query);
         
-        ArrayList<String> libraryStaff = new ArrayList<>();
+        // Clearing ArrayList
+        staff.clear();
         
         try{
             if(fetched.isBeforeFirst()){
                 while(fetched.next()){
+                    String staffID = fetched.getString("staffid");
+                    String userID = fetched.getString("userid");
                     String firstName = fetched.getString("first_name");
                     String surname = fetched.getString("surname");
                     
-                    String staff = String.format("%s, %s", surname, firstName);
-                    libraryStaff.add(staff);
+                    staff.add(new Staff(staffID, userID, firstName, surname, null, null, null));
                 }// END while
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }// END try-catch
-        return libraryStaff;        
+        return staff;        
     }// END fetchStaff()
     
     
-    public ArrayList fetchAllMembers(){
-        String query = "SELECT r.surname, r.first_name FROM registered_users AS r ORDER BY r.surname, r.first_name";
+    public ArrayList<RegisteredUsers> fetchAllMembers(){
+        String query = "SELECT * FROM registered_users ORDER BY surname, first_name";
         fetched = db.fetch(query);
         
-        ArrayList<String> libraryMembers = new ArrayList<>();
+        // Clearing ArrayList
+        registeredUsers.clear();
+        
         try{
             if(fetched.isBeforeFirst()){
                 while(fetched.next()){
+                    String userID = fetched.getString("userid");
                     String surname = fetched.getString("surname");
                     String firstName = fetched.getString("first_name");
                     
-                    String member = String.format("%s, %s", surname, firstName);
-                    libraryMembers.add(member);
+                    registeredUsers.add(new RegisteredUsers(userID, firstName, surname, null, null, null));
                 }//END while
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }//END try-catch
-        return libraryMembers;
+        return registeredUsers;
     }// END fetchAllMembers()
     
     
-    public ArrayList fetchRequestedBooks(){
+    public ArrayList<BooksRequest> fetchRequestedBooks(){
         String query = "SELECT * FROM requested_books";
         fetched = db.fetch(query);
         
-        ArrayList<String> requests = new ArrayList<>();
+        // Clearing ArrayList
+        booksRequest.clear();
         try{
             if(fetched.isBeforeFirst()){
                 while(fetched.next()){
@@ -291,173 +369,13 @@ public class Library {
                     String isbn10 = fetched.getString("isbn10");
                     String isbn13 = fetched.getString("isbn13");
                     
-                    String request = String.format("%s, %s, %s, %s, %s", requestID, userid, title, isbn10, isbn13);
-                    requests.add(request);
+                    booksRequest.add(new BooksRequest(requestID, userid, title, isbn10, isbn13));
                 }
             }
         }catch(SQLException err){
             err.printStackTrace();
         }
-        return requests;
+        return booksRequest;
     }// END fetchRequestedBooks()
-    
-    
-    public LocalDate getReturnDate(){
-        LocalDate returnDate = LocalDate.now().plusWeeks(2);
-        return returnDate;
-    }// END getReturnDate()
-    
-    public void issueBook(String member, String book, LocalDate currDate, LocalDate returnDate){
-        boolean returned = false;
-        String bookID = book.substring(0, 10);        
-        String memberSplit[] = member.replace(" ", "").split(",");
-        String userID = mem.getMember(memberSplit[0], memberSplit[1]);
-        String dateReturn = Utils.formatDate(returnDate);
-        String takeoutID = algor.generateTakeOutID(dateReturn);
-        
-        // Inserting into taken_out table
-        String query1 = String.format("INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('%s','%s','%s','%s','%s', %b)", takeoutID, bookID, userID, currDate, returnDate, returned);
-        db.update(query1);        
-        
-        // Decreasing number of book available
-        String query2 = String.format("SELECT amount FROM books WHERE bookid = '%s'", bookID);
-        fetched = db.fetch(query2);
-        
-        int amount = 0;
-        try{
-            if(fetched.isBeforeFirst()){
-                while(fetched.next()){
-                    amount = fetched.getInt("amount") - 1;
-                }// END while
-            }// END if
-        }catch(SQLException err){
-            err.printStackTrace();
-        }// END try-catch   
-        
-        String query3 = String.format("UPDATE books SET amount = %d WHERE bookid = '%s'", amount, bookID);
-        db.update(query3);
-        
-    }// END issueBook()
-    
-    
-    public void returnBook(String book){
-        boolean returned = true;
-        String bookSplit[] = book.replace(" ", "").split(",");
-        String takeOutID = bookSplit[0];
-        String bookID = bookSplit[1];
-        
-        // Updating returned field for book from taken_out table
-        String query1 = String.format("UPDATE taken_out SET returned = %b WHERE takeoutid = '%s'", returned, takeOutID);
-        db.update(query1);
-        
-        // Increasing number of book available
-        String query2 = String.format("SELECT amount FROM books WHERE bookid = '%s'", bookID);
-        fetched = db.fetch(query2);
-        
-        int amount = 0;
-        try{
-            if(fetched.isBeforeFirst()){
-                while(fetched.next()){
-                    amount = fetched.getInt("amount") + 1;
-                }// END while
-            }// END if
-        }catch(SQLException err){
-            err.printStackTrace();
-        }// END try-catch   
-        
-        String query3 = String.format("UPDATE books SET amount = %d WHERE bookid = '%s'", amount, bookID);
-        db.update(query3);         
-    }
-    
-    public void fixBook(String book, String staffID, String reason){
-        boolean fixed = false;
-        String bookID = book.substring(0, 10);
-        String fixID = algor.generateFixID(bookID);
-        
-        // Adding to table
-        String query1 = String.format("INSERT INTO fix_books(fixid, bookid, staffid, issue, fixed) VALUES ('%s', '%s', '%s', '%s', %b)", fixID, bookID, staffID, reason, fixed);
-        db.update(query1);
-        
-        // Book is being fixed, so cannot be taken out -> decrease the amount of available books
-        String query2 = String.format("SELECT amount FROM books WHERE bookid = '%s'", bookID);
-        fetched = db.fetch(query2);
-        
-        int amount = 0;
-        try{
-            if(fetched.isBeforeFirst()){
-                while(fetched.next()){
-                    amount = fetched.getInt("amount") - 1;
-                }
-            }
-        }catch(SQLException err){
-            err.printStackTrace();
-        }
-        
-        // Updating amount of avaible books of that type
-        String query3 = String.format("UPDATE books SET amount = %d WHERE bookid = '%s'", amount, bookID);
-        db.update(query3);        
-    }// END fixBook()
-    
-    public void fixedBook(String fixid){
-        boolean fixed = true;
-        String fixID = fixid.substring(0,14);
-        String bookID = fixid.substring(4,14);
-        
-        // Updating book as Fixed
-        String query1 = String.format("UPDATE fix_books SET fixed = %b WHERE fixid = '%s'", fixed, fixID);
-        db.update(query1);
-        
-        // Book has been fixed, so can be taken out -> increase the amount of available books
-        String query2 = String.format("SELECT amount FROM books WHERE bookid = '%s'", bookID);
-        fetched = db.fetch(query2);
-        
-        int amount = 0;
-        try{
-            if(fetched.isBeforeFirst()){
-                while(fetched.next()){
-                    amount = fetched.getInt("amount") + 1;
-                }
-            }
-        }catch(SQLException err){
-            err.printStackTrace();
-        }
-        
-        // Updating amount of avaible books of that type
-        String query3 = String.format("UPDATE books SET amount = %d WHERE bookid = '%s'", amount, bookID);
-        db.update(query3);         
-    }// END fixedBook()
-    
-    public void requestBook(String userid, String title, String isbn10, String isbn13){
-        String requestID = algor.generateRequestID(userid);
-        
-        String query = String.format("INSERT INTO requested_books(RequestID, UserID, title, isbn10, isbn13) VALUES ('%s', '%s', '%s', '%s', '%s')", requestID, userid, title, isbn10, isbn13);
-        db.update(query);
-    }// END requestBook()
-    
-    
-    public void addStaff(String member){
-        String memberName[] = member.replace(" ", "").split(",");
-        String firstName = memberName[1];
-        String surname = memberName[0];
-        
-        String staffID = algor.generateStaffID(firstName, surname);
-        String userID = mem.getMember(surname, firstName);
-        
-        String query = String.format("INSERT INTO staff(StaffID, UserID) VALUES ('%s', '%s')", staffID, userID);
-        db.update(query);        
-    }// END addStaff()
-    
-    
-    public void removeStaff(String staff){
-        String staffName[] = staff.replace(" ", "").split(",");
-        String firstName = staffName[1];
-        String surname = staffName[0];
-        
-        String userID = mem.getMember(surname, firstName);
-        
-        String query = String.format("DELETE FROM staff WHERE userid = '%s'", userID);
-        db.update(query);  
-        
-    }// END removeStaff()
         
 }

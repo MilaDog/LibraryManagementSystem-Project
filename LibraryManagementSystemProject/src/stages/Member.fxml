@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MemberController">
    <children>
       <AnchorPane fx:id="anchorPaneSideMenu" prefHeight="700.0" prefWidth="275.0" style="-fx-background-color: #4d4545;">
@@ -92,7 +91,7 @@
                         <Image url="@../icons/library_add.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblBooksRequest" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Request a Book">
+                  <Label fx:id="lblBooksRequest" onMouseClicked="#lblBooksRequestClicked" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Request a Book">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -112,7 +111,7 @@
                         <Image url="@../icons/request_dates.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblMemberReturnDates" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Return Dates">
+                  <Label fx:id="lblMemberReturnDates" onMouseClicked="#lblMemberReturnDatesClicked" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Return Dates">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -132,7 +131,7 @@
                         <Image url="@../icons/suitcase.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblMemberTakenOut" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Taken Out">
+                  <Label fx:id="lblMemberTakenOut" onMouseClicked="#lblMemberTakenOutClicked" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Taken Out">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

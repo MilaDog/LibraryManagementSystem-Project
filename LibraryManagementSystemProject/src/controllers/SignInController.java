@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +27,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import librarymanagementsystemproject.Checks;
 import librarymanagementsystemproject.Members;
-import librarymanagementsystemproject.Postgres;
 
 /**
  * FXML Controller class
@@ -37,9 +35,8 @@ import librarymanagementsystemproject.Postgres;
  */
 public class SignInController implements Initializable {
     
-    private static Checks check = new Checks();
-    private static Postgres db = new Postgres();
-    private static Members mem = new Members();
+    private Checks check = new Checks();
+    private Members mem = new Members();
     
     private Stage stageSignIn = null;
     private double xMouse;
@@ -144,8 +141,7 @@ public class SignInController implements Initializable {
                 lblSignInError.setText("Your email and password do not match.");
                 loginFlag = false;
             }else{            
-                String id = mem.getMember(email); 
-                System.out.println(id);
+                String userID = mem.getMember(email); 
 
                 try{
                     FXMLLoader loader = null;
@@ -156,32 +152,35 @@ public class SignInController implements Initializable {
                         loader = new FXMLLoader(getClass().getResource("/stages/Staff.fxml"));
                         root = (Parent) loader.load();
                         
+                        // Passing currentUser to StaffController so that it can be used
                         StaffController staffController = loader.getController();
+                        staffController.currentUser(userID);
                         
+                        // Setting up the stage
                         Scene staff = new Scene(root);
                         Stage stageStaff = new Stage();            
                         stageStaff.initStyle(StageStyle.UNDECORATED);
                         stageStaff.setScene(staff);
                         
-                        staffController.currentUser(id);
-                        
                         stageStaff.show();
                         stageSignIn.hide();
                         
                     }else{
-
+                        
+                        
                         // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
-                        loader = new FXMLLoader(getClass().getResource("/stages/Member.fxml"));
+                        loader = new FXMLLoader(getClass().getResource("/stages/Member.fxml"));                        
                         root = (Parent) loader.load();
                         
-                        MemberController memController = loader.getController();
+                        // Passing currentUser to MemberController so that it can be used
+                        MemberController memberController = loader.getController();
+                        memberController.currentUser(userID);
                         
+                        // Setting up the stage
                         Scene member = new Scene(root);
                         Stage stageMember = new Stage();            
                         stageMember.initStyle(StageStyle.UNDECORATED);
                         stageMember.setScene(member);
-                        
-                        memController.currentUser(id);
                         
                         stageMember.show();
                         stageSignIn.hide();              

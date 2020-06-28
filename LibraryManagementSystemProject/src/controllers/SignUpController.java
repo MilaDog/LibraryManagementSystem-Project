@@ -39,10 +39,10 @@ import librarymanagementsystemproject.Utils;
  */
 public class SignUpController implements Initializable {
 
-    private static Checks check = new Checks(); 
-    private static Postgres db = new Postgres();
-    private static Algorithms algor = new Algorithms();
-    private static LocalDate dob = null;
+    private Checks check = new Checks(); 
+    private Postgres db = new Postgres();
+    private Algorithms algor = new Algorithms();
+    private LocalDate dob = null;
     
     private Stage stageSignUp = null;
     private Parent root = null;
@@ -261,15 +261,16 @@ public class SignUpController implements Initializable {
                     // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/stages/Member.fxml"));
                     Parent root = (Parent) loader.load();
+                        
+                    // Passing currentUser to MemberController so that it can be used
+                    MemberController memberController = loader.getController();
+                    memberController.currentUser(userID);
 
-                    MemberController memController = loader.getController();
-
+                    // Setting up the stage
                     Scene member = new Scene(root);
                     Stage stageMember = new Stage();            
                     stageMember.initStyle(StageStyle.UNDECORATED);
                     stageMember.setScene(member);
-
-                    memController.currentUser(userID);
 
                     stageMember.show();
                     stageSignUp.hide(); 

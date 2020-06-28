@@ -24,10 +24,10 @@ public class StaffController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    } 
     
     public void currentUser(String userid){
-        this.currentUser = userid;
+        currentUser = userid;
     }
     
 }

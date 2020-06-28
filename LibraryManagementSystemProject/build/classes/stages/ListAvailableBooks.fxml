@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="663.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controllers.ListAvailableBooksController">
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="663.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListAvailableBooksController">
    <children>
       <AnchorPane fx:id="anchorPaneOutput" layoutY="100.0" prefHeight="563.0" prefWidth="834.0">
          <children>
-            <TreeTableView prefHeight="563.0" prefWidth="834.0">
+            <TableView fx:id="tblAvailableBooks" layoutX="17.0" prefHeight="546.0" prefWidth="800.0">
               <columns>
-                <TreeTableColumn editable="false" prefWidth="150.0" resizable="false" sortable="false" text="BookID" />
-                <TreeTableColumn editable="false" minWidth="0.0" prefWidth="342.0" resizable="false" sortable="false" text="Title" />
-                  <TreeTableColumn editable="false" prefWidth="342.0" resizable="false" sortable="false" text="Authors" />
+                <TableColumn fx:id="colBookID" editable="false" resizable="false" text="BookID" />
+                <TableColumn fx:id="colBookTitle" editable="false" prefWidth="213.333" text="Title" />
+                  <TableColumn fx:id="colBookAuthors" editable="false" prefWidth="213.333" text="Authors" />
+                  <TableColumn fx:id="colBookGenres" editable="false" prefWidth="213.333" text="Genres" />
+                  <TableColumn fx:id="colBookAmount" editable="false" text="Amount" />
               </columns>
-            </TreeTableView>
+            </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anchorPaneOptions" prefHeight="100.0" prefWidth="834.0" />
+      <AnchorPane fx:id="anchorPaneOptions" prefHeight="100.0" prefWidth="834.0">
+         <children>
+            <Button fx:id="btnBooksSearch" layoutX="312.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#btnBooksFetchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
+            <TextField fx:id="txfBookSearchInput" layoutX="21.0" layoutY="61.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter Title/Authors/ISBN" />
+         </children></AnchorPane>
    </children>
 </AnchorPane>
