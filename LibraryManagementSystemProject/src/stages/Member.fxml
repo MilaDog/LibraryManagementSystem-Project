@@ -30,7 +30,7 @@
             </Label>
             <Label fx:id="lblMemberName" alignment="CENTER" layoutX="52.0" layoutY="82.0" prefHeight="20.0" prefWidth="170.0" style="-fx-text-fill: #000000;">
                <font>
-                  <Font name="Segoe UI" size="13.0" />
+                  <Font name="Segoe UI" size="20.0" />
                </font>
             </Label>
             <Label fx:id="lblLibrary" layoutY="132.0" prefHeight="25.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Library">
@@ -141,6 +141,7 @@
                   </Label>
                </children>
             </HBox>
+            <BorderPane fx:id="bpSettings" layoutY="554.0" prefHeight="100.0" prefWidth="275.0" />
          </children>
       </AnchorPane>
       <ImageView fx:id="imExit" fitHeight="35.0" fitWidth="35.0" layoutX="1074.0" layoutY="2.0" onMouseClicked="#lblExitClicked" pickOnBounds="true" preserveRatio="true">

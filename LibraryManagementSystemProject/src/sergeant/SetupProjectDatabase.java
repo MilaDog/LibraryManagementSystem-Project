@@ -1,10 +1,13 @@
-package librarymanagementsystemproject;
+package sergeant;
 
 // Daniel-Ryan Sergeant - 28 May 2020
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.Scanner;
+import librarymanagementsystemproject.LibraryActions;
+import librarymanagementsystemproject.Postgres;
 
 /**
  *
@@ -12,6 +15,8 @@ import java.util.Scanner;
  */
 public class SetupProjectDatabase {
 
+    private static LibraryActions libActions = new LibraryActions();
+    
     // Postgres Object - allow for connection and querying the database    
     private static Postgres db = new Postgres();
     
@@ -47,7 +52,7 @@ public class SetupProjectDatabase {
         
         // Statement saying that the database was successfully connected to and that all scripts ran without any errors
         System.out.println("[DB] Successfully created tables and populated the necessary tables");
-                        
+        
     }// main method   
 
 }// END SetupProjectDatabase class

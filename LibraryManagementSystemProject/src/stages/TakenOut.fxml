@@ -12,9 +12,9 @@
          <children>
             <TableView fx:id="tblTakenOut" layoutX="17.0" prefHeight="546.0" prefWidth="800.0">
                <columns>
-                  <TableColumn fx:id="colTakeoutID" editable="false" prefWidth="100.0" text="TakeoutID" />
-                  <TableColumn fx:id="colBookID" editable="false" prefWidth="100.0" resizable="false" text="BookID" />
-                  <TableColumn fx:id="colBookTitle" editable="false" prefWidth="300.0" text="Title" />
+                  <TableColumn fx:id="colTakeoutID" editable="false" prefWidth="119.19998741149902" text="TakeoutID" />
+                  <TableColumn fx:id="colBookID" editable="false" prefWidth="113.60000610351562" resizable="false" text="BookID" />
+                  <TableColumn fx:id="colBookTitle" editable="false" prefWidth="267.9999694824219" text="Title" />
                   <TableColumn fx:id="colBookAuthors" editable="false" prefWidth="300.0" text="Authors" />
                </columns>
             </TableView>
@@ -22,8 +22,8 @@
       </AnchorPane>
       <AnchorPane fx:id="anchorPaneOptions" prefHeight="100.0" prefWidth="834.0">
          <children>
-            <Button fx:id="btnBooksSearch" layoutX="312.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#btnBooksFetchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
-            <TextField fx:id="txfBookSearchInput" layoutX="21.0" layoutY="61.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter Title/Authors/ISBN" />
+            <Button fx:id="btnBooksSearch" layoutX="312.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#btnBooksSearchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
+            <TextField fx:id="txfBookSearchInput" layoutX="21.0" layoutY="61.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter Title/Authors/BookID/TakeoutID" />
          </children>
       </AnchorPane>
    </children>

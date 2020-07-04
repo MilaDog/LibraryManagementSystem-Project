@@ -2,15 +2,6 @@ package librarymanagementsystemproject;
 
 // Daniel-Ryan Sergeant - 22 Jun 2020
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import java.util.ArrayList;
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
-
-
 public class OpenLibrarySearch extends OpenLibrary{
     
     private int firstPublish;

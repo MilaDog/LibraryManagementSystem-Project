@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReturnDatesController">
-    
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="663.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReturnDatesController">
+   <children>
+      <AnchorPane fx:id="anchorPaneOutput" layoutY="100.0" prefHeight="563.0" prefWidth="834.0">
+         <children>
+            <TableView fx:id="tblReturnDates" layoutX="17.0" prefHeight="546.0" prefWidth="800.0">
+               <columns>
+                  <TableColumn fx:id="colTakeoutID" editable="false" prefWidth="119.19998741149902" text="TakeoutID" />
+                  <TableColumn fx:id="colBookID" editable="false" prefWidth="113.60000610351562" resizable="false" text="BookID" />
+                  <TableColumn fx:id="colBookTitle" editable="false" prefWidth="230.0" text="Title" />
+                  <TableColumn fx:id="colBookAuthors" editable="false" prefWidth="230.0" text="Authors" />
+                  <TableColumn fx:id="colBookReturnDate" prefWidth="105.0" text="Return Date" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchorPaneOptions" prefHeight="100.0" prefWidth="834.0">
+         <children>
+            <Button fx:id="btnBooksSearch" layoutX="312.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#btnBooksSearchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
+            <TextField fx:id="txfBookSearchInput" layoutX="21.0" layoutY="61.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter Title/Authors/BookID/TakeoutID" />
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>

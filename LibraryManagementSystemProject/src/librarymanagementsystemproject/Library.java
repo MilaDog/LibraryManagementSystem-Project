@@ -19,12 +19,12 @@ public class Library {
     private static ResultSet fetched = null;
     private Postgres db = new Postgres();
     
-    private ArrayList<Books> books = null;
-    private ArrayList<BooksFix> booksFix = null;
-    private ArrayList<BooksRequest> booksRequest = null;
-    private ArrayList<BooksTakenOut> booksTakenOut = null;
-    private ArrayList<RegisteredUsers> registeredUsers = null;
-    private ArrayList<Staff> staff = null;
+    private ArrayList<Books> books = new ArrayList<>();
+    private ArrayList<BooksFix> booksFix = new ArrayList<>();
+    private ArrayList<BooksRequest> booksRequest = new ArrayList<>();
+    private ArrayList<BooksTakenOut> booksTakenOut = new ArrayList<>();
+    private ArrayList<RegisteredUsers> registeredUsers = new ArrayList<>();
+    private ArrayList<Staff> staff = new ArrayList<>();
     
     
     public ArrayList<Books> fetchBooks(){
@@ -83,11 +83,8 @@ public class Library {
     }
     
     public Books fetchBookByID(String bookID){
-        String query = "SELECT * FROM books WHERE LOWER(title) = LOWER('" + bookID + "')";
+        String query = "SELECT * FROM books WHERE LOWER(bookid) = LOWER('" + bookID + "')";
         fetched = db.fetch(query);
-        
-        // Clearing ArrayList
-        books.clear();
         
         Books fetchedBook = null;
         try{
@@ -161,46 +158,58 @@ public class Library {
         return fixBooks;        
     }// END fetchFixBooks()
     
+    public ArrayList<BooksTakenOut> fetchTakenOutBooks(){
+        
+        // Clearing ArrayList
+        booksTakenOut.clear();
+        
+        String query = "SELECT TakeOutID, BookID, UserID, date_takeout, date_return, returned FROM taken_out";
+        fetched = db.fetch(query);
+
+        try{
+            if(fetched.isBeforeFirst()){
+                while(fetched.next()){
+                    String takeoutID = fetched.getString("takeoutid");
+                    String bookid = fetched.getString("bookid");
+                    String userid = fetched.getString("userid");
+                    String dateTakeout = fetched.getString("date_takeout");
+                    String dateReturn = fetched.getString("date_return");
+                    boolean hasReturned = fetched.getBoolean("returned");
+
+                    booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userid, dateTakeout, dateReturn, hasReturned));                    
+                }// END while
+            }// END if
+        }catch(SQLException err){
+            err.printStackTrace();
+        }// END try-catch  
+        
+        return booksTakenOut;
+    }
     
     public ArrayList<BooksTakenOut> fetchTakenOutBooks(String userID){
         
         // Clearing ArrayList
         booksTakenOut.clear();
         
-        if(userID == null){
-            String query = "SELECT TakeOutID, BookID FROM taken_out WHERE returned = false";
-            fetched = db.fetch(query);
-            
-            try{
-                if(fetched.isBeforeFirst()){
-                    while(fetched.next()){
-                        String takeoutID = fetched.getString("takeoutid");
-                        String bookid = fetched.getString("bookid");
+        String query = "SELECT TakeOutID, BookID, UserID, date_takeout, date_return, returned FROM taken_out WHERE userid = '" + userID + "'";
+        fetched = db.fetch(query);
 
-                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, null, null, null, false));                    
-                    }// END while
-                }// END if
-            }catch(SQLException err){
-                err.printStackTrace();
-            }// END try-catch            
-        }else{
-            String query = "SELECT TakeOutID, BookID FROM taken_out WHERE returned = false AND userid = '" + userID + "'";
-            fetched = db.fetch(query);
+        try{
+            if(fetched.isBeforeFirst()){
+                while(fetched.next()){
+                    String takeoutID = fetched.getString("takeoutid");
+                    String bookid = fetched.getString("bookid");
+                    String userid = fetched.getString("userid");
+                    String dateTakeout = fetched.getString("date_takeout");
+                    String dateReturn = fetched.getString("date_return");
+                    boolean hasReturned = fetched.getBoolean("returned");
 
-            try{
-                if(fetched.isBeforeFirst()){
-                    while(fetched.next()){
-                        String takeoutID = fetched.getString("takeoutid");
-                        String bookid = fetched.getString("bookid");
-
-                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userID, null, null, false));                  
-                    }// END while
-                }// END if
-            }catch(SQLException err){
-                err.printStackTrace();
-            }// END try-catch            
-        }// END if
-        
+                    booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userid, dateTakeout, dateReturn, hasReturned));                    
+                }// END while
+            }// END if
+        }catch(SQLException err){
+            err.printStackTrace();
+        }// END try-catch        
         
         return booksTakenOut;
     }// END takeOut()
@@ -257,52 +266,52 @@ public class Library {
     }// END fetchedOutstandingBooks()
     
     
-    public ArrayList<BooksTakenOut> fetchReturnDates(String userID){
-        
-        // Clearing ArrayList
-        booksTakenOut.clear();
-        
-        if(userID == null){
-            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false";
-            fetched = db.fetch(query);
-            
-            try{
-                if(fetched.isBeforeFirst()){
-                    while(fetched.next()){
-                        String takeoutID = fetched.getString("takeoutid");
-                        String bookid = fetched.getString("bookid");
-                        String takeout = fetched.getString("date_taken_out");
-                        String returnDate = fetched.getString("date_return");
-
-                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, null, takeout, returnDate, false));                   
-                    }// END while
-                }// END if
-            }catch(SQLException err){
-                err.printStackTrace();
-            }// END try-catch  
-            
-        }else{
-            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false AND userid = '" + userID + "'";
-            fetched = db.fetch(query);
-            
-            try{
-                if(fetched.isBeforeFirst()){
-                    while(fetched.next()){
-                        String takeoutID = fetched.getString("takeoutid");
-                        String bookid = fetched.getString("bookid");
-                        String takeout = fetched.getString("date_taken_out");
-                        String returnDate = fetched.getString("date_return");
-
-                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userID, takeout, returnDate, false));                              
-                    }// END while
-                }// END if
-            }catch(SQLException err){
-                err.printStackTrace();
-            }// END try-catch  
-            
-        }// END if
-        return booksTakenOut;
-    }// END fetchReturnDates()
+//    public ArrayList<BooksTakenOut> fetchReturnDates(String userID){
+//        
+//        // Clearing ArrayList
+//        booksTakenOut.clear();
+//        
+//        if(userID == null){
+//            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false";
+//            fetched = db.fetch(query);
+//            
+//            try{
+//                if(fetched.isBeforeFirst()){
+//                    while(fetched.next()){
+//                        String takeoutID = fetched.getString("takeoutid");
+//                        String bookid = fetched.getString("bookid");
+//                        String takeout = fetched.getString("date_takeout");
+//                        String returnDate = fetched.getString("date_return");
+//
+//                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, null, takeout, returnDate, false));                   
+//                    }// END while
+//                }// END if
+//            }catch(SQLException err){
+//                err.printStackTrace();
+//            }// END try-catch  
+//            
+//        }else{
+//            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false AND userid = '" + userID + "'";
+//            fetched = db.fetch(query);
+//            
+//            try{
+//                if(fetched.isBeforeFirst()){
+//                    while(fetched.next()){
+//                        String takeoutID = fetched.getString("takeoutid");
+//                        String bookid = fetched.getString("bookid");
+//                        String takeout = fetched.getString("date_taken_out");
+//                        String returnDate = fetched.getString("date_return");
+//
+//                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userID, takeout, returnDate, false));                              
+//                    }// END while
+//                }// END if
+//            }catch(SQLException err){
+//                err.printStackTrace();
+//            }// END try-catch  
+//            
+//        }// END if
+//        return booksTakenOut;
+//    }// END fetchReturnDates()
     
     
     public ArrayList<Staff> fetchStaff(){
@@ -343,8 +352,11 @@ public class Library {
                     String userID = fetched.getString("userid");
                     String surname = fetched.getString("surname");
                     String firstName = fetched.getString("first_name");
+                    String dob = fetched.getString("dob");
+                    String phone = fetched.getString("phone");
+                    String email = fetched.getString("email");
                     
-                    registeredUsers.add(new RegisteredUsers(userID, firstName, surname, null, null, null));
+                    registeredUsers.add(new RegisteredUsers(userID, firstName, surname, dob, phone, email));
                 }//END while
             }// END if
         }catch(SQLException err){

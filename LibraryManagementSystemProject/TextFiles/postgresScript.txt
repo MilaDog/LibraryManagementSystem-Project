@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS login_details(UserID TEXT, Password TEXT, PRIMARY KEY
 CREATE TABLE IF NOT EXISTS registered_users(UserID TEXT, First_Name TEXT, Surname TEXT, DOB DATE, Phone TEXT, Email TEXT, PRIMARY KEY(UserID));
 CREATE TABLE IF NOT EXISTS staff(StaffID TEXT, UserID TEXT, PRIMARY KEY(StaffID));
 CREATE TABLE IF NOT EXISTS taken_out(TakeoutID TEXT, BookID TEXT, UserID TEXT, Date_Takeout DATE, Date_Return DATE, Returned BOOLEAN, PRIMARY KEY(TakeoutID));
-CREATE TABLE IF NOT EXISTS requested_books(RequestID TEXT, userID TEXT, title TEXT, isbn10 TEXT, isbn13 TEXT, PRIMARY KEY(RequestID));
+CREATE TABLE IF NOT EXISTS requested_books(RequestID TEXT, userID TEXT, title TEXT, authors TEXT, isbn10 TEXT, isbn13 TEXT, PRIMARY KEY(RequestID));
 CREATE TABLE IF NOT EXISTS fix_books(FixID TEXT, BookID TEXT, StaffID TEXT, Issue TEXT, Fixed BOOLEAN, PRIMARY KEY(FixID));
 
 ###Inserting Data - Books
@@ -38,3 +38,11 @@ INSERT INTO registered_users(UserID, first_name, surname, dob, phone, email) VAL
 INSERT INTO login_details(UserID, password) VALUES ('SC200494623', 'd@rks1d30fm00n') ON CONFLICT (UserID) DO NOTHING;
 INSERT INTO registered_users(UserID, first_name, surname, dob, phone, email) VALUES ('MJ180701791', 'Melissa', 'John', '2001-07-18', '0823437654', 'missie.john@gmail.com') ON CONFLICT (UserID) DO NOTHING;
 INSERT INTO login_details(UserID, password) VALUES ('MJ180701791', 't3nbottl3sofRum') ON CONFLICT (UserID) DO NOTHING;
+
+###Default taken out books
+INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('BT1807202684', 'LMS3978345', 'MR171182406', '2020-07-04', '2020-07-18', false) ON CONFLICT (takeoutid) DO NOTHING;
+INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('BT1807202683', 'LMS2145697', 'MR171182406', '2020-07-04', '2020-07-18', false) ON CONFLICT (takeoutid) DO NOTHING;
+INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('BT1807207895', 'LMS2436319', 'MR171182406', '2020-07-04', '2020-07-18', false) ON CONFLICT (takeoutid) DO NOTHING;
+INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('BT1807208783', 'LMS0306577', 'MJ180701791', '2020-07-04', '2020-07-18', false) ON CONFLICT (takeoutid) DO NOTHING;
+INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('BT1807202958', 'LMS7539473', 'MJ180701791', '2020-07-04', '2020-07-18', true) ON CONFLICT (takeoutid) DO NOTHING;
+INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('BT1807201241', 'LMS3960429', 'SC200494623', '2020-07-04', '2020-07-18', false) ON CONFLICT (takeoutid) DO NOTHING;

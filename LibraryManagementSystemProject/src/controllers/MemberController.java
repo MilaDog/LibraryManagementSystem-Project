@@ -22,7 +22,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import librarymanagementsystemproject.Library;
+import librarymanagementsystemproject.Members;
+import librarymanagementsystemproject.RegisteredUsers;
 
 /**
  * FXML Controller class
@@ -33,7 +34,7 @@ public class MemberController implements Initializable {
 
     private String currentUser = "";
     
-    private Library lib = new Library();
+    private Members mem = new Members();
     private Stage stageMember = null;
     
     @FXML
@@ -84,6 +85,8 @@ public class MemberController implements Initializable {
     private ImageView imExit;
     @FXML
     private BorderPane bpMain;
+    @FXML
+    private BorderPane bpSettings;
     
     
     /**
@@ -96,7 +99,12 @@ public class MemberController implements Initializable {
             public void run(){            
                 
                 // Getting the Member stage
-                stageMember = (Stage) anchorPaneBackground.getScene().getWindow();                             
+                stageMember = (Stage) anchorPaneBackground.getScene().getWindow();   
+                
+                RegisteredUsers user = mem.getMemberByUserID(currentUser);
+                String userName = user.getFirstName();
+                lblMemberName.setText(userName);
+                
             }
         });
     }
@@ -107,9 +115,23 @@ public class MemberController implements Initializable {
     
     private void loadUI(String stage){
         Parent root = null;
+        FXMLLoader loader = null;
         
         try{
-            root = FXMLLoader.load(getClass().getResource("/stages/"+stage+".fxml"));
+            loader = new FXMLLoader(getClass().getResource("/stages/"+stage+".fxml"));
+            root = (Parent) loader.load();
+            
+            if(stage.equalsIgnoreCase("takenout")){
+                TakenOutController takenOutController = loader.getController();
+                takenOutController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("returndates")){
+                ReturnDatesController returnDatesController = loader.getController();
+                returnDatesController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("requestbook")){
+                RequestBookController requestBookController = loader.getController();
+                requestBookController.currentUser(currentUser);
+            }
+            
         }catch(IOException err){
             err.printStackTrace();
         }
@@ -123,6 +145,18 @@ public class MemberController implements Initializable {
 
     @FXML
     private void lblSettingsClicked(MouseEvent event) {
+        Parent root = null;
+        FXMLLoader loader = null;
+        
+        try{
+            loader = new FXMLLoader(getClass().getResource("/stages/Settings.fxml"));
+            root = (Parent) loader.load();
+            
+        }catch(IOException err){
+            err.printStackTrace();
+        }
+        
+        bpSettings.setCenter(root);
     }
 
     @FXML
@@ -157,11 +191,12 @@ public class MemberController implements Initializable {
 
     @FXML
     private void lblBooksRequestClicked(MouseEvent event) {
-        System.out.println(currentUser);
+        loadUI("RequestBook");
     }
 
     @FXML
     private void lblMemberReturnDatesClicked(MouseEvent event) {
+        loadUI("ReturnDates");
     }
 
     @FXML

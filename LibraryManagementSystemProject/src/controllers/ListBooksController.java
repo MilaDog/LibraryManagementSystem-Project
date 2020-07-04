@@ -31,7 +31,6 @@ import librarymanagementsystemproject.Library;
 public class ListBooksController implements Initializable {
 
     private Library lib = new Library();
-    private ArrayList<Books> allBooks = null;
     
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -64,7 +63,7 @@ public class ListBooksController implements Initializable {
         // TODO
         tblAvailableBooks.getItems().clear();
         
-        allBooks = lib.fetchBooks();  
+        ArrayList<Books> allBooks = lib.fetchBooks();  
         defaultDisplay(allBooks);
     }    
 
@@ -93,7 +92,8 @@ public class ListBooksController implements Initializable {
         tblAvailableBooks.getItems().clear();
         
         // If search text field is empty, displays all books. If not, finds a book similar to what is being searched.
-        if(txfBookSearchInput.getText().equalsIgnoreCase("")){
+        if(txfBookSearchInput.getText().isEmpty()){
+            ArrayList<Books> allBooks = lib.fetchAvailableBooks();
             defaultDisplay(allBooks);
         }else{
             ArrayList<Books> availableBooks = lib.fetchBook(txfBookSearchInput.getText().toLowerCase());  

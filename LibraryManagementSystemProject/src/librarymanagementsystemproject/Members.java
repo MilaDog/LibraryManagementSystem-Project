@@ -7,6 +7,7 @@ package librarymanagementsystemproject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import librarymanagementsystemproject.RegisteredUsers;
 
 /**
  *
@@ -20,38 +21,72 @@ public class Members {
     public Members() {
     }
     
-    public String getMember(String email){
-        String query = "SELECT UserID FROM registered_users WHERE email = '" + email + "'";
+    public RegisteredUsers getMemberByEmail(String email){
+        String query = "SELECT * FROM registered_users WHERE email = '" + email + "'";
         fetched = db.fetch(query);
         
-        String userID = "";
+        RegisteredUsers user = null;
         try{
             if(fetched.isBeforeFirst()){
                 while(fetched.next()){
-                    userID = fetched.getString("userid");
+                    String userID = fetched.getString("userid");
+                    String firstName = fetched.getString("first_name");
+                    String surname = fetched.getString("surname");
+                    String dob = fetched.getString("dob");
+                    String phone = fetched.getString("phone");
+                    
+                    user = new RegisteredUsers(userID, firstName, surname, dob, phone, email);
                 }// END while
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }
-        return userID;
+        return user;
     }// END getMember()
     
-    public String getMember(String surname, String firstName){
-        String query = String.format("SELECT r.UserID FROM registered_users AS r WHERE r.surname = '%s' AND r.first_name = '%s'", surname, firstName);
+    public RegisteredUsers getMemberByName(String surname, String firstName){
+        String query = String.format("SELECT * FROM registered_users WHERE surname = '%s' AND first_name = '%s'", surname, firstName);
         fetched = db.fetch(query);
         
-        String userID = "";
+        RegisteredUsers user = null;
         try{
             if(fetched.isBeforeFirst()){
                 while(fetched.next()){
-                    userID = fetched.getString("userid");
+                    String userID = fetched.getString("userid");
+                    String dob = fetched.getString("dob");
+                    String phone = fetched.getString("phone");
+                    String email = fetched.getString("email");
+                    
+                    user = new RegisteredUsers(userID, firstName, surname, dob, phone, email);
                 }// END while
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }
-        return userID;
+        return user;
+    }
+    
+    public RegisteredUsers getMemberByUserID(String userID){
+        String query = String.format("SELECT * FROM registered_users WHERE userid = '%s'", userID);
+        fetched = db.fetch(query);
+        
+        RegisteredUsers user = null;
+        try{
+            if(fetched.isBeforeFirst()){
+                while(fetched.next()){
+                    String firstName = fetched.getString("first_name");
+                    String surname = fetched.getString("surname");
+                    String dob = fetched.getString("dob");
+                    String phone = fetched.getString("phone");
+                    String email = fetched.getString("email");
+                    
+                    user = new RegisteredUsers(userID, firstName, surname, dob, phone, email);
+                }// END while
+            }// END if
+        }catch(SQLException err){
+            err.printStackTrace();
+        }
+        return user;
     }
     
 }

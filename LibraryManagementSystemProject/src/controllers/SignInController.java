@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import librarymanagementsystemproject.Checks;
 import librarymanagementsystemproject.Members;
+import librarymanagementsystemproject.RegisteredUsers;
 
 /**
  * FXML Controller class
@@ -117,7 +118,7 @@ public class SignInController implements Initializable {
         
         // Checking for email - Presence, valid
         if(!txfEmail.getText().isEmpty()){
-            email = txfEmail.getText();
+            email = txfEmail.getText().replace(" ", "");
             
             if(!check.existingEmail(email)){// Checking if the member is registered
                 lblSignInError.setText("You are not a registered member.");
@@ -141,7 +142,8 @@ public class SignInController implements Initializable {
                 lblSignInError.setText("Your email and password do not match.");
                 loginFlag = false;
             }else{            
-                String userID = mem.getMember(email); 
+                RegisteredUsers user = mem.getMemberByEmail(email); 
+                String userID = user.getUserID();
 
                 try{
                     FXMLLoader loader = null;

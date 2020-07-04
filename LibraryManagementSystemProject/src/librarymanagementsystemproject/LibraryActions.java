@@ -23,12 +23,12 @@ public class LibraryActions {
         boolean returned = false;
         String bookID = book.substring(0, 10);        
         String memberSplit[] = member.replace(" ", "").split(",");
-        String userID = mem.getMember(memberSplit[0], memberSplit[1]);
+        RegisteredUsers user = mem.getMemberByName(memberSplit[0], memberSplit[1]);
         String dateReturn = Utils.formatDate(returnDate);
         String takeoutID = algor.generateTakeOutID(dateReturn);
         
         // Inserting into taken_out table
-        String query1 = String.format("INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('%s','%s','%s','%s','%s', %b)", takeoutID, bookID, userID, currDate, returnDate, returned);
+        String query1 = String.format("INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('%s','%s','%s','%s','%s', %b)", takeoutID, bookID, user.getUserID(), currDate, returnDate, returned);
         db.update(query1);        
         
         // Decreasing number of book available
@@ -139,10 +139,10 @@ public class LibraryActions {
         db.update(query3);         
     }// END fixedBook()
     
-    public void requestBook(String userid, String title, String isbn10, String isbn13){
+    public void requestBook(String userid, String title, String authors, String isbn10, String isbn13){
         String requestID = algor.generateRequestID(userid);
         
-        String query = String.format("INSERT INTO requested_books(RequestID, UserID, title, isbn10, isbn13) VALUES ('%s', '%s', '%s', '%s', '%s')", requestID, userid, title, isbn10, isbn13);
+        String query = String.format("INSERT INTO requested_books(RequestID, UserID, title, authors, isbn10, isbn13) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", requestID, userid, title, authors, isbn10, isbn13);
         db.update(query);
     }// END requestBook()
     
@@ -153,9 +153,9 @@ public class LibraryActions {
         String surname = memberName[0];
         
         String staffID = algor.generateStaffID(firstName, surname);
-        String userID = mem.getMember(surname, firstName);
+        RegisteredUsers user = mem.getMemberByName(surname, firstName);
         
-        String query = String.format("INSERT INTO staff(StaffID, UserID) VALUES ('%s', '%s')", staffID, userID);
+        String query = String.format("INSERT INTO staff(StaffID, UserID) VALUES ('%s', '%s')", staffID, user.getUserID());
         db.update(query);        
     }// END addStaff()
     
@@ -165,9 +165,9 @@ public class LibraryActions {
         String firstName = staffName[1];
         String surname = staffName[0];
         
-        String userID = mem.getMember(surname, firstName);
+        RegisteredUsers user = mem.getMemberByName(surname, firstName);
         
-        String query = String.format("DELETE FROM staff WHERE userid = '%s'", userID);
+        String query = String.format("DELETE FROM staff WHERE userid = '%s'", user.getUserID());
         db.update(query);  
         
     }// END removeStaff()
