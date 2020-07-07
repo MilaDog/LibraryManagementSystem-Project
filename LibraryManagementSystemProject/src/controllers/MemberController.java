@@ -130,6 +130,9 @@ public class MemberController implements Initializable {
             }else if(stage.equalsIgnoreCase("requestbook")){
                 RequestBookController requestBookController = loader.getController();
                 requestBookController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("account")){
+                AccountController accountController = loader.getController();
+                accountController.currentUser(currentUser);
             }
             
         }catch(IOException err){
@@ -141,6 +144,7 @@ public class MemberController implements Initializable {
 
     @FXML
     private void lblAccountClicked(MouseEvent event) {
+        loadUI("Account");
     }
 
     @FXML

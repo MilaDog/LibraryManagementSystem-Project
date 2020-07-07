@@ -108,6 +108,11 @@ public class SignInController implements Initializable {
         
         boolean loginFlag = true;
         String email = "";
+        
+        if(cbPasswordView.isSelected()){
+            pfPassword.setText(txfPasswordView.getText());
+        }
+        
         String password = pfPassword.getText();
 
         // Checking for password - Presence, valid
@@ -198,12 +203,12 @@ public class SignInController implements Initializable {
     @FXML
     private void cbPasswordViewClicked(ActionEvent event) {
         if(cbPasswordView.isSelected()){
-            String password = new String(pfPassword.getText());
+            String password = pfPassword.getText();
             txfPasswordView.setText(password);
             txfPasswordView.setVisible(true);
             pfPassword.setVisible(false);
         }else{
-            String password = new String(pfPassword.getText());
+            String password = txfPasswordView.getText();
             pfPassword.setText(password);
             pfPassword.setVisible(true);
             txfPasswordView.setVisible(false);            

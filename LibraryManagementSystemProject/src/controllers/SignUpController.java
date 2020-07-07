@@ -143,6 +143,11 @@ public class SignUpController implements Initializable {
         String phone = "";        
         String formatDob = "";
         
+        if(cbPasswordView.isSelected()){
+            pfPassword.setText(txfPasswordView.getText());
+            pfPasswordCheck.setText(txfPasswordCheckView.getText());
+        }
+        
         String password1 = pfPassword.getText();
         String password2 = pfPasswordCheck.getText();
         
@@ -236,8 +241,8 @@ public class SignUpController implements Initializable {
             accountFlag = false;
         }else{
             if(!check.checkPassword(password1, password2)){
-                lblPassword.setText("Password - Do not match");
-                lblPasswordCheck.setText("Re-enter Password - Do not match.");
+                lblPassword.setText("Password - Does not match");
+                lblPasswordCheck.setText("Re-enter Password - Does not match.");
                 accountFlag = false;
             }
         }

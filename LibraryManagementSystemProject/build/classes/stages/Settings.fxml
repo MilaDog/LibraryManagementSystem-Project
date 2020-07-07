@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="100.0" prefWidth="255.0" style="-fx-background-color: #8d6262;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controllers.SettingsController">
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="100.0" prefWidth="255.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SettingsController">
    <children>
-      <HBox fx:id="hBoxSettings" prefHeight="100.0" prefWidth="275.0">
+      <HBox fx:id="hBoxSettings" onMouseClicked="#hBoxSettingsClicked" prefHeight="100.0" prefWidth="275.0">
          <children>
             <ImageView fx:id="imSettingsLogout" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>

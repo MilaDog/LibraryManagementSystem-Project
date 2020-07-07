@@ -31,11 +31,13 @@ public class Postgres {
             System.out.println("Driver Successfully connected");
             System.out.println("[DB] Connected Successfully");
             System.out.println();
+            
         }catch(ClassNotFoundException | SQLException err){
             err.printStackTrace();
             
             System.out.println("[Error] Either Driver or DB connected unsuccessfully");
         }// END try-catch
+        
     }// END Postgres()
     
     /**

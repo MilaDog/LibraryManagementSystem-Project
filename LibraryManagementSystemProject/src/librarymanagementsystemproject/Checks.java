@@ -45,6 +45,27 @@ public class Checks {
         return flag;
     }// END checkLogin()
     
+    public boolean checkExistingPassword(String userid, String password){
+        boolean flag = false;
+        
+        String query = "SELECT password FROM login_details WHERE userid = '" + userid + "'";        
+        ResultSet result = db.fetch(query);
+        try{
+            if(result.isBeforeFirst()){
+                while(result.next()){
+                    String checkPassword = result.getString("password");
+                    System.out.println(checkPassword);
+                    System.out.println(password);
+                    if(checkPassword.equals(password)){
+                        flag = true;
+                    }
+                }
+            }
+        }catch(SQLException err){
+            err.printStackTrace();
+        }
+        return flag;
+    }
     
     public boolean checkPassword(String password1, String password2){
         boolean flag = false;

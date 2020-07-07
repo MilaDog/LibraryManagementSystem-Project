@@ -23,7 +23,7 @@
                </columns>
             </TableView>
             <Button fx:id="btnRequestBook" layoutX="17.0" layoutY="524.0" mnemonicParsing="false" onMouseClicked="#btnRequestBookClicked" text="Request Book" />
-            <Label fx:id="lblBookRequestInfo" layoutX="114.0" layoutY="528.0" text="Select a book in the table, then click the 'Request Book' button to request it" />
+            <Label fx:id="lblBookRequestInfo" layoutX="142.0" layoutY="528.0" text="Select a book in the table, then click the 'Request Book' button to request it" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorPaneOptions" prefHeight="100.0" prefWidth="834.0">
