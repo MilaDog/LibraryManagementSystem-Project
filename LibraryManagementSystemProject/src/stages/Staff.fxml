@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="750.0" prefWidth="1100.0" style="-fx-background-color: #8d6262;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controllers.StaffController">
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" onMouseDragged="#anchorPaneBackgroundOnMouseDragged" onMousePressed="#anchorPaneBackgroundOnMousePressed" prefHeight="750.0" prefWidth="1100.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StaffController">
    <children>
       <AnchorPane fx:id="anchorPaneSideMenu" prefHeight="800.0" prefWidth="275.0" style="-fx-background-color: #4d4545;">
          <children>
@@ -20,7 +19,12 @@
                   <Image url="@../icons/account.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="lblSettings" fitHeight="25.0" fitWidth="25.0" layoutX="17.0" layoutY="761.0" onMouseClicked="#lblSettingsClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lblSettingsOpen" fitHeight="25.0" fitWidth="25.0" layoutX="17.0" layoutY="761.0" onMouseClicked="#lblSettingsOpenClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/settings.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="lblSettingsClose" fitHeight="25.0" fitWidth="25.0" layoutX="17.0" layoutY="761.0" onMouseClicked="#lblSettingsCloseClicked" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../icons/settings.png" />
                </image>
@@ -151,7 +155,7 @@
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <HBox fx:id="hBoxIssueBooks" layoutY="380.0" onMouseClicked="#hBoxBooksAvailableClicked" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxIssueBooks" layoutY="380.0" onMouseClicked="#hBoxIssueBooksClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imIssueBook" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -171,7 +175,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxReturnBook" layoutX="-1.0" layoutY="415.0" onMouseClicked="#hBoxBooksListClicked" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxReturnBook" layoutX="-1.0" layoutY="415.0" onMouseClicked="#hBoxReturnBookClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imReturnBook" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -191,7 +195,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxFixBook" layoutX="-1.0" layoutY="450.0" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxFixBook" layoutX="-1.0" layoutY="450.0" onMouseClicked="#hBoxFixBookClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imFixBook" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -211,7 +215,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxOutstandingBooks" layoutX="-1.0" layoutY="485.0" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxOutstandingBooks" layoutX="-1.0" layoutY="485.0" onMouseClicked="#hBoxOutstandingBooksClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imOutstandingBooks" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -231,7 +235,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxViewRequestedBooks" layoutX="-1.0" layoutY="520.0" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxViewRequestedBooks" layoutX="-1.0" layoutY="520.0" onMouseClicked="#hBoxViewRequestedBooksClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imRequestedBooks" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -259,7 +263,7 @@
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <HBox fx:id="hBoxStaffAdd" layoutX="5.0" layoutY="611.0" onMouseClicked="#hBoxBooksAvailableClicked" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxStaffAdd" layoutX="5.0" layoutY="611.0" onMouseClicked="#hBoxStaffAddClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imStaffAdd" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -279,7 +283,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxStaffRemove" layoutX="4.0" layoutY="648.0" onMouseClicked="#hBoxBooksListClicked" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxStaffRemove" layoutX="4.0" layoutY="648.0" onMouseClicked="#hBoxStaffRemoveClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imStaffRemove" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -299,7 +303,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxStaffView" layoutX="4.0" layoutY="680.0" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxStaffView" layoutX="4.0" layoutY="680.0" onMouseClicked="#hBoxStaffViewClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imStaffView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>

@@ -40,6 +40,10 @@ public class StaffController implements Initializable {
     private LibraryActions libActions = new LibraryActions();
     
     private String currentUser = "";
+        
+    // Ability to mouse the stage (window) - move smoothly
+    private double xMouse;
+    private double yMouse;
     
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -49,8 +53,6 @@ public class StaffController implements Initializable {
     private BorderPane bpSettings;
     @FXML
     private ImageView lblAccount;
-    @FXML
-    private ImageView lblSettings;
     @FXML
     private Label lblWelcomeBack;
     @FXML
@@ -143,6 +145,10 @@ public class StaffController implements Initializable {
     private ImageView imStaffView;
     @FXML
     private Label lblStaffView;
+    @FXML
+    private ImageView lblSettingsOpen;
+    @FXML
+    private ImageView lblSettingsClose;
     
     /**
      * Initializes the controller class.
@@ -167,37 +173,117 @@ public class StaffController implements Initializable {
     public void currentUser(String userid){
         currentUser = userid;
     }
+    
+    private void loadUI(String stage){
+        Parent root = null;
+        FXMLLoader loader = null;
+        
+        try{
+            loader = new FXMLLoader(getClass().getResource("/stages/"+stage+".fxml"));
+            root = (Parent) loader.load();
+            
+            if(stage.equalsIgnoreCase("takenout")){
+                TakenOutController takenOutController = loader.getController();
+                takenOutController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("returndates")){
+                ReturnDatesController returnDatesController = loader.getController();
+                returnDatesController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("requestbook")){
+                RequestBookController requestBookController = loader.getController();
+                requestBookController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("account")){
+                AccountController accountController = loader.getController();
+                accountController.currentUser(currentUser);
+            }
+            
+        }catch(IOException err){
+            err.printStackTrace();
+        }
+        
+        bpMain.setCenter(root);
+    }
+    
+    // Ability to mouse the stage (window) - move smoothly
+    @FXML
+    private void anchorPaneBackgroundOnMouseDragged(MouseEvent event) {
+        stageStaff.setX(event.getScreenX() - xMouse);
+        stageStaff.setY(event.getScreenY() - yMouse);
+    }
+    
+    // Ability to mouse the stage (window) - move smoothly
+    @FXML
+    private void anchorPaneBackgroundOnMousePressed(MouseEvent event) {
+        xMouse = event.getSceneX();
+        yMouse = event.getSceneY();
+    }
 
     @FXML
     private void lblAccountClicked(MouseEvent event) {
+        loadUI("Account");
+        bpSettings.setVisible(false);
+    }
+    
+    @FXML
+    private void lblSettingsOpenClicked(MouseEvent event) {
+        Parent root = null;
+        FXMLLoader loader = null;
+        
+        try{
+            loader = new FXMLLoader(getClass().getResource("/stages/Settings.fxml"));
+            root = (Parent) loader.load();
+            
+        }catch(IOException err){
+            err.printStackTrace();
+        }
+             
+        bpSettings.setCenter(root);
+        bpSettings.setVisible(true);
+        bpSettings.toFront();
+        lblSettingsClose.setVisible(true);
+        lblSettingsOpen.setVisible(false);
     }
 
     @FXML
-    private void lblSettingsClicked(MouseEvent event) {
+    private void lblSettingsCloseClicked(MouseEvent event) {
+        bpSettings.setVisible(false);
+        lblSettingsOpen.setVisible(true);
+        lblSettingsClose.setVisible(false);
     }
-
+    
     @FXML
     private void hBoxBooksAvailableClicked(MouseEvent event) {
+        loadUI("ListAvailableBooks");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxBooksListClicked(MouseEvent event) {
+        loadUI("ListBooks");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void lblBooksRequestClicked(MouseEvent event) {
+        loadUI("RequestBook");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void lblMemberReturnDatesClicked(MouseEvent event) {
+        loadUI("ReturnDates");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void lblMemberTakenOutClicked(MouseEvent event) {
+        loadUI("TakenOut");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void lblExitClicked(MouseEvent event) {
+        bpSettings.setVisible(false);
+        
         // Closing Member stage and going to the SignIn stage if the user closes the window
         try{
             // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
@@ -215,5 +301,42 @@ public class StaffController implements Initializable {
             err.printStackTrace();
         }
     }
+
+    @FXML
+    private void hBoxIssueBooksClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void hBoxReturnBookClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void hBoxFixBookClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void hBoxOutstandingBooksClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void hBoxViewRequestedBooksClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void hBoxStaffAddClicked(MouseEvent event) {
+        loadUI("ManageStaffAdd");
+    }
+
+    @FXML
+    private void hBoxStaffRemoveClicked(MouseEvent event) {
+        loadUI("ManageStaffRemove");
+    }
+
+    @FXML
+    private void hBoxStaffViewClicked(MouseEvent event) {
+        loadUI("ManageStaffView");
+    }
+
+
     
 }

@@ -219,10 +219,9 @@ public class Checks {
         return flag;
     }// END isStaffEmail()    
     
-    public boolean isStaff(String member){
+    public boolean isStaff(RegisteredUsers user){
         boolean flag = false;
-        String name[] = member.replace(" ", "").split(",");
-        String query = String.format("SELECT * FROM registered_users AS rm INNER JOIN staff AS s ON s.userid = rm.userid WHERE rm.surname = '%s' AND rm.first_name = '%s'", name[0], name[1]);
+        String query = String.format("SELECT * FROM registered_users AS rm INNER JOIN staff AS s ON s.userid = rm.userid WHERE rm.surname = '%s' AND rm.first_name = '%s'", user.getSurname(), user.getFirstName());
         result = db.fetch(query);
         
         try{

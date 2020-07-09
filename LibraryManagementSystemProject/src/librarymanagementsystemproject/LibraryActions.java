@@ -147,27 +147,22 @@ public class LibraryActions {
     }// END requestBook()
     
     
-    public void addStaff(String member){
-        String memberName[] = member.replace(" ", "").split(",");
-        String firstName = memberName[1];
-        String surname = memberName[0];
+    public void addStaff(RegisteredUsers member){
+        String firstName = member.getFirstName();
+        String surname = member.getSurname();
+        String userID = member.getUserID();
         
         String staffID = algor.generateStaffID(firstName, surname);
-        RegisteredUsers user = mem.getMemberByName(surname, firstName);
         
-        String query = String.format("INSERT INTO staff(StaffID, UserID) VALUES ('%s', '%s')", staffID, user.getUserID());
+        String query = String.format("INSERT INTO staff(StaffID, UserID) VALUES ('%s', '%s')", staffID, userID);
         db.update(query);        
     }// END addStaff()
     
     
-    public void removeStaff(String staff){
-        String staffName[] = staff.replace(" ", "").split(",");
-        String firstName = staffName[1];
-        String surname = staffName[0];
+    public void removeStaff(Staff staff){
+        String userID = staff.getUserID();
         
-        RegisteredUsers user = mem.getMemberByName(surname, firstName);
-        
-        String query = String.format("DELETE FROM staff WHERE userid = '%s'", user.getUserID());
+        String query = String.format("DELETE FROM staff WHERE userid = '%s'", userID);
         db.update(query);  
         
     }// END removeStaff()

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MemberController">
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" onMouseDragged="#anchorPaneBackgroundOnMouseDragged" onMousePressed="#anchorPaneBackgroundOnMousePressed" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MemberController">
    <children>
       <AnchorPane fx:id="anchorPaneSideMenu" prefHeight="700.0" prefWidth="275.0" style="-fx-background-color: #4d4545;">
          <children>

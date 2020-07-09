@@ -34,6 +34,10 @@ public class MemberController implements Initializable {
 
     private String currentUser = "";
     
+    // Ability to mouse the stage (window) - move smoothly
+    private double xMouse;
+    private double yMouse;
+    
     private Members mem = new Members();
     private Stage stageMember = null;
     
@@ -206,6 +210,20 @@ public class MemberController implements Initializable {
     @FXML
     private void lblMemberTakenOutClicked(MouseEvent event) {
         loadUI("TakenOut");
+    }
+
+    // Ability to mouse the stage (window) - move smoothly
+    @FXML
+    private void anchorPaneBackgroundOnMouseDragged(MouseEvent event) {
+        stageMember.setX(event.getScreenX() - xMouse);
+        stageMember.setY(event.getScreenY() - yMouse);
+    }
+    
+    // Ability to mouse the stage (window) - move smoothly
+    @FXML
+    private void anchorPaneBackgroundOnMousePressed(MouseEvent event) {
+        xMouse = event.getSceneX();
+        yMouse = event.getSceneY();
     }
     
     

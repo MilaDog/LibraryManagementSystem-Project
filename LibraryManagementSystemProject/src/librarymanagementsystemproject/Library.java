@@ -314,7 +314,7 @@ public class Library {
 //    }// END fetchReturnDates()
     
     
-    public ArrayList<Staff> fetchStaff(){
+    public ArrayList<Staff> fetchAllStaff(){
         String query = "SELECT * FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid";
         fetched = db.fetch(query);
         
@@ -328,8 +328,11 @@ public class Library {
                     String userID = fetched.getString("userid");
                     String firstName = fetched.getString("first_name");
                     String surname = fetched.getString("surname");
+                    String dob = fetched.getString("dob");
+                    String phone = fetched.getString("phone");
+                    String email = fetched.getString("email");
                     
-                    staff.add(new Staff(staffID, userID, firstName, surname, null, null, null));
+                    staff.add(new Staff(staffID, userID, firstName, surname, dob, phone, email));
                 }// END while
             }// END if
         }catch(SQLException err){
@@ -363,8 +366,7 @@ public class Library {
             err.printStackTrace();
         }//END try-catch
         return registeredUsers;
-    }// END fetchAllMembers()
-    
+    }// END fetchAllMembers()  
     
     public ArrayList<BooksRequest> fetchRequestedBooks(){
         String query = "SELECT * FROM requested_books";
