@@ -21,6 +21,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import librarymanagementsystemproject.ErrorHandling;
 import librarymanagementsystemproject.Library;
 import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.Staff;
@@ -36,6 +38,11 @@ public class ManageStaffRemoveController implements Initializable {
 
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
+    private ErrorHandling errorHandler = new ErrorHandling();
+    
+    private String currentUser = "";
+    
+    private Stage stageStaffRemove = null;
 
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -71,16 +78,24 @@ public class ManageStaffRemoveController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(new Runnable() {
             @Override
-            public void run(){     
+            public void run(){ 
+                
+                // Getting the StaffRemove stage
+                stageStaffRemove = (Stage) anchorPaneBackground.getScene().getWindow();  
+                
                 tblViewStaff.getItems().clear();
 
-                staffMembers = lib.fetchAllStaff();
-                defaultDisplay(staffMembers);                            
+                staffMembers = lib.fetchStaff(currentUser);
+                displayStaff(staffMembers);                            
             }
         });  
+    } 
+    
+    public void currentUser(String userid){
+        currentUser = userid;
     }    
     
-    private void defaultDisplay(ArrayList<Staff> staff){
+    private void displayStaff(ArrayList<Staff> staff){
 
         // If nothing was found, display all . Else, display what was found
         if(staff.isEmpty()){            
@@ -96,17 +111,6 @@ public class ManageStaffRemoveController implements Initializable {
             tblViewStaff.setItems(allStaff);
         }// END if-else - any found books
     }
-    
-    private void showSearchResults(ArrayList<Staff> staff){               
-        colStaffID.setCellValueFactory(new PropertyValueFactory<>("staffID"));
-        colMemberID.setCellValueFactory(new PropertyValueFactory<>("userID"));
-        colMemberFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        colMemberSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        colMemberEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-
-        ObservableList<Staff> allStaff = FXCollections.observableArrayList(staff);
-        tblViewStaff.setItems(allStaff);
-    }   
 
     @FXML
     private void btnMemberSearchClicked(MouseEvent event) {   
@@ -117,7 +121,7 @@ public class ManageStaffRemoveController implements Initializable {
         // If search text field is empty, displays all registered users. If not, finds a user similar to what is being searched.
         if(txfMemberSearchInput.getText().isEmpty()){
             ArrayList<Staff> allStaff = lib.fetchAllStaff();
-            defaultDisplay(allStaff);
+            displayStaff(allStaff);
         }else{
             ArrayList<Staff> foundStaffMembers = new ArrayList<>();
             foundStaffMembers.clear();
@@ -135,7 +139,7 @@ public class ManageStaffRemoveController implements Initializable {
             if(foundStaffMembers.isEmpty()){
                 tblViewStaff.setPlaceholder(new Label("Did not find any Staff Member(s)"));   
             }else{
-                showSearchResults(foundStaffMembers);
+                displayStaff(foundStaffMembers);
             }
             
         }// END if-else - anything to search   
@@ -148,8 +152,10 @@ public class ManageStaffRemoveController implements Initializable {
             
             libActions.removeStaff(staffMember);
             
-            ArrayList<Staff> allStaff = lib.fetchAllStaff();
-            defaultDisplay(allStaff);
+            ArrayList<Staff> allStaff = lib.fetchStaff(currentUser);
+            displayStaff(allStaff);
+        }else{
+            errorHandler.staffRemoveError(stageStaffRemove);
         }
     }
     

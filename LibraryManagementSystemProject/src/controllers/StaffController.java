@@ -22,8 +22,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import librarymanagementsystemproject.Library;
-import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.Members;
 import librarymanagementsystemproject.RegisteredUsers;
 
@@ -36,8 +34,6 @@ public class StaffController implements Initializable {
 
     private Stage stageStaff = null;  
     private Members mem = new Members();
-    private Library lib = new Library();
-    private LibraryActions libActions = new LibraryActions();
     
     private String currentUser = "";
         
@@ -194,6 +190,9 @@ public class StaffController implements Initializable {
             }else if(stage.equalsIgnoreCase("account")){
                 AccountController accountController = loader.getController();
                 accountController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("managestaffremove")){
+                ManageStaffRemoveController staffRemoveController = loader.getController();
+                staffRemoveController.currentUser(currentUser);
             }
             
         }catch(IOException err){
@@ -304,10 +303,12 @@ public class StaffController implements Initializable {
 
     @FXML
     private void hBoxIssueBooksClicked(MouseEvent event) {
+        loadUI("BookIssue");
     }
 
     @FXML
     private void hBoxReturnBookClicked(MouseEvent event) {
+        loadUI("BookReturn");
     }
 
     @FXML

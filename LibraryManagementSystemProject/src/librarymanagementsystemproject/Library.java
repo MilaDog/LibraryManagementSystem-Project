@@ -163,7 +163,7 @@ public class Library {
         // Clearing ArrayList
         booksTakenOut.clear();
         
-        String query = "SELECT TakeOutID, BookID, UserID, date_takeout, date_return, returned FROM taken_out";
+        String query = "SELECT * FROM taken_out WHERE returned = false";
         fetched = db.fetch(query);
 
         try{
@@ -191,7 +191,7 @@ public class Library {
         // Clearing ArrayList
         booksTakenOut.clear();
         
-        String query = "SELECT TakeOutID, BookID, UserID, date_takeout, date_return, returned FROM taken_out WHERE userid = '" + userID + "'";
+        String query = "SELECT * FROM taken_out WHERE returned = false AND userid = '" + userID + "'";
         fetched = db.fetch(query);
 
         try{
@@ -314,6 +314,33 @@ public class Library {
 //    }// END fetchReturnDates()
     
     
+    public ArrayList<Staff> fetchStaff(String userid){
+        String query = "SELECT * FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid WHERE r.userid != '" + userid + "'";
+        fetched = db.fetch(query);
+        
+        // Clearing ArrayList
+        staff.clear();
+        
+        try{
+            if(fetched.isBeforeFirst()){
+                while(fetched.next()){
+                    String staffID = fetched.getString("staffid");
+                    String userID = fetched.getString("userid");
+                    String firstName = fetched.getString("first_name");
+                    String surname = fetched.getString("surname");
+                    String dob = fetched.getString("dob");
+                    String phone = fetched.getString("phone");
+                    String email = fetched.getString("email");
+                    
+                    staff.add(new Staff(staffID, userID, firstName, surname, dob, phone, email));
+                }// END while
+            }// END if
+        }catch(SQLException err){
+            err.printStackTrace();
+        }// END try-catch
+        return staff; 
+    }// END fetchStaff()
+    
     public ArrayList<Staff> fetchAllStaff(){
         String query = "SELECT * FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid";
         fetched = db.fetch(query);
@@ -339,8 +366,33 @@ public class Library {
             err.printStackTrace();
         }// END try-catch
         return staff;        
-    }// END fetchStaff()
+    }// END fetchAllStaff()    
     
+    public ArrayList<RegisteredUsers> fetchMembersNotStaff(){
+        String query = "SELECT * FROM registered_users AS r LEFT JOIN staff AS s ON s.userid = r.userid WHERE s.staffid IS NULL";
+        fetched = db.fetch(query);
+        
+        // Clearing ArrayList
+        registeredUsers.clear();
+        
+        try{
+            if(fetched.isBeforeFirst()){
+                while(fetched.next()){
+                    String userID = fetched.getString("userid");
+                    String surname = fetched.getString("surname");
+                    String firstName = fetched.getString("first_name");
+                    String dob = fetched.getString("dob");
+                    String phone = fetched.getString("phone");
+                    String email = fetched.getString("email");
+                    
+                    registeredUsers.add(new RegisteredUsers(userID, firstName, surname, dob, phone, email));
+                }//END while
+            }// END if
+        }catch(SQLException err){
+            err.printStackTrace();
+        }//END try-catch
+        return registeredUsers;
+    }//END fetchMembersNotStaff()
     
     public ArrayList<RegisteredUsers> fetchAllMembers(){
         String query = "SELECT * FROM registered_users ORDER BY surname, first_name";

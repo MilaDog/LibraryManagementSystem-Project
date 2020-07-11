@@ -21,7 +21,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import librarymanagementsystemproject.Checks;
+import librarymanagementsystemproject.ErrorHandling;
 import librarymanagementsystemproject.Library;
 import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.RegisteredUsers;
@@ -38,6 +40,9 @@ public class ManageStaffAddController implements Initializable {
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private Checks check = new Checks();
+    private ErrorHandling errorHandler = new ErrorHandling();
+    
+    private Stage stageStaffAdd = null;
     
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -71,36 +76,20 @@ public class ManageStaffAddController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(new Runnable() {
             @Override
-            public void run(){     
+            public void run(){   
+                
+                // Getting the StaffAdd stage
+                stageStaffAdd = (Stage) anchorPaneBackground.getScene().getWindow();  
+                
                 tblViewMembers.getItems().clear();
 
-                ArrayList<RegisteredUsers> registeredUsers = lib.fetchAllMembers();   
-                
-                // Filtering - only selecting users that are not staff members
-                for(RegisteredUsers user: registeredUsers){
-                    if(check.isStaff(user)){
-                        continue;
-                    }else{
-                        registeredUsersNotStaff.add(user);
-                    }
-                }
-                
-                defaultDisplay(registeredUsersNotStaff);                            
+                registeredUsersNotStaff = lib.fetchMembersNotStaff();                 
+                displayMembers(registeredUsersNotStaff);                            
             }
         }); 
     }
     
-    private void showSearchResults(ArrayList<RegisteredUsers> users){       
-        colMemberID.setCellValueFactory(new PropertyValueFactory<>("userID"));
-        colMemberFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        colMemberSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        colMemberEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-
-        ObservableList<RegisteredUsers> allUsers = FXCollections.observableArrayList(users);
-        tblViewMembers.setItems(allUsers);
-    }    
-    
-    private void defaultDisplay(ArrayList<RegisteredUsers> users){
+    private void displayMembers(ArrayList<RegisteredUsers> users){
 
         // If nothing was found, display all . Else, display what was found
         if(users.isEmpty()){            
@@ -125,7 +114,7 @@ public class ManageStaffAddController implements Initializable {
         // If search text field is empty, displays all registered users. If not, finds a user similar to what is being searched.
         if(txfMemberSearchInput.getText().isEmpty()){
             ArrayList<RegisteredUsers> allUsers = lib.fetchAllMembers();
-            defaultDisplay(allUsers);
+            displayMembers(allUsers);
         }else{
             ArrayList<RegisteredUsers> users = new ArrayList<>();
             users.clear();
@@ -143,7 +132,7 @@ public class ManageStaffAddController implements Initializable {
             if(users.isEmpty()){
                 tblViewMembers.setPlaceholder(new Label("Did not find any member"));   
             }else{
-                showSearchResults(users);
+                displayMembers(users);
             }
             
         }// END if-else - anything to search 
@@ -167,7 +156,9 @@ public class ManageStaffAddController implements Initializable {
                     registeredUsersNotStaff.add(user);
                 }
             }
-            defaultDisplay(registeredUsersNotStaff);
+            displayMembers(registeredUsersNotStaff);
+        }else{
+            errorHandler.staffAddError(stageStaffAdd);
         }
     }
     

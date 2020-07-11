@@ -19,16 +19,15 @@ public class LibraryActions {
         return returnDate;
     }// END getReturnDate()
     
-    public void issueBook(String member, String book, LocalDate currDate, LocalDate returnDate){
+    public void issueBook(RegisteredUsers member, Books book, LocalDate currDate, LocalDate returnDate){
         boolean returned = false;
-        String bookID = book.substring(0, 10);        
-        String memberSplit[] = member.replace(" ", "").split(",");
-        RegisteredUsers user = mem.getMemberByName(memberSplit[0], memberSplit[1]);
+        String bookID = book.getBookid();
+        String userID = member.getUserID();
         String dateReturn = Utils.formatDate(returnDate);
         String takeoutID = algor.generateTakeOutID(dateReturn);
         
         // Inserting into taken_out table
-        String query1 = String.format("INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('%s','%s','%s','%s','%s', %b)", takeoutID, bookID, user.getUserID(), currDate, returnDate, returned);
+        String query1 = String.format("INSERT INTO taken_out(takeoutid, bookid, userid, date_takeout, date_return, returned) VALUES ('%s','%s','%s','%s','%s', %b)", takeoutID, bookID, userID, currDate, returnDate, returned);
         db.update(query1);        
         
         // Decreasing number of book available
@@ -52,11 +51,10 @@ public class LibraryActions {
     }// END issueBook()
     
     
-    public void returnBook(String book){
+    public void returnBook(BooksTakenOut book){
         boolean returned = true;
-        String bookSplit[] = book.replace(" ", "").split(",");
-        String takeOutID = bookSplit[0];
-        String bookID = bookSplit[1];
+        String takeOutID = book.getTakeoutID();
+        String bookID = book.getBookID();
         
         // Updating returned field for book from taken_out table
         String query1 = String.format("UPDATE taken_out SET returned = %b WHERE takeoutid = '%s'", returned, takeOutID);

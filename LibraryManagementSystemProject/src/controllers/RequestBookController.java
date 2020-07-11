@@ -8,6 +8,7 @@ package controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import librarymanagementsystemproject.ErrorHandling;
 import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.OpenLibrary;
 import librarymanagementsystemproject.OpenLibraryBooks;
@@ -37,6 +40,9 @@ public class RequestBookController implements Initializable {
     
     private LibraryActions libActions = new LibraryActions();
     private OpenLibraryBooks olBooks = new OpenLibraryBooks();
+    private ErrorHandling errorHandler = new ErrorHandling();
+    
+    private Stage stageBookRequest = null;
 
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -78,7 +84,14 @@ public class RequestBookController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run(){  
+                
+                // Getting the BookRequest stage
+                stageBookRequest = (Stage) anchorPaneBackground.getScene().getWindow();    
+            }
+        });    
     }  
     
     // Method to set the currentUser so that it can be used for user related searches
@@ -170,6 +183,8 @@ public class RequestBookController implements Initializable {
             String isbn13 = book.getIsbn13();
             
             libActions.requestBook(currentUser, title, authors, isbn10, isbn13);
+        }else{
+            errorHandler.requestBookError(stageBookRequest);
         }
         
     }

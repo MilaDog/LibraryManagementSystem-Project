@@ -71,12 +71,12 @@ public class ManageStaffViewController implements Initializable {
                 tblViewStaff.getItems().clear();
 
                 staffMembers = lib.fetchAllStaff();        
-                defaultDisplay(staffMembers);                            
+                displayMembers(staffMembers);                            
             }
         });  
     }    
     
-    private void defaultDisplay(ArrayList<Staff> staff){
+    private void displayMembers(ArrayList<Staff> staff){
 
         // If nothing was found, display all . Else, display what was found
         if(staff.isEmpty()){            
@@ -92,17 +92,6 @@ public class ManageStaffViewController implements Initializable {
             tblViewStaff.setItems(allStaff);
         }// END if-else - any found books
     }
-    
-    private void showSearchResults(ArrayList<Staff> staff){               
-        colStaffID.setCellValueFactory(new PropertyValueFactory<>("staffID"));
-        colMemberID.setCellValueFactory(new PropertyValueFactory<>("userID"));
-        colMemberFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        colMemberSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        colMemberEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-
-        ObservableList<Staff> allStaff = FXCollections.observableArrayList(staff);
-        tblViewStaff.setItems(allStaff);
-    }
 
     @FXML
     private void btnMemberSearchClicked(MouseEvent event) {   
@@ -113,7 +102,7 @@ public class ManageStaffViewController implements Initializable {
         // If search text field is empty, displays all registered users. If not, finds a user similar to what is being searched.
         if(txfMemberSearchInput.getText().isEmpty()){
             ArrayList<Staff> allStaff = lib.fetchAllStaff();
-            defaultDisplay(allStaff);
+            displayMembers(allStaff);
         }else{
             ArrayList<Staff> foundStaffMembers = new ArrayList<>();
             foundStaffMembers.clear();
@@ -131,7 +120,7 @@ public class ManageStaffViewController implements Initializable {
             if(foundStaffMembers.isEmpty()){
                 tblViewStaff.setPlaceholder(new Label("Did not find any Staff Member(s)"));   
             }else{
-                showSearchResults(foundStaffMembers);
+                displayMembers(foundStaffMembers);
             }
             
         }// END if-else - anything to search   
