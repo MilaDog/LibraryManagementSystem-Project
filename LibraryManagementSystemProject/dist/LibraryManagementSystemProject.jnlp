@@ -8,8 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="LibraryManagementSystemProject.jar" size="294809" download="eager" />
-    <jar href="lib\LGoodDatePicker-10.4.1.jar" size="337465" download="eager" />
+    <jar href="LibraryManagementSystemProject.jar" size="327898" download="eager" />
     <jar href="lib\commons-codec-1.11.jar" size="335042" download="eager" />
     <jar href="lib\commons-logging-1.2.jar" size="61829" download="eager" />
     <jar href="lib\gson-2.8.6.jar" size="240255" download="eager" />
@@ -18,9 +17,7 @@
     <jar href="lib\httpcore-4.4.13.jar" size="328593" download="eager" />
     <jar href="lib\httpcore-nio-4.4.13.jar" size="369320" download="eager" />
     <jar href="lib\httpmime-4.5.11.jar" size="41790" download="eager" />
-    <jar href="lib\jfoenix-8.0.10.jar" size="2710207" download="eager" />
     <jar href="lib\postgresql-42.2.12.jar" size="930498" download="eager" />
-    <jar href="lib\swingx-core-1.6.2.jar" size="1447793" download="eager" />
     <jar href="lib\unirest-java-3.7.04.jar" size="157548" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="LibraryManagementSystemProject" >

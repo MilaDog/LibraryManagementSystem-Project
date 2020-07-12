@@ -26,7 +26,7 @@ public class ErrorHandling {
             String dialog = "Did not select a Book.";
             displayErrorDialog(stage, dialog);
         }else{
-            String dialog = "Did not select a Book/User.";
+            String dialog = "Did not select a Book and User.";
             displayErrorDialog(stage, dialog);
         }
     }
@@ -47,7 +47,25 @@ public class ErrorHandling {
     }
     
     public void requestBookError(Stage stage){  
-        String dialog = "Did not select a Book.";
+        String dialog = "Did not select a Book to request.";
+        displayErrorDialog(stage, dialog);       
+    }
+    
+    public void fixBookError(Stage stage, String errorType){
+        if(errorType.equalsIgnoreCase("book")){
+            String dialog = "Did not select a Book.";
+            displayErrorDialog(stage, dialog);
+        }else if(errorType.equalsIgnoreCase("reason")){
+            String dialog = "Did not give a fix reason.";
+            displayErrorDialog(stage, dialog);
+        }else{
+            String dialog = "Did not select a Book and no fix reason given.";
+            displayErrorDialog(stage, dialog);
+        }
+    }
+    
+    public void fixedBooksError(Stage stage){  
+        String dialog = "Did not select a Book to mark as fixed.";
         displayErrorDialog(stage, dialog);       
     }
 

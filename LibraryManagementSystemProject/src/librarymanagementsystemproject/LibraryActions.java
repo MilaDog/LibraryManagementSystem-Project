@@ -79,9 +79,9 @@ public class LibraryActions {
         db.update(query3);         
     }
     
-    public void fixBook(String book, String staffID, String reason){
+    public void fixBook(Books book, String staffID, String reason){
         boolean fixed = false;
-        String bookID = book.substring(0, 10);
+        String bookID = book.getBookid();
         String fixID = algor.generateFixID(bookID);
         
         // Adding to table
@@ -108,10 +108,10 @@ public class LibraryActions {
         db.update(query3);        
     }// END fixBook()
     
-    public void fixedBook(String fixid){
+    public void fixedBook(BooksFix bookFix){
         boolean fixed = true;
-        String fixID = fixid.substring(0,14);
-        String bookID = fixid.substring(4,14);
+        String fixID = bookFix.getFixID();
+        String bookID = bookFix.getBookID();
         
         // Updating book as Fixed
         String query1 = String.format("UPDATE fix_books SET fixed = %b WHERE fixid = '%s'", fixed, fixID);

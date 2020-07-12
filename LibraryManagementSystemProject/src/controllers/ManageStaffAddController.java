@@ -145,18 +145,10 @@ public class ManageStaffAddController implements Initializable {
             
             libActions.addStaff(selectedUser);
             
-            ArrayList<RegisteredUsers> allUsers = lib.fetchAllMembers();
-            registeredUsersNotStaff.clear();
-            
-            // Filtering - only selecting users that are not staff members - updating since a new staff member was added to the staff list
-            for(RegisteredUsers user: allUsers){
-                if(check.isStaff(user)){
-                    continue;
-                }else{
-                    registeredUsersNotStaff.add(user);
-                }
-            }
+            // Resetting - user made staff, so remove their name from the table            
+            registeredUsersNotStaff = lib.fetchAllMembers();            
             displayMembers(registeredUsersNotStaff);
+            
         }else{
             errorHandler.staffAddError(stageStaffAdd);
         }

@@ -223,15 +223,13 @@ public class BookReturnController implements Initializable {
             libActions.returnBook(selectedBook);
         }else{
             errorHandler.bookReturnError(stageBookReturn);
-        }     
-        
-        // Filtering - updating the BooksTable since a book was returned - one less book in the table
-        ArrayList<BooksTakenOut> takeoutBooksUpdated = lib.fetchTakenOutBooks();
-        takeouts.clear();
-        
-        for(BooksTakenOut book: takeoutBooksUpdated){
-            takeouts.add(book);
         }
+
+        // Resetting search input
+        txfBookSearchInput.setText("");     
+        
+        // Updating the BooksTable since a book was returned - one less book in the table
+        takeouts = lib.fetchTakenOutBooks();
         displayBooks(takeouts);
     }
 

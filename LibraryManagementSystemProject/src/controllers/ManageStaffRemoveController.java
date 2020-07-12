@@ -152,8 +152,9 @@ public class ManageStaffRemoveController implements Initializable {
             
             libActions.removeStaff(staffMember);
             
-            ArrayList<Staff> allStaff = lib.fetchStaff(currentUser);
-            displayStaff(allStaff);
+            // Resetting - user removed from staff, so remove their name from the table
+            staffMembers = lib.fetchStaff(currentUser);
+            displayStaff(staffMembers);
         }else{
             errorHandler.staffRemoveError(stageStaffRemove);
         }

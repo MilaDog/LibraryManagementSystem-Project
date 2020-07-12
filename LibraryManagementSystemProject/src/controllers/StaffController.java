@@ -74,17 +74,9 @@ public class StaffController implements Initializable {
     @FXML
     private Label lblBooksRequest;
     @FXML
-    private HBox hBoxStaffMemberReturnDates;
-    @FXML
     private ImageView imReturnDates;
     @FXML
-    private Label lblMemberReturnDates;
-    @FXML
-    private HBox hBoxStaffMemberTakenOut;
-    @FXML
     private ImageView imTakenOut;
-    @FXML
-    private Label lblMemberTakenOut;
     @FXML
     private Label lblBooks;
     @FXML
@@ -145,6 +137,20 @@ public class StaffController implements Initializable {
     private ImageView lblSettingsOpen;
     @FXML
     private ImageView lblSettingsClose;
+    @FXML
+    private HBox hBoxReturnDates;
+    @FXML
+    private Label lblReturnDates;
+    @FXML
+    private HBox hBoxTakenOut;
+    @FXML
+    private Label lblTakenOut;
+    @FXML
+    private HBox hBoxFixedBook;
+    @FXML
+    private ImageView imFixedBooks;
+    @FXML
+    private Label lblFixedBooks;
     
     /**
      * Initializes the controller class.
@@ -193,6 +199,9 @@ public class StaffController implements Initializable {
             }else if(stage.equalsIgnoreCase("managestaffremove")){
                 ManageStaffRemoveController staffRemoveController = loader.getController();
                 staffRemoveController.currentUser(currentUser);
+            }else if(stage.equalsIgnoreCase("fixbook")){
+                FixBookController fixBookController = loader.getController();
+                fixBookController.currentUser(currentUser);
             }
             
         }catch(IOException err){
@@ -262,8 +271,20 @@ public class StaffController implements Initializable {
     }
 
     @FXML
-    private void lblBooksRequestClicked(MouseEvent event) {
+    private void hBoxBooksRequestClicked(MouseEvent event) {
         loadUI("RequestBook");
+        bpSettings.setVisible(false);
+    }
+
+    @FXML
+    private void hBoxReturnDatesClicked(MouseEvent event) {
+        loadUI("ReturnDates");
+        bpSettings.setVisible(false);
+    }
+
+    @FXML
+    private void hBoxTakenOutClicked(MouseEvent event) {
+        loadUI("TakenOut");
         bpSettings.setVisible(false);
     }
 
@@ -304,38 +325,60 @@ public class StaffController implements Initializable {
     @FXML
     private void hBoxIssueBooksClicked(MouseEvent event) {
         loadUI("BookIssue");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxReturnBookClicked(MouseEvent event) {
         loadUI("BookReturn");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxFixBookClicked(MouseEvent event) {
+        loadUI("FixBook");
+        bpSettings.setVisible(false);
+    }
+
+    @FXML
+    private void hBoxFixedBookClicked(MouseEvent event) {
+        loadUI("FixedBooks");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxOutstandingBooksClicked(MouseEvent event) {
+        loadUI("BooksOutstanding");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxViewRequestedBooksClicked(MouseEvent event) {
+        loadUI("RequestedBooks");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxStaffAddClicked(MouseEvent event) {
         loadUI("ManageStaffAdd");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxStaffRemoveClicked(MouseEvent event) {
         loadUI("ManageStaffRemove");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxStaffViewClicked(MouseEvent event) {
         loadUI("ManageStaffView");
+        bpSettings.setVisible(false);
+    }
+
+    // Will not go away [cannot remove this event] - just ignores if clicked
+    @FXML
+    private void lblBooksRequestClicked(MouseEvent event) {
     }
 
 

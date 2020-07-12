@@ -136,26 +136,29 @@ public class Library {
     }// END fetchAvailableBooks()
     
     
-    public ArrayList fetchFixBooks(){
-        String query = "SELECT f.fixid, b.title FROM fix_books AS f INNER JOIN books AS b ON b.bookid = f.bookid WHERE f.fixed = false";
+    public ArrayList<BooksFix> fetchFixBooks(){
+        String query = "SELECT * FROM fix_books WHERE fixed = false";
         fetched = db.fetch(query);
         
-        ArrayList<String> fixBooks = new ArrayList<>();
+        // Clearing ArrayList
+        booksFix.clear();
         
         try{
             if(fetched.isBeforeFirst()){
                 while(fetched.next()){
                     String fixID = fetched.getString("fixid");
-                    String title = fetched.getString("title");
+                    String bookID = fetched.getString("bookid");
+                    String staffID = fetched.getString("staffid");
+                    String reason = fetched.getString("issue");
+                    boolean fixed = fetched.getBoolean("fixed");
                     
-                    String book = String.format("%s - %s", fixID, title);
-                    fixBooks.add(book);
+                    booksFix.add(new BooksFix(fixID, bookID, staffID, reason, fixed));
                 }// END while
             }// END if
         }catch(SQLException err){
             err.printStackTrace();
         }// END try-catch
-        return fixBooks;        
+        return booksFix;        
     }// END fetchFixBooks()
     
     public ArrayList<BooksTakenOut> fetchTakenOutBooks(){
@@ -241,7 +244,7 @@ public class Library {
     
     public ArrayList<BooksTakenOut> fetchOutstandingBooks(){
         LocalDate dateNow = LocalDate.now();
-        String query = "SELECT t.takeoutid, t.bookid, t.userid, t.date_takeout, t.date_return FROM taken_out AS t WHERE t.returned = false AND t.date_return < '" + dateNow + "'";
+        String query = "SELECT * FROM taken_out AS t WHERE t.returned = false AND t.date_return < '" + dateNow + "'";
         fetched = db.fetch(query);
         
         // Clearing ArrayList
@@ -432,10 +435,11 @@ public class Library {
                     String requestID = fetched.getString("requestid");
                     String userid = fetched.getString("userid");
                     String title = fetched.getString("title");
+                    String authors = fetched.getString("authors");
                     String isbn10 = fetched.getString("isbn10");
                     String isbn13 = fetched.getString("isbn13");
                     
-                    booksRequest.add(new BooksRequest(requestID, userid, title, isbn10, isbn13));
+                    booksRequest.add(new BooksRequest(requestID, userid, title, authors, isbn10, isbn13));
                 }
             }
         }catch(SQLException err){

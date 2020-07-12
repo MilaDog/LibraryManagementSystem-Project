@@ -211,7 +211,7 @@ public class BookIssueController implements Initializable {
             }
             
             if(books.isEmpty()){
-                tblMembers.setPlaceholder(new Label("Did not find any books"));   
+                tblBooks.setPlaceholder(new Label("Did not find any books"));   
             }else{
                 displayBooks(books);
             }
@@ -240,14 +240,14 @@ public class BookIssueController implements Initializable {
         if(flagSelectedBook & flagSelectedMember){
             libActions.issueBook(selectedUser, selectedBook, currDate, returnDate);
 
-            // Filtering - updating the BooksTable since a book was taken out - one less book available of the book taken out
-            ArrayList<Books> booksAvailableUpdated = lib.fetchAvailableBooks();
-            booksAvailable.clear();
+            // Resetting search input - Book & Member
+            txfBookSearchInput.setText("");
+            txfMemberSearchInput.setText("");
 
-            for(Books book: booksAvailableUpdated){
-                booksAvailable.add(book);
-            }
+            // Updating the BooksTable since a book was taken out - one less book available of the book taken out
+            booksAvailable = lib.fetchAvailableBooks();
             displayBooks(booksAvailable);
+            
         }else if(!flagSelectedBook & flagSelectedMember){
             errorHandler.bookIssueError(stageBookIssue, "book");
         }else if(flagSelectedBook & !flagSelectedMember){

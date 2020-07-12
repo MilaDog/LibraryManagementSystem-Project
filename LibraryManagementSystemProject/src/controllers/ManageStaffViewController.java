@@ -22,7 +22,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import librarymanagementsystemproject.Library;
-import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.Staff;
 
 /**
@@ -35,7 +34,6 @@ public class ManageStaffViewController implements Initializable {
     private ArrayList<Staff> staffMembers = new ArrayList<>();
 
     private Library lib = new Library();
-    private LibraryActions libActions = new LibraryActions();
     
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -105,7 +103,7 @@ public class ManageStaffViewController implements Initializable {
             displayMembers(allStaff);
         }else{
             ArrayList<Staff> foundStaffMembers = new ArrayList<>();
-            foundStaffMembers.clear();
+            staffMembers.clear();
             
             for(Staff staff: staffMembers){
                 if(staff.getUserID().toLowerCase().contains(txfMemberSearchInput.getText().toLowerCase())){
