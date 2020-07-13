@@ -71,7 +71,9 @@ public class RequestedBooksController implements Initializable {
         }); 
     }   
     
-    private void displayRequestedBooks(ArrayList<BooksRequest> fetchedBooks){
+    private void displayRequestedBooks(ArrayList<BooksRequest> fetchedBooks){   
+        
+        tblViewRequestedBooks.getItems().clear();    
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            

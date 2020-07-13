@@ -24,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import librarymanagementsystemproject.Checks;
 import librarymanagementsystemproject.ErrorHandling;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.RegisteredUsers;
@@ -41,6 +42,7 @@ public class ManageStaffAddController implements Initializable {
     private LibraryActions libActions = new LibraryActions();
     private Checks check = new Checks();
     private ErrorHandling errorHandler = new ErrorHandling();
+    private HelpHandling helpHandler = new HelpHandling();
     
     private Stage stageStaffAdd = null;
     
@@ -68,6 +70,8 @@ public class ManageStaffAddController implements Initializable {
     private Button btnStaffAddRemove;
     @FXML
     private Label lblManageStaffInfo;
+    @FXML
+    private Button btnTest;
 
     /**
      * Initializes the controller class.
@@ -89,7 +93,9 @@ public class ManageStaffAddController implements Initializable {
         }); 
     }
     
-    private void displayMembers(ArrayList<RegisteredUsers> users){
+    private void displayMembers(ArrayList<RegisteredUsers> users){   
+        
+        tblViewMembers.getItems().clear();
 
         // If nothing was found, display all . Else, display what was found
         if(users.isEmpty()){            
@@ -145,13 +151,18 @@ public class ManageStaffAddController implements Initializable {
             
             libActions.addStaff(selectedUser);
             
-            // Resetting - user made staff, so remove their name from the table            
-            registeredUsersNotStaff = lib.fetchAllMembers();            
+            // Resetting - user made staff, so remove their name from the table
+            registeredUsersNotStaff = lib.fetchMembersNotStaff(); 
             displayMembers(registeredUsersNotStaff);
             
         }else{
             errorHandler.staffAddError(stageStaffAdd);
         }
+    }
+
+    @FXML
+    private void btnTestClicked(MouseEvent event) {
+        helpHandler.staffAddHelp(stageStaffAdd);
     }
     
 }

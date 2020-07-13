@@ -22,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import librarymanagementsystemproject.BooksTakenOut;
 import librarymanagementsystemproject.Library;
 
@@ -81,7 +80,9 @@ public class BooksOutstandingController implements Initializable {
         }); 
     }    
 
-    private void displayOutstandingBooks(ArrayList<BooksTakenOut> fetchedBooks){
+    private void displayOutstandingBooks(ArrayList<BooksTakenOut> fetchedBooks){  
+        
+        tblViewOutstandingBooks.getItems().clear();   
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            

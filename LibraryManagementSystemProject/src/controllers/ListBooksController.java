@@ -68,7 +68,9 @@ public class ListBooksController implements Initializable {
     }    
 
     // Shows all available books by default
-    private void defaultDisplay(ArrayList<Books> fetchedBooks){
+    private void defaultDisplay(ArrayList<Books> fetchedBooks){   
+        
+        tblAvailableBooks.getItems().clear();
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            

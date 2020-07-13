@@ -84,7 +84,9 @@ public class FixedBooksController implements Initializable {
         });
     }  
 
-    private void displayBooksFix(ArrayList<BooksFix> fetchedBooks){
+    private void displayBooksFix(ArrayList<BooksFix> fetchedBooks){   
+        
+        tblViewFixBookRequests.getItems().clear();        
         
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            

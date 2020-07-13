@@ -74,7 +74,9 @@ public class ManageStaffViewController implements Initializable {
         });  
     }    
     
-    private void displayMembers(ArrayList<Staff> staff){
+    private void displayMembers(ArrayList<Staff> staff){  
+        
+        tblViewStaff.getItems().clear();
 
         // If nothing was found, display all . Else, display what was found
         if(staff.isEmpty()){            

@@ -13,6 +13,7 @@
          <children>
             <Button fx:id="btnMemberSearch" layoutX="312.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#btnMemberSearchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
             <TextField fx:id="txfMemberSearchInput" layoutX="21.0" layoutY="42.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter MemberID/Name/Surname" />
+            <Button fx:id="btnTest" layoutX="495.0" layoutY="22.0" mnemonicParsing="false" onMouseClicked="#btnTestClicked" text="Button" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorPaneDisplay" layoutY="135.0" prefHeight="605.0" prefWidth="834.0">

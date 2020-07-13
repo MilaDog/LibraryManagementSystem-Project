@@ -95,7 +95,9 @@ public class FixBookController implements Initializable {
         currentUser = userid;
     }    
 
-    private void displayBooks(ArrayList<Books> fetchedBooks){
+    private void displayBooks(ArrayList<Books> fetchedBooks){   
+        
+        tblViewBooks.getItems().clear();   
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            

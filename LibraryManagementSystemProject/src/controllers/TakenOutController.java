@@ -82,7 +82,9 @@ public class TakenOutController implements Initializable {
     }       
     
     // Shows all available books by default
-    private void defaultDisplay(ArrayList<BooksTakenOut> fetchedTakeOuts){
+    private void defaultDisplay(ArrayList<BooksTakenOut> fetchedTakeOuts){   
+        
+        tblTakenOut.getItems().clear();
         
         // If nothing was found, say so. Else, display what was found
         if(fetchedTakeOuts.isEmpty()){  
@@ -125,7 +127,10 @@ public class TakenOutController implements Initializable {
     }
 
     // Method used to show all books that the user searched for according to their search input
-    private void showSearchResults(ArrayList<BooksTakenOutBookDetails> books){
+    private void showSearchResults(ArrayList<BooksTakenOutBookDetails> books){   
+        
+        tblTakenOut.getItems().clear();
+        
         colBookID.setCellValueFactory(new PropertyValueFactory<>("bookid"));
         colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));

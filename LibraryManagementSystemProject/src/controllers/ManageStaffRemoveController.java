@@ -85,7 +85,7 @@ public class ManageStaffRemoveController implements Initializable {
                 
                 tblViewStaff.getItems().clear();
 
-                staffMembers = lib.fetchStaff(currentUser);
+                staffMembers = lib.fetchStaffNotCurrent(currentUser);
                 displayStaff(staffMembers);                            
             }
         });  
@@ -95,10 +95,12 @@ public class ManageStaffRemoveController implements Initializable {
         currentUser = userid;
     }    
     
-    private void displayStaff(ArrayList<Staff> staff){
+    private void displayStaff(ArrayList<Staff> staff){  
+        
+        tblViewStaff.getItems().clear();
 
         // If nothing was found, display all . Else, display what was found
-        if(staff.isEmpty()){            
+        if(staff.isEmpty()){  
             tblViewStaff.setPlaceholder(new Label("There are no Staff Members"));
         }else{        
             colStaffID.setCellValueFactory(new PropertyValueFactory<>("staffID"));
@@ -153,8 +155,9 @@ public class ManageStaffRemoveController implements Initializable {
             libActions.removeStaff(staffMember);
             
             // Resetting - user removed from staff, so remove their name from the table
-            staffMembers = lib.fetchStaff(currentUser);
+            staffMembers = lib.fetchStaffNotCurrent(currentUser);
             displayStaff(staffMembers);
+            
         }else{
             errorHandler.staffRemoveError(stageStaffRemove);
         }

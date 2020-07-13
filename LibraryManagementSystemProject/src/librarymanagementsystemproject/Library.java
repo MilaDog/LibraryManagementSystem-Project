@@ -317,7 +317,7 @@ public class Library {
 //    }// END fetchReturnDates()
     
     
-    public ArrayList<Staff> fetchStaff(String userid){
+    public ArrayList<Staff> fetchStaffNotCurrent(String userid){
         String query = "SELECT * FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid WHERE r.userid != '" + userid + "'";
         fetched = db.fetch(query);
         

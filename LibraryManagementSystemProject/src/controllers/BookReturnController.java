@@ -112,7 +112,9 @@ public class BookReturnController implements Initializable {
         }); 
     }         
 
-    private void displayMembers(ArrayList<RegisteredUsers> fetchedUsers){
+    private void displayMembers(ArrayList<RegisteredUsers> fetchedUsers){   
+        
+        tblMembers.getItems().clear();   
 
         // If nothing was found, display all . Else, display what was found
         if(fetchedUsers.isEmpty()){            
@@ -128,7 +130,9 @@ public class BookReturnController implements Initializable {
         
     }
     
-    private void displayBooks(ArrayList<BooksTakenOut> fetchedBooks){
+    private void displayBooks(ArrayList<BooksTakenOut> fetchedBooks){   
+        
+        tblBooks.getItems().clear();   
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            
