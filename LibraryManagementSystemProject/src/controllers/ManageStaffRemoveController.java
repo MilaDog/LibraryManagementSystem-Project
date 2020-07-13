@@ -19,10 +19,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import librarymanagementsystemproject.ErrorHandling;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.Staff;
@@ -39,10 +41,11 @@ public class ManageStaffRemoveController implements Initializable {
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private ErrorHandling errorHandler = new ErrorHandling();
+    private HelpHandling helpHandler = new HelpHandling();
     
     private String currentUser = "";
     
-    private Stage stageStaffRemove = null;
+    private Stage stageStaffRemove = new Stage();
 
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -70,6 +73,8 @@ public class ManageStaffRemoveController implements Initializable {
     private TableColumn<Staff, String> colMemberSurname;
     @FXML
     private TableColumn<Staff, String> colMemberEmail;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -161,6 +166,11 @@ public class ManageStaffRemoveController implements Initializable {
         }else{
             errorHandler.staffRemoveError(stageStaffRemove);
         }
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.staffRemoveHelp(stageStaffRemove);
     }
     
 }

@@ -14,7 +14,9 @@ public class ErrorHandling {
         Alert alert = new Alert(type, "");
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
-        alert.getDialogPane().setContentText(dialog);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText(dialog);
         alert.showAndWait();
     }
     

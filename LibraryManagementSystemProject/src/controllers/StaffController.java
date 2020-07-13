@@ -48,8 +48,6 @@ public class StaffController implements Initializable {
     @FXML
     private BorderPane bpSettings;
     @FXML
-    private ImageView lblAccount;
-    @FXML
     private Label lblWelcomeBack;
     @FXML
     private Label lblMemberName;
@@ -193,9 +191,6 @@ public class StaffController implements Initializable {
             }else if(stage.equalsIgnoreCase("requestbook")){
                 RequestBookController requestBookController = loader.getController();
                 requestBookController.currentUser(currentUser);
-            }else if(stage.equalsIgnoreCase("account")){
-                AccountController accountController = loader.getController();
-                accountController.currentUser(currentUser);
             }else if(stage.equalsIgnoreCase("managestaffremove")){
                 ManageStaffRemoveController staffRemoveController = loader.getController();
                 staffRemoveController.currentUser(currentUser);
@@ -223,12 +218,6 @@ public class StaffController implements Initializable {
     private void anchorPaneBackgroundOnMousePressed(MouseEvent event) {
         xMouse = event.getSceneX();
         yMouse = event.getSceneY();
-    }
-
-    @FXML
-    private void lblAccountClicked(MouseEvent event) {
-        loadUI("Account");
-        bpSettings.setVisible(false);
     }
     
     @FXML
@@ -289,40 +278,6 @@ public class StaffController implements Initializable {
     }
 
     @FXML
-    private void lblMemberReturnDatesClicked(MouseEvent event) {
-        loadUI("ReturnDates");
-        bpSettings.setVisible(false);
-    }
-
-    @FXML
-    private void lblMemberTakenOutClicked(MouseEvent event) {
-        loadUI("TakenOut");
-        bpSettings.setVisible(false);
-    }
-
-    @FXML
-    private void lblExitClicked(MouseEvent event) {
-        bpSettings.setVisible(false);
-        
-        // Closing Member stage and going to the SignIn stage if the user closes the window
-        try{
-            // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/stages/SignIn.fxml"));
-            Parent root = (Parent) loader.load();
-
-            Scene signin = new Scene(root);
-            Stage stageSignIn = new Stage();            
-            stageSignIn.initStyle(StageStyle.UNDECORATED);
-            stageSignIn.setScene(signin);
-
-            stageSignIn.show();
-            stageStaff.hide();
-        }catch(IOException err){
-            err.printStackTrace();
-        }
-    }
-
-    @FXML
     private void hBoxIssueBooksClicked(MouseEvent event) {
         loadUI("BookIssue");
         bpSettings.setVisible(false);
@@ -376,11 +331,25 @@ public class StaffController implements Initializable {
         bpSettings.setVisible(false);
     }
 
-    // Will not go away [cannot remove this event] - just ignores if clicked
     @FXML
-    private void lblBooksRequestClicked(MouseEvent event) {
+    private void lblExitClicked(MouseEvent event) {
+        bpSettings.setVisible(false);
+        
+        // Closing Member stage and going to the SignIn stage if the user closes the window
+        try{
+            // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/stages/SignIn.fxml"));
+            Parent root = (Parent) loader.load();
+
+            Scene signin = new Scene(root);
+            Stage stageSignIn = new Stage();            
+            stageSignIn.initStyle(StageStyle.UNDECORATED);
+            stageSignIn.setScene(signin);
+
+            stageSignIn.show();
+            stageStaff.hide();
+        }catch(IOException err){
+            err.printStackTrace();
+        }
     }
-
-
-    
 }

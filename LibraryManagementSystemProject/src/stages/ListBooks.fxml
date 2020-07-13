@@ -4,6 +4,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="663.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListBooksController">
@@ -25,6 +27,11 @@
          <children>
             <Button fx:id="btnBooksSearch" layoutX="312.0" layoutY="61.0" mnemonicParsing="false" onMouseClicked="#btnBooksFetchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
             <TextField fx:id="txfBookSearchInput" layoutX="21.0" layoutY="61.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter Title/Authors/ISBN" />
+            <ImageView fx:id="imHelp" fitHeight="20.0" fitWidth="20.0" layoutX="800.0" layoutY="64.0" onMouseClicked="#imHelpClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/help.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

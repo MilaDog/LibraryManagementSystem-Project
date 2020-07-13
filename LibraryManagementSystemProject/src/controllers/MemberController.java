@@ -46,10 +46,6 @@ public class MemberController implements Initializable {
     @FXML
     private AnchorPane anchorPaneSideMenu;
     @FXML
-    private ImageView lblAccount;
-    @FXML
-    private ImageView lblSettings;
-    @FXML
     private Label lblWelcomeBack;
     @FXML
     private Label lblMemberName;
@@ -91,6 +87,10 @@ public class MemberController implements Initializable {
     private BorderPane bpMain;
     @FXML
     private BorderPane bpSettings;
+    @FXML
+    private ImageView lblSettingsOpen;
+    @FXML
+    private ImageView lblSettingsClose;
     
     
     /**
@@ -134,9 +134,6 @@ public class MemberController implements Initializable {
             }else if(stage.equalsIgnoreCase("requestbook")){
                 RequestBookController requestBookController = loader.getController();
                 requestBookController.currentUser(currentUser);
-            }else if(stage.equalsIgnoreCase("account")){
-                AccountController accountController = loader.getController();
-                accountController.currentUser(currentUser);
             }
             
         }catch(IOException err){
@@ -144,27 +141,6 @@ public class MemberController implements Initializable {
         }
         
         bpMain.setCenter(root);
-    }
-
-    @FXML
-    private void lblAccountClicked(MouseEvent event) {
-        loadUI("Account");
-    }
-
-    @FXML
-    private void lblSettingsClicked(MouseEvent event) {
-        Parent root = null;
-        FXMLLoader loader = null;
-        
-        try{
-            loader = new FXMLLoader(getClass().getResource("/stages/Settings.fxml"));
-            root = (Parent) loader.load();
-            
-        }catch(IOException err){
-            err.printStackTrace();
-        }
-        
-        bpSettings.setCenter(root);
     }
 
     @FXML
@@ -190,26 +166,32 @@ public class MemberController implements Initializable {
     @FXML
     private void hBoxBooksAvailableClicked(MouseEvent event) {
         loadUI("ListAvailableBooks");
+        bpSettings.setVisible(false);
     }
 
     @FXML
     private void hBoxBooksListClicked(MouseEvent event) {
         loadUI("ListBooks");
+        bpSettings.setVisible(false);
     }
 
+
     @FXML
-    private void lblBooksRequestClicked(MouseEvent event) {
+    private void hBoxBooksRequestClicked(MouseEvent event) {
         loadUI("RequestBook");
+        bpSettings.setVisible(false);
     }
 
     @FXML
-    private void lblMemberReturnDatesClicked(MouseEvent event) {
+    private void hBoxMemberReturnDatesClicked(MouseEvent event) {
         loadUI("ReturnDates");
+        bpSettings.setVisible(false);
     }
 
     @FXML
-    private void lblMemberTakenOutClicked(MouseEvent event) {
+    private void hBoxMemberTakenOutClicked(MouseEvent event) {
         loadUI("TakenOut");
+        bpSettings.setVisible(false);
     }
 
     // Ability to mouse the stage (window) - move smoothly
@@ -225,6 +207,32 @@ public class MemberController implements Initializable {
         xMouse = event.getSceneX();
         yMouse = event.getSceneY();
     }
-    
+
+    @FXML
+    private void lblSettingsOpenClicked(MouseEvent event) {
+        Parent root = null;
+        FXMLLoader loader = null;
+        
+        try{
+            loader = new FXMLLoader(getClass().getResource("/stages/Settings.fxml"));
+            root = (Parent) loader.load();
+            
+        }catch(IOException err){
+            err.printStackTrace();
+        }
+        
+        bpSettings.setCenter(root);
+        bpSettings.setVisible(true);
+        bpSettings.toFront();
+        lblSettingsClose.setVisible(true);
+        lblSettingsOpen.setVisible(false);
+    }
+
+    @FXML
+    private void lblSettingsClosedClicked(MouseEvent event) {
+        bpSettings.setVisible(false);
+        lblSettingsOpen.setVisible(true);
+        lblSettingsClose.setVisible(false);
+    }
     
 }

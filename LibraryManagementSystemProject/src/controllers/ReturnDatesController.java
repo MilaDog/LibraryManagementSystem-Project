@@ -19,11 +19,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import librarymanagementsystemproject.Books;
 import librarymanagementsystemproject.BooksTakenOut;
 import librarymanagementsystemproject.BooksTakenOutBookDetails;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 
 /**
@@ -36,9 +39,12 @@ public class ReturnDatesController implements Initializable {
     private String currentUser = "";
     
     private Library lib = new Library();
+    private HelpHandling helpHandler = new HelpHandling();
+    private Stage stageReturnDates = new Stage();
     
     private Books fetchedBook = null;
     private ArrayList<BooksTakenOutBookDetails> takenOutBooksDetails = new ArrayList<>();
+    private ArrayList<BooksTakenOut> takenOutBooks = new ArrayList<>();
 
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -62,6 +68,8 @@ public class ReturnDatesController implements Initializable {
     private Button btnBooksSearch;
     @FXML
     private TextField txfBookSearchInput;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -70,9 +78,13 @@ public class ReturnDatesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(new Runnable() {
             @Override
-            public void run(){     
-                tblReturnDates.getItems().clear();
-                ArrayList<BooksTakenOut> takenOutBooks = lib.fetchTakenOutBooks(currentUser);
+            public void run(){  
+                
+                // Getting the ReutrnDates stage
+                stageReturnDates = (Stage) anchorPaneBackground.getScene().getWindow();   
+        
+                tblReturnDates.getItems().clear(); 
+                takenOutBooks = lib.fetchTakenOutBooks(currentUser);
                 defaultDisplay(takenOutBooks);                             
             }
         });        
@@ -175,6 +187,11 @@ public class ReturnDatesController implements Initializable {
             showSearchResults(foundBooks);
             
         }// END if-else - anything to search   
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.libraryReturnDatesHelp(stageReturnDates);
     }
     
 }

@@ -5,6 +5,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -19,15 +21,20 @@
                   <Font name="Segoe UI" size="13.0" />
                </font>
             </Label>
+            <ImageView fx:id="imHelp" fitHeight="20.0" fitWidth="20.0" layoutX="425.0" layoutY="45.0" onMouseClicked="#imHelpClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/help.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorPaneDisplay" layoutY="85.0" prefHeight="655.0" prefWidth="834.0">
          <children>
             <TableView fx:id="tblViewOutstandingBooks" layoutX="17.0" layoutY="14.0" prefHeight="628.0" prefWidth="800.0">
                <columns>
-                  <TableColumn fx:id="colTakeoutID" prefWidth="160.0" resizable="false" text="FixID" />
+                  <TableColumn fx:id="colTakeoutID" prefWidth="160.0" resizable="false" text="TakeoutID" />
                   <TableColumn fx:id="colTakeoutBookID" prefWidth="160.0" resizable="false" text="BookID" />
-                  <TableColumn fx:id="colTakeoutUserID" prefWidth="160.0" resizable="false" text="Reason" />
+                  <TableColumn fx:id="colTakeoutUserID" prefWidth="160.0" resizable="false" text="UserID" />
                   <TableColumn fx:id="colTakeoutDate" prefWidth="160.0" resizable="false" text="Date Taken Out" />
                   <TableColumn fx:id="colTakeoutReturnDate" prefWidth="160.0" resizable="false" text="Date Return" />
                </columns>

@@ -20,11 +20,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import librarymanagementsystemproject.Books;
 import librarymanagementsystemproject.ErrorHandling;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.RegisteredUsers;
@@ -36,16 +38,18 @@ import librarymanagementsystemproject.RegisteredUsers;
  */
 public class BookIssueController implements Initializable {
     
+    // Initializing necessary ArrayLists
     private ArrayList<RegisteredUsers> registeredUsers = new ArrayList<>();
     private ArrayList<Books> booksAvailable = new ArrayList<>();
 
+    // Initializing necessary Objects
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private ErrorHandling errorHandler = new ErrorHandling();
-
-    private LocalDate currDate = LocalDate.now();
-    private LocalDate returnDate = libActions.getReturnDate();
+    private HelpHandling helpHandler = new HelpHandling();
     
+    private LocalDate currDate = LocalDate.now();
+    private LocalDate returnDate = libActions.getReturnDate();    
     private Stage stageBookIssue = null;
     
     @FXML
@@ -56,8 +60,6 @@ public class BookIssueController implements Initializable {
     private Button btnMemberSearch;
     @FXML
     private TextField txfMemberSearchInput;
-    @FXML
-    private Label lblMember;
     @FXML
     private AnchorPane anchorPaneBooks;
     @FXML
@@ -85,8 +87,6 @@ public class BookIssueController implements Initializable {
     @FXML
     private Button btnBookSearch;
     @FXML
-    private Label lblBooks;
-    @FXML
     private Label lblDateReturn;
     @FXML
     private Label lblDateCurrent;
@@ -94,6 +94,12 @@ public class BookIssueController implements Initializable {
     private Label lblDateCurrentDate;
     @FXML
     private Label lblDateReturnDate;
+    @FXML
+    private ImageView imHelpMember;
+    @FXML
+    private ImageView imHelpBooks;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -104,16 +110,18 @@ public class BookIssueController implements Initializable {
             @Override
             public void run(){  
                 
-                // Getting the Member stage
+                // Getting the BookIssue stage
                 stageBookIssue = (Stage) anchorPaneBackground.getScene().getWindow();    
                 
+                // Clearing the TableViews
                 tblMembers.getItems().clear();
                 tblBooks.getItems().clear();
 
+                // Fetching necessary data from PostgreDB - All Members and Available Books
                 registeredUsers = lib.fetchAllMembers();  
                 booksAvailable = lib.fetchAvailableBooks();
                 
-                                
+                // Displaying the data fetched            
                 displayMembers(registeredUsers);
                 displayBooks(booksAvailable);
                 
@@ -126,16 +134,19 @@ public class BookIssueController implements Initializable {
 
     private void displayMembers(ArrayList<RegisteredUsers> fetchedUsers){   
         
+        // Clearing TableView
         tblMembers.getItems().clear();   
 
         // If nothing was found, display all . Else, display what was found
         if(fetchedUsers.isEmpty()){            
             tblMembers.setPlaceholder(new Label("There are no Registered Users"));
         }else{        
+            // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object
             colMemberID.setCellValueFactory(new PropertyValueFactory<>("userID"));
             colMemberFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
             colMemberSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
 
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
             ObservableList<RegisteredUsers> allUsers = FXCollections.observableArrayList(fetchedUsers);
             tblMembers.setItems(allUsers);
         }// END if-else - any found books
@@ -144,16 +155,19 @@ public class BookIssueController implements Initializable {
     
     private void displayBooks(ArrayList<Books> fetchedBooks){   
         
+        // Clearing TableView
         tblBooks.getItems().clear();   
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            
             tblBooks.setPlaceholder(new Label("No available books"));
         }else{        
+            // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object
             colBookID.setCellValueFactory(new PropertyValueFactory<>("bookid"));
             colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
             colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
 
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
             ObservableList<Books> books = FXCollections.observableArrayList(fetchedBooks);
             tblBooks.setItems(books);
         }// END if-else - any found books
@@ -162,6 +176,7 @@ public class BookIssueController implements Initializable {
     @FXML
     private void btnMemberSearchClicked(MouseEvent event) {   
         
+        // Clearing TableView
         tblMembers.getItems().clear();        
         
         // If search text field is empty, displays all registered users. If not, finds a user similar to what is being searched.
@@ -169,9 +184,11 @@ public class BookIssueController implements Initializable {
             ArrayList<RegisteredUsers> allUsers = lib.fetchAllMembers();
             displayMembers(allUsers);
         }else{
+            // Initializing a temporary ArrayList to store all found Members
             ArrayList<RegisteredUsers> users = new ArrayList<>();
             users.clear();
             
+            // Searching through all the registered users and finding a match
             for(RegisteredUsers user: registeredUsers){
                 if(user.getUserID().toLowerCase().contains(txfMemberSearchInput.getText().toLowerCase())){
                     users.add(user);
@@ -179,21 +196,22 @@ public class BookIssueController implements Initializable {
                     users.add(user);
                 }else if(user.getSurname().toLowerCase().contains(txfMemberSearchInput.getText().toLowerCase())){
                     users.add(user);
-                }
-            }
+                }// END if-else - search filter
+            }// END loop
             
+            // Display a label in the TableView is no result was found, else displaying all members found
             if(users.isEmpty()){
                 tblMembers.setPlaceholder(new Label("Did not find any member"));   
             }else{
                 displayMembers(users);
-            }
-            
+            }// END if-else - checking results            
         }// END if-else - anything to search 
     }
 
     @FXML
     private void btnBookSearchClicked(MouseEvent event) {   
         
+        // Clearing TableView          
         tblBooks.getItems().clear();        
         
         // If search text field is empty, displays all books. If not, finds a book similar to what is being searched.
@@ -201,9 +219,11 @@ public class BookIssueController implements Initializable {
             ArrayList<Books> allBooks = lib.fetchAvailableBooks();
             displayBooks(allBooks);
         }else{
+            // Initializing a temporary ArrayList to store all found books
             ArrayList<Books> books = new ArrayList<>();
             books.clear();
             
+            // Searching through all the available books and finding a match
             for(Books book: booksAvailable){
                 if(book.getBookid().toLowerCase().contains(txfBookSearchInput.getText().toLowerCase())){
                     books.add(book);
@@ -211,15 +231,15 @@ public class BookIssueController implements Initializable {
                     books.add(book);
                 }else if(book.getAuthors().toLowerCase().contains(txfBookSearchInput.getText().toLowerCase())){
                     books.add(book);
-                }
-            }
+                }// END if-else - search filter
+            }// END loop
             
+            // Display a label in the TableView is no result was found, else displaying all books found
             if(books.isEmpty()){
                 tblBooks.setPlaceholder(new Label("Did not find any books"));   
             }else{
                 displayBooks(books);
-            }
-            
+            }// END if-else - checking results     
         }// END if-else - anything to search 
     }
 
@@ -232,16 +252,21 @@ public class BookIssueController implements Initializable {
         RegisteredUsers selectedUser = null;
         Books selectedBook = null;
         
+        
         if(tblMembers.getSelectionModel().getSelectedItem() != null){
+            // Getting selected Member
             selectedUser = tblMembers.getSelectionModel().getSelectedItem();
             flagSelectedMember = true;
-        }
+        }// END if - checking that a Member was selected
+        
         if(tblBooks.getSelectionModel().getSelectedItem() != null){
+            // Getting selected Book
             selectedBook = tblBooks.getSelectionModel().getSelectedItem();
             flagSelectedBook = true;
-        }
+        }// END if = checking that a Book was selected
         
         if(flagSelectedBook & flagSelectedMember){
+            // Issuing book to member
             libActions.issueBook(selectedUser, selectedBook, currDate, returnDate);
 
             // Resetting search input - Book & Member
@@ -258,9 +283,24 @@ public class BookIssueController implements Initializable {
             errorHandler.bookIssueError(stageBookIssue, "member");
         }else{
             errorHandler.bookIssueError(stageBookIssue, "both");
-        }
-        
+        }// END if-else - checking that both a Book and Member was select. Else, displaying correct warning message   
+    }
 
+    
+    // Below are all of the HelpIcon events - displays respected Help Dialog
+    @FXML
+    private void imHelpMemberClicked(MouseEvent event) {
+        helpHandler.booksIssueMemberHelp(stageBookIssue);
+    }
+
+    @FXML
+    private void imHelpBooksClicked(MouseEvent event) {
+        helpHandler.booksIssueBookHelp(stageBookIssue);
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.booksIssueHelp(stageBookIssue);
     }
     
 }

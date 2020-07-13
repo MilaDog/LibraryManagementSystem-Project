@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="663.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RequestBookController">
@@ -37,6 +39,11 @@
             </RadioButton>
             <RadioButton fx:id="rbBookSearchAuthor" layoutX="117.0" layoutY="30.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="75.0" text="Author" toggleGroup="$bookSearchTypeGroup" />
             <RadioButton fx:id="rbBookSearchISBN" layoutX="217.0" layoutY="30.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="75.0" text="ISBN" toggleGroup="$bookSearchTypeGroup" />
+            <ImageView fx:id="imHelp" fitHeight="20.0" fitWidth="20.0" layoutX="799.0" layoutY="65.0" onMouseClicked="#imHelpClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/help.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

@@ -20,11 +20,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import librarymanagementsystemproject.Books;
 import librarymanagementsystemproject.ErrorHandling;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 import librarymanagementsystemproject.LibraryActions;
 
@@ -35,15 +37,19 @@ import librarymanagementsystemproject.LibraryActions;
  */
 public class FixBookController implements Initializable {
     
-    private String currentUser = "";
-
-    private Stage stageFixBook = null; 
-    
+    // Initializing necessary ArrayLists
     private ArrayList<Books> booksAvailable = new ArrayList<>();
 
+    // Initializing necessary Objects
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private ErrorHandling errorHandler = new ErrorHandling(); 
+    private HelpHandling helpHandler = new HelpHandling();
+
+    private Stage stageFixBook = null; 
+    
+    // Initializing necessary variables
+    private String currentUser = "";
 
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -71,6 +77,8 @@ public class FixBookController implements Initializable {
     private TextArea txfFixBookReason;
     @FXML
     private Label lblFixBookReason;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -81,32 +89,41 @@ public class FixBookController implements Initializable {
             @Override
             public void run(){            
                 
-                // Getting the Member stage
+                // Getting the FixBook stage
                 stageFixBook = (Stage) anchorPaneBackground.getScene().getWindow();
                 
+                // Clearing TableView
                 tblViewBooks.getItems().clear();
-                booksAvailable = lib.fetchAvailableBooks();                
+                
+                // Fetching data from PstgreDB - all Available books
+                booksAvailable = lib.fetchAvailableBooks();         
+                
+                // Displaying data
                 displayBooks(booksAvailable);                
             }
         });
     }
     
+    // Method used to set the currentUser to the UserID of the member currently logged in
     public void currentUser(String userid){
         currentUser = userid;
     }    
 
     private void displayBooks(ArrayList<Books> fetchedBooks){   
         
+        // Clearing TableView
         tblViewBooks.getItems().clear();   
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            
             tblViewBooks.setPlaceholder(new Label("No available books"));
-        }else{        
+        }else{ 
+            // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object        
             colBookID.setCellValueFactory(new PropertyValueFactory<>("bookid"));
             colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
             colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
 
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
             ObservableList<Books> books = FXCollections.observableArrayList(fetchedBooks);
             tblViewBooks.setItems(books);
         }// END if-else - any found books
@@ -115,6 +132,7 @@ public class FixBookController implements Initializable {
     @FXML
     private void btnBookSearchClicked(MouseEvent event) {   
         
+        // Clearing TableView
         tblViewBooks.getItems().clear();        
         
         // If search text field is empty, displays all books. If not, finds a book similar to what is being searched.
@@ -132,14 +150,15 @@ public class FixBookController implements Initializable {
                     books.add(book);
                 }else if(book.getAuthors().toLowerCase().contains(txfBookSearchInput.getText().toLowerCase())){
                     books.add(book);
-                }
-            }
+                }// END if-else - search filter
+            }// END loop
             
+            // Displaying label in TableView if no results were found, else displaying the results
             if(books.isEmpty()){
                 tblViewBooks.setPlaceholder(new Label("Did not find any books"));   
             }else{
                 displayBooks(books);
-            }
+            }// END if-else - checking results
             
         }// END if-else - anything to search 
     }
@@ -154,16 +173,18 @@ public class FixBookController implements Initializable {
         
         if(!txfFixBookReason.getText().replace(" ", "").isEmpty()){
             flagFixReason = true;
-        }
+        }// END if - checking that a Book Fix reason was given
         
         if(tblViewBooks.getSelectionModel().getSelectedItem() != null){
+            // Getting selected Book
             selectedBook = tblViewBooks.getSelectionModel().getSelectedItem();
             flagSelectedBook = true;
-        }
+        }// END if - checking that a Book was selected
         
         if(flagSelectedBook & flagFixReason){
             String fixReason = txfFixBookReason.getText();
             
+            // Requesting a Book Fix for the book
             libActions.fixBook(selectedBook, currentUser, fixReason);
 
             // Resetting search input
@@ -183,7 +204,14 @@ public class FixBookController implements Initializable {
             errorHandler.fixBookError(stageFixBook, "reason");
         }else{
             errorHandler.fixBookError(stageFixBook, "both");
-        }
+        }// END if-else - checking that both a reason and book was given/selected. Else displaying correct warning message
+    }
+
+    
+    // Below is the HelpIcon event - displays respective help Dialog
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.booksFixHelp(stageFixBook);
     }
     
 }

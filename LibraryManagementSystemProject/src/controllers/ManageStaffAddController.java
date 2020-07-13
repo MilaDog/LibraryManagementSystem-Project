@@ -19,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -44,7 +45,7 @@ public class ManageStaffAddController implements Initializable {
     private ErrorHandling errorHandler = new ErrorHandling();
     private HelpHandling helpHandler = new HelpHandling();
     
-    private Stage stageStaffAdd = null;
+    private Stage stageStaffAdd = new Stage();
     
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -71,7 +72,7 @@ public class ManageStaffAddController implements Initializable {
     @FXML
     private Label lblManageStaffInfo;
     @FXML
-    private Button btnTest;
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -160,8 +161,12 @@ public class ManageStaffAddController implements Initializable {
         }
     }
 
-    @FXML
     private void btnTestClicked(MouseEvent event) {
+        helpHandler.staffAddHelp(stageStaffAdd);
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
         helpHandler.staffAddHelp(stageStaffAdd);
     }
     

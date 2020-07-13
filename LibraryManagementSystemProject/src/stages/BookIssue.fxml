@@ -5,21 +5,16 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="740.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="controllers.BookIssueController">
+<AnchorPane id="AnchorPane" fx:id="anchorPaneBackground" prefHeight="740.0" prefWidth="834.0" style="-fx-background-color: #8d6262;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BookIssueController">
    <children>
       <AnchorPane fx:id="anchorPaneMembers" prefHeight="370.0" prefWidth="834.0">
          <children>
             <Button fx:id="btnMemberSearch" layoutX="295.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#btnMemberSearchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
             <TextField fx:id="txfMemberSearchInput" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter MemberID/Name/Surname" />
-            <Label fx:id="lblMember" layoutX="417.0" layoutY="18.0" prefHeight="20.0" prefWidth="400.0" text="Select a Member in the table to issue a book to">
-               <font>
-                  <Font name="Segoe UI" size="12.0" />
-               </font>
-            </Label>
             <TableView fx:id="tblMembers" layoutX="14.0" layoutY="46.0" prefHeight="310.0" prefWidth="665.0">
               <columns>
                 <TableColumn fx:id="colMemberID" prefWidth="101.0" resizable="false" text="MemberID" />
@@ -27,6 +22,11 @@
                   <TableColumn fx:id="colMemberSurname" prefWidth="282.0" resizable="false" text="Surname" />
               </columns>
             </TableView>
+            <ImageView fx:id="imHelpMember" fitHeight="20.0" fitWidth="20.0" layoutX="407.0" layoutY="17.0" onMouseClicked="#imHelpMemberClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/help.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorPaneBooks" layoutY="370.0" prefHeight="370.0" prefWidth="834.0">
@@ -40,11 +40,11 @@
                   <TableColumn fx:id="colBookAuthors" prefWidth="282.0" resizable="false" text="Authors" />
                </columns>
             </TableView>
-            <Label fx:id="lblBooks" layoutX="417.0" layoutY="17.0" prefHeight="20.0" prefWidth="400.0" text="Select a Book in the table to be issued to the Member">
-               <font>
-                  <Font name="Segoe UI" size="12.0" />
-               </font>
-            </Label>
+            <ImageView fx:id="imHelpBooks" fitHeight="20.0" fitWidth="20.0" layoutX="407.0" layoutY="17.0" onMouseClicked="#imHelpBooksClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/help.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorPaneIssue" layoutX="704.0" prefHeight="740.0" prefWidth="130.0">
@@ -54,6 +54,11 @@
             <Label fx:id="lblDateCurrent" alignment="CENTER" layoutX="-7.0" layoutY="548.0" prefHeight="25.0" prefWidth="138.0" text="Current Date" />
             <Label fx:id="lblDateCurrentDate" alignment="CENTER" layoutX="10.0" layoutY="573.0" prefHeight="17.0" prefWidth="105.0" text="Label" />
             <Label fx:id="lblDateReturnDate" alignment="CENTER" layoutX="10.0" layoutY="636.0" prefHeight="17.0" prefWidth="105.0" text="Label" />
+            <ImageView fx:id="imHelp" fitHeight="20.0" fitWidth="20.0" layoutX="95.0" layoutY="14.0" onMouseClicked="#imHelpClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/help.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

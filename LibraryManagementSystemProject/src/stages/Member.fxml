@@ -13,12 +13,12 @@
    <children>
       <AnchorPane fx:id="anchorPaneSideMenu" prefHeight="700.0" prefWidth="275.0" style="-fx-background-color: #4d4545;">
          <children>
-            <ImageView fx:id="lblAccount" fitHeight="25.0" fitWidth="25.0" layoutX="59.0" layoutY="661.0" onMouseClicked="#lblAccountClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lblSettingsOpen" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="661.0" onMouseClicked="#lblSettingsOpenClicked" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../icons/account.png" />
+                  <Image url="@../icons/settings.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="lblSettings" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="661.0" onMouseClicked="#lblSettingsClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="lblSettingsClose" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="661.0" onMouseClicked="#lblSettingsClosedClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icons/settings.png" />
                </image>
@@ -81,7 +81,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxBooksRequest" layoutY="265.0" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxBooksRequest" layoutY="265.0" onMouseClicked="#hBoxBooksRequestClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imBookRequest" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -91,7 +91,7 @@
                         <Image url="@../icons/library_add.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblBooksRequest" onMouseClicked="#lblBooksRequestClicked" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Request a Book">
+                  <Label fx:id="lblBooksRequest" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Request a Book">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -101,7 +101,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxMemberReturnDates" layoutY="315.0" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxMemberReturnDates" layoutY="315.0" onMouseClicked="#hBoxMemberReturnDatesClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imReturnDates" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -111,7 +111,7 @@
                         <Image url="@../icons/request_dates.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblMemberReturnDates" onMouseClicked="#lblMemberReturnDatesClicked" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Return Dates">
+                  <Label fx:id="lblMemberReturnDates" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Return Dates">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -121,7 +121,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox fx:id="hBoxMemberTakenOut" layoutY="365.0" prefHeight="35.0" prefWidth="275.0">
+            <HBox fx:id="hBoxMemberTakenOut" layoutY="365.0" onMouseClicked="#hBoxMemberTakenOutClicked" prefHeight="35.0" prefWidth="275.0">
                <children>
                   <ImageView fx:id="imTakenOut" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
@@ -131,7 +131,7 @@
                         <Image url="@../icons/suitcase.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lblMemberTakenOut" onMouseClicked="#lblMemberTakenOutClicked" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Taken Out">
+                  <Label fx:id="lblMemberTakenOut" prefHeight="35.0" prefWidth="275.0" style="-fx-text-fill: #000000;" text="Taken Out">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

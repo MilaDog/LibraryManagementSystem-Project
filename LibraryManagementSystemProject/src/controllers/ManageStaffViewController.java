@@ -19,8 +19,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 import librarymanagementsystemproject.Staff;
 
@@ -34,6 +37,9 @@ public class ManageStaffViewController implements Initializable {
     private ArrayList<Staff> staffMembers = new ArrayList<>();
 
     private Library lib = new Library();
+    private HelpHandling helpHandler = new HelpHandling();
+    
+    private Stage stageStaffView = new Stage();
     
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -57,6 +63,8 @@ public class ManageStaffViewController implements Initializable {
     private TableColumn<Staff, String> colMemberSurname;
     @FXML
     private TableColumn<Staff, String> colMemberEmail;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -65,7 +73,11 @@ public class ManageStaffViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(new Runnable() {
             @Override
-            public void run(){     
+            public void run(){ 
+                
+                // Getting the StaffRemove stage
+                stageStaffView = (Stage) anchorPaneBackground.getScene().getWindow();  
+                
                 tblViewStaff.getItems().clear();
 
                 staffMembers = lib.fetchAllStaff();        
@@ -124,6 +136,11 @@ public class ManageStaffViewController implements Initializable {
             }
             
         }// END if-else - anything to search   
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.staffViewHelp(stageStaffView);
     }
     
 }

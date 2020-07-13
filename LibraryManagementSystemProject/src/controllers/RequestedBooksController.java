@@ -19,9 +19,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import librarymanagementsystemproject.BooksRequest;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 
 /**
@@ -33,6 +36,8 @@ public class RequestedBooksController implements Initializable {
     
     private ArrayList<BooksRequest> booksRequested = new ArrayList<>();
     private Library lib = new Library();
+    private HelpHandling helpHandler = new HelpHandling();
+    private Stage stageRequestedBooks = new Stage();
 
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -56,6 +61,8 @@ public class RequestedBooksController implements Initializable {
     private TableColumn<BooksRequest, String> colRequestedBookISBN10;
     @FXML
     private TableColumn<BooksRequest, String> colRequestedBookISBN13;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -64,7 +71,13 @@ public class RequestedBooksController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(new Runnable() {
             @Override
-            public void run(){  
+            public void run(){   
+                
+                // Getting the RequestedBooks stage
+                stageRequestedBooks = (Stage) anchorPaneBackground.getScene().getWindow();  
+        
+                tblViewRequestedBooks.getItems().clear(); 
+                
                 booksRequested = lib.fetchRequestedBooks();
                 displayRequestedBooks(booksRequested);                
             }
@@ -124,6 +137,11 @@ public class RequestedBooksController implements Initializable {
             }
             
         }// END if-else - anything to search 
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.booksRequestedHelp(stageRequestedBooks);
     }
     
 }

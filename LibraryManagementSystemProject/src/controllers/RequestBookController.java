@@ -21,10 +21,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import librarymanagementsystemproject.ErrorHandling;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.OpenLibrary;
 import librarymanagementsystemproject.OpenLibraryBooks;
@@ -41,6 +43,7 @@ public class RequestBookController implements Initializable {
     private LibraryActions libActions = new LibraryActions();
     private OpenLibraryBooks olBooks = new OpenLibraryBooks();
     private ErrorHandling errorHandler = new ErrorHandling();
+    private HelpHandling helpHandler = new HelpHandling();
     
     private Stage stageBookRequest = null;
 
@@ -78,6 +81,8 @@ public class RequestBookController implements Initializable {
     private RadioButton rbBookSearchAuthor;
     @FXML
     private RadioButton rbBookSearchISBN;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -187,6 +192,11 @@ public class RequestBookController implements Initializable {
             errorHandler.requestBookError(stageBookRequest);
         }
         
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.libraryRequestBookHelp(stageBookRequest);
     }
     
     

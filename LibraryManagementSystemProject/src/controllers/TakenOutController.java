@@ -19,11 +19,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import librarymanagementsystemproject.Books;
 import librarymanagementsystemproject.BooksTakenOut;
 import librarymanagementsystemproject.BooksTakenOutBookDetails;
+import librarymanagementsystemproject.HelpHandling;
 import librarymanagementsystemproject.Library;
 
 /**
@@ -36,9 +39,12 @@ public class TakenOutController implements Initializable {
     private String currentUser = "";
     
     private Library lib = new Library();
+    private HelpHandling helpHandler = new HelpHandling();
+    private Stage stageTakenOut = new Stage();
     
     private Books fetchedBook = null;
     private ArrayList<BooksTakenOutBookDetails> takenOutBooksDetails = new ArrayList<>();
+    private ArrayList<BooksTakenOut> takenOutBooks = new ArrayList<>();
     
     @FXML
     private AnchorPane anchorPaneBackground;
@@ -60,6 +66,8 @@ public class TakenOutController implements Initializable {
     private TableColumn<BooksTakenOutBookDetails, String> colTakeoutID;
     @FXML
     private TableView<BooksTakenOutBookDetails> tblTakenOut;
+    @FXML
+    private ImageView imHelp;
 
     /**
      * Initializes the controller class.
@@ -68,9 +76,13 @@ public class TakenOutController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Platform.runLater(new Runnable() {
             @Override
-            public void run(){     
+            public void run(){    
+                
+                // Getting the TakenOut stage
+                stageTakenOut = (Stage) anchorPaneBackground.getScene().getWindow(); 
+                
                 tblTakenOut.getItems().clear();
-                ArrayList<BooksTakenOut> takenOutBooks = lib.fetchTakenOutBooks(currentUser);
+                takenOutBooks = lib.fetchTakenOutBooks(currentUser);
                 defaultDisplay(takenOutBooks);                             
             }
         });        
@@ -172,6 +184,11 @@ public class TakenOutController implements Initializable {
             showSearchResults(foundBooks);
             
         }// END if-else - anything to search   
+    }
+
+    @FXML
+    private void imHelpClicked(MouseEvent event) {
+        helpHandler.libraryTakenOutHelp(stageTakenOut);
     }
     
 
