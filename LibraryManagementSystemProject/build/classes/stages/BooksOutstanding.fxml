@@ -15,7 +15,7 @@
       <AnchorPane fx:id="anchorPaneOptions" prefHeight="85.0" prefWidth="834.0">
          <children>
             <Button fx:id="btnTakeoutSearch" layoutX="312.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#btnTakeoutSearchClicked" prefHeight="25.0" prefWidth="105.0" text="Search" />
-            <TextField fx:id="txfTakeoutSearchInput" layoutX="21.0" layoutY="42.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter FixID/BookID/Reason" />
+            <TextField fx:id="txfTakeoutSearchInput" layoutX="21.0" layoutY="42.0" prefHeight="25.0" prefWidth="270.0" promptText="Enter TakeoutID/BookID/UserID" />
             <Label fx:id="lblDateCurrent" alignment="CENTER" layoutX="595.0" layoutY="37.0" prefHeight="35.0" prefWidth="225.0" text="Label">
                <font>
                   <Font name="Segoe UI" size="13.0" />

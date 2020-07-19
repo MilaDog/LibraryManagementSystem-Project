@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="LibraryManagementSystemProject.jar" size="330003" download="eager" />
+    <jar href="LibraryManagementSystemProject.jar" size="329592" download="eager" />
     <jar href="lib\commons-codec-1.11.jar" size="335042" download="eager" />
     <jar href="lib\commons-logging-1.2.jar" size="61829" download="eager" />
     <jar href="lib\gson-2.8.6.jar" size="240255" download="eager" />

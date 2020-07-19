@@ -14,7 +14,10 @@
    <children>
       <AnchorPane fx:id="anchorPaneSignIn" layoutX="548.0" layoutY="34.0" prefHeight="525.0" prefWidth="444.0" style="-fx-background-color: #eeeeee;" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="40.0">
          <children>
-            <TextField fx:id="txfEmail" layoutX="109.0" layoutY="169.0" prefHeight="35.0" prefWidth="294.0" promptText="Email" AnchorPane.bottomAnchor="321.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="169.0" />
+            <TextField fx:id="txfEmail" layoutX="109.0" layoutY="169.0" prefHeight="35.0" prefWidth="294.0" promptText="Email" AnchorPane.bottomAnchor="321.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="169.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font></TextField>
             <PasswordField fx:id="pfPassword" layoutX="92.0" layoutY="250.0" prefHeight="35.0" prefWidth="350.0" promptText="Password" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="250.0" />
             <CheckBox fx:id="cbPasswordView" layoutX="110.0" layoutY="289.0" mnemonicParsing="false" onAction="#cbPasswordViewClicked" text="View Password" />
             <ImageView fx:id="imageEmail" fitHeight="25.0" fitWidth="25.0" layoutX="66.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true">

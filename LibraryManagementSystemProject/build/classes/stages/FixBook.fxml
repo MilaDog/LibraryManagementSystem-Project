@@ -37,7 +37,6 @@
                </columnResizePolicy>
             </TableView>
             <Button fx:id="btnFixBook" layoutX="18.0" layoutY="552.0" mnemonicParsing="false" onMouseClicked="#btnFixBookClicked" prefHeight="28.0" prefWidth="110.0" text="Request Fix" />
-            <Label fx:id="lblFixBookInfo" layoutX="152.0" layoutY="558.0" prefHeight="20.0" prefWidth="667.0" text="Select a Book in the table, enter in what to get fixed, then click &quot;Request Fix&quot; to request a book fix." />
             <TextArea fx:id="txfFixBookReason" layoutX="17.0" layoutY="417.0" prefHeight="128.0" prefWidth="800.0" />
             <Label fx:id="lblFixBookReason" layoutX="18.0" layoutY="392.0" prefHeight="25.0" prefWidth="800.0" text="Enter in the reason for the Book Fix below:">
                <font>
