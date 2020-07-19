@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.io.IOException;
@@ -32,14 +27,17 @@ import librarymanagementsystemproject.RegisteredUsers;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class SignInController implements Initializable {
     
+    // Initializing necessary Objects
     private Checks check = new Checks();
     private Members mem = new Members();
     
     private Stage stageSignIn = null;
+    
+    // Variables used to make the mvoing of the stage smooth
     private double xMouse;
     private double yMouse;
 
@@ -80,6 +78,7 @@ public class SignInController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run(){
+                // Requesting focus so that when the stage is loaded, is does not automatically move the cursor into the email field
                 lblSignIn.requestFocus();                
                 
                 // Getting the SignIn  stage (window) so that it can be hidden when the suer wishes to create an account
@@ -89,6 +88,7 @@ public class SignInController implements Initializable {
         });
     }    
 
+    // Below used for the movement of the stage
     @FXML
     private void anchorPaneBackgroundOnMouseDragged(MouseEvent event) {
         stageSignIn.setX(event.getScreenX() - xMouse);
@@ -101,6 +101,7 @@ public class SignInController implements Initializable {
         yMouse = event.getSceneY();
     }
     
+    
     @FXML
     private void btnSignInClicked(ActionEvent event) {
         // Reseting error labels
@@ -111,7 +112,7 @@ public class SignInController implements Initializable {
         
         if(cbPasswordView.isSelected()){
             pfPassword.setText(txfPasswordView.getText());
-        }
+        }// END if - check if user left 'View password' on. Gets that input
         
         String password = pfPassword.getText();
 
@@ -146,7 +147,8 @@ public class SignInController implements Initializable {
             if(!check.checkLogin(email, password)){
                 lblSignInError.setText("Your email and password do not match.");
                 loginFlag = false;
-            }else{            
+            }else{       
+                // Getting the member object
                 RegisteredUsers user = mem.getMemberByEmail(email); 
                 String userID = user.getUserID();
 
@@ -200,6 +202,8 @@ public class SignInController implements Initializable {
         }// END if
     }
 
+    // When the checkbox is clicked, displays what was entered in the password field. When unclicked, copies what the text in the 
+    // visible text field is to the password field.
     @FXML
     private void cbPasswordViewClicked(ActionEvent event) {
         if(cbPasswordView.isSelected()){
@@ -215,6 +219,7 @@ public class SignInController implements Initializable {
         }// END passwordView
     }
 
+    // When clicked, loads the SignUp stage
     @FXML
     private void lblSignUpClicked(MouseEvent event) {                
         try{            
@@ -233,6 +238,7 @@ public class SignInController implements Initializable {
         }// END try-catch
     }
 
+    // When clicked, closes the whole program
     @FXML
     private void lblExitClicked(MouseEvent event) {
         System.exit(0);

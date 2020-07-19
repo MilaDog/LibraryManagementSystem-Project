@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.io.IOException;
@@ -35,15 +30,18 @@ import librarymanagementsystemproject.Utils;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class SignUpController implements Initializable {
 
+    // Initializing necessary Objects
     private Checks check = new Checks(); 
     private Postgres db = new Postgres();
     private Algorithms algor = new Algorithms();
-    private LocalDate dob = null;
-    
+    public void testMethod() {
+        
+    }
+    private LocalDate dob = null;    
     private Stage stageSignUp = null;
     private Parent root = null;
     
@@ -112,6 +110,7 @@ public class SignUpController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run(){
+                // Requesting focus so that when the stage is loaded, the cursor is not automatically put into a text field
                 lblSignUp.requestFocus();                
                 
                 // Getting the SignIn  stage (window) so that it can be hidden when the suer wishes to create an account
@@ -146,7 +145,7 @@ public class SignUpController implements Initializable {
         if(cbPasswordView.isSelected()){
             pfPassword.setText(txfPasswordView.getText());
             pfPasswordCheck.setText(txfPasswordCheckView.getText());
-        }
+        }// END if - check if user has left 'View password' checked
         
         String password1 = pfPassword.getText();
         String password2 = pfPasswordCheck.getText();
@@ -257,6 +256,7 @@ public class SignUpController implements Initializable {
             String userQuery = String.format("INSERT INTO registered_users(userid, first_name, surname, dob, phone, email) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", userID, firstName, surname, dob, phone, email);
             String loginQuery = String.format("INSERT INTO login_details(userid, password) VALUES ('%s', '%s')", userID, password1);
             
+            // Adding the newly registered user's details to the database
             db.update(userQuery);
             db.update(loginQuery);
             
@@ -286,16 +286,20 @@ public class SignUpController implements Initializable {
         }// END signUp check
     }
     
+    // When clicked, closes the whole program
     @FXML
     private void lblExitClicked(MouseEvent event) {
         System.exit(0);
     }
 
+
+    // When the checkbox is clicked, displays what was entered in the password field. When unclicked, copies what the text in the 
+    // visible text field is to the password field.
     @FXML
     private void cbPasswordViewClicked(ActionEvent event) {
         if(cbPasswordView.isSelected()){
-            String password = new String(pfPassword.getText());
-            String passwordCheck = new String(pfPasswordCheck.getText());
+            String password = pfPassword.getText();
+            String passwordCheck = pfPasswordCheck.getText();
             
             // Normal password
             txfPasswordView.setText(password);
@@ -308,8 +312,8 @@ public class SignUpController implements Initializable {
             pfPasswordCheck.setVisible(false);
             
         }else{
-            String password = new String(pfPassword.getText());
-            String passwordCheck = new String(pfPasswordCheck.getText());
+            String password = txfPasswordView.getText();
+            String passwordCheck = txfPasswordCheckView.getText();
             
             // Normal password
             pfPassword.setText(password);
@@ -338,6 +342,7 @@ public class SignUpController implements Initializable {
         yMouse = event.getSceneY();
     }
 
+    // When clicked, loads the SignIn stage
     @FXML
     private void lblSignInClicked(MouseEvent event) {               
         try{            

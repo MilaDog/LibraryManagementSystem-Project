@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.net.URL;
@@ -32,16 +27,20 @@ import librarymanagementsystemproject.Library;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class ReturnDatesController implements Initializable {
 
+    // Initializing necessary variables
     private String currentUser = "";
     
+    // Initializing necessary Objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
+    
     private Stage stageReturnDates = new Stage();
     
+    // Initializing necessary ArrayLists & Object
     private Books fetchedBook = null;
     private ArrayList<BooksTakenOutBookDetails> takenOutBooksDetails = new ArrayList<>();
     private ArrayList<BooksTakenOut> takenOutBooks = new ArrayList<>();
@@ -83,8 +82,13 @@ public class ReturnDatesController implements Initializable {
                 // Getting the ReutrnDates stage
                 stageReturnDates = (Stage) anchorPaneBackground.getScene().getWindow();   
         
+                // Clearing TableView
                 tblReturnDates.getItems().clear(); 
-                takenOutBooks = lib.fetchTakenOutBooks(currentUser);
+                
+                // Fetching all data from PostgreDB - all TakenOut books
+                takenOutBooks = lib.fetchTakenOutBooks();
+                
+                // Displaying data
                 defaultDisplay(takenOutBooks);                             
             }
         });        
@@ -98,11 +102,12 @@ public class ReturnDatesController implements Initializable {
     // Shows all available books by default
     private void defaultDisplay(ArrayList<BooksTakenOut> fetchedTakeOuts){   
         
+        // Clearing TableView
         tblReturnDates.getItems().clear();
         
         // If nothing was found, say so. Else, display what was found
         if(fetchedTakeOuts.isEmpty()){  
-            tblReturnDates.setPlaceholder(new Label("You have no book that needs to be returned."));
+            tblReturnDates.setPlaceholder(new Label("There are current no book return dates."));
         }else{        
             
             // Clearing so no duplicated objects are in the arraylist, and to update the arraylist. (if during the time, the user had a book issued or returned as book)
@@ -129,8 +134,11 @@ public class ReturnDatesController implements Initializable {
 
                 takenOutBooksDetails.add(new BooksTakenOutBookDetails(takeoutID, userid, dateTakeOut, dateReturn, hasReturned, bookID, title, authors, genres, isbn10, isbn13, amount));     
             }
+            
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
             ObservableList<BooksTakenOutBookDetails> takeOuts = FXCollections.observableArrayList(takenOutBooksDetails);            
             
+            // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object  
             colTakeoutID.setCellValueFactory(new PropertyValueFactory<>("takeoutid"));
             colBookID.setCellValueFactory(new PropertyValueFactory<>("bookid"));
             colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -141,11 +149,13 @@ public class ReturnDatesController implements Initializable {
         }// END if-else - any found books
     }
 
-    // Method used to show all books that the user searched for according to their search input
+    // Method used to show all books that the user searched for according to their search input, along with necessary book details
     private void showSearchResults(ArrayList<BooksTakenOutBookDetails> books){   
         
+        // Clearing TableView
         tblReturnDates.getItems().clear();
         
+        // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object  
         colBookID.setCellValueFactory(new PropertyValueFactory<>("bookid"));
         colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
@@ -158,6 +168,7 @@ public class ReturnDatesController implements Initializable {
     @FXML
     private void btnBooksSearchClicked(MouseEvent event) {   
         
+        // Clearing TableView
         tblReturnDates.getItems().clear();
         
         // If search text field is empty, displays all books. If not, finds a book similar to what is being searched.
@@ -165,7 +176,7 @@ public class ReturnDatesController implements Initializable {
             ArrayList<BooksTakenOut> takenOutBooksUser = lib.fetchTakenOutBooks(currentUser);
             defaultDisplay(takenOutBooksUser);
         }else{  
-
+            // Initializing a temporary ArrayList to store search results
             ArrayList<BooksTakenOutBookDetails> foundBooks = new ArrayList<>();
             foundBooks.clear();
             
@@ -181,14 +192,16 @@ public class ReturnDatesController implements Initializable {
                     foundBooks.add(book);
                 }else{
                     tblReturnDates.setPlaceholder(new Label("Found no book by that name"));                    
-                }
-            }  
+                }// END if-else - search Filter
+            }// END loop
             
             showSearchResults(foundBooks);
             
         }// END if-else - anything to search   
     }
 
+    
+    // Below is the HelpIcon event - displays respective help dialog
     @FXML
     private void imHelpClicked(MouseEvent event) {
         helpHandler.libraryReturnDatesHelp(stageReturnDates);

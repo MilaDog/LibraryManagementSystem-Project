@@ -20,21 +20,21 @@
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="btnSignUp" layoutX="358.0" layoutY="427.0" mnemonicParsing="false" onAction="#btnSignUpClicked" prefHeight="35.0" prefWidth="245.0" style="-fx-background-color: #ed8d8d;" text="Sign Up">
+            <Button fx:id="btnSignUp" focusTraversable="false" layoutX="358.0" layoutY="427.0" mnemonicParsing="false" onAction="#btnSignUpClicked" prefHeight="35.0" prefWidth="245.0" style="-fx-background-color: #ed8d8d;" text="Sign Up">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
             <Label fx:id="lblSignIn" alignment="CENTER" layoutX="372.0" layoutY="476.0" onMouseClicked="#lblSignInClicked" prefHeight="17.0" prefWidth="217.0" text="Got an Account? Sign In" textAlignment="CENTER" />
-            <TextField fx:id="txfEmail" layoutX="100.0" layoutY="340.0" prefHeight="35.0" prefWidth="300.0" promptText="Email" />
-            <TextField fx:id="txfSurname" layoutX="100.0" layoutY="180.0" prefHeight="35.0" prefWidth="300.0" promptText="Surname" />
             <TextField fx:id="txfFirstName" layoutX="100.0" layoutY="100.0" prefHeight="35.0" prefWidth="300.0" promptText="First Name" />
+            <TextField fx:id="txfSurname" layoutX="100.0" layoutY="180.0" prefHeight="35.0" prefWidth="300.0" promptText="Surname" />
             <TextField fx:id="txfPhoneCellNumber" layoutX="100.0" layoutY="260.0" prefHeight="35.0" prefWidth="300.0" promptText="Phone/Cell Number" />
-            <TextField fx:id="txfPasswordView" layoutX="600.0" layoutY="180.0" prefHeight="35.0" prefWidth="300.0" />
-            <TextField fx:id="txfPasswordCheckView" layoutX="600.0" layoutY="260.0" prefHeight="35.0" prefWidth="300.0" />
+            <TextField fx:id="txfEmail" layoutX="100.0" layoutY="340.0" prefHeight="35.0" prefWidth="300.0" promptText="Email" />
             <DatePicker fx:id="dpDOB" layoutX="600.0" layoutY="100.0" prefHeight="35.0" prefWidth="300.0" promptText="Date of Birth" />
             <PasswordField fx:id="pfPassword" layoutX="600.0" layoutY="180.0" prefHeight="35.0" prefWidth="300.0" promptText="Password" />
             <PasswordField fx:id="pfPasswordCheck" layoutX="600.0" layoutY="260.0" prefHeight="35.0" prefWidth="300.0" promptText="Re-enter Password" />
+            <TextField fx:id="txfPasswordView" focusTraversable="false" layoutX="600.0" layoutY="180.0" prefHeight="35.0" prefWidth="300.0" visible="false" />
+            <TextField fx:id="txfPasswordCheckView" focusTraversable="false" layoutX="600.0" layoutY="260.0" prefHeight="35.0" prefWidth="300.0" visible="false" />
             <CheckBox fx:id="cbPasswordView" layoutX="603.0" layoutY="305.0" mnemonicParsing="false" onAction="#cbPasswordViewClicked" text="View Password" />
             <Label fx:id="lblFirstName" layoutX="100.0" layoutY="81.0" prefHeight="17.0" prefWidth="300.0" text="First Name">
                <font>

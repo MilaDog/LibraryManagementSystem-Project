@@ -16,6 +16,7 @@
          <children>
             <TextField fx:id="txfEmail" layoutX="109.0" layoutY="169.0" prefHeight="35.0" prefWidth="294.0" promptText="Email" AnchorPane.bottomAnchor="321.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="169.0" />
             <PasswordField fx:id="pfPassword" layoutX="92.0" layoutY="250.0" prefHeight="35.0" prefWidth="350.0" promptText="Password" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="250.0" />
+            <CheckBox fx:id="cbPasswordView" layoutX="110.0" layoutY="289.0" mnemonicParsing="false" onAction="#cbPasswordViewClicked" text="View Password" />
             <ImageView fx:id="imageEmail" fitHeight="25.0" fitWidth="25.0" layoutX="66.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icons/email.png" />
@@ -26,14 +27,13 @@
                   <Image url="@../icons/unlock.png" />
                </image>
             </ImageView>
-            <Button fx:id="btnSignIn" layoutX="100.0" layoutY="417.0" mnemonicParsing="false" onAction="#btnSignInClicked" prefHeight="35.0" prefWidth="245.0" style="-fx-background-color: #ed8d8d;" text="Sign In">
+            <Button fx:id="btnSignIn" focusTraversable="false" layoutX="100.0" layoutY="417.0" mnemonicParsing="false" onAction="#btnSignInClicked" prefHeight="35.0" prefWidth="245.0" style="-fx-background-color: #ed8d8d;" text="Sign In">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
             <Label fx:id="lblSignUp" alignment="CENTER" layoutX="114.0" layoutY="459.0" onMouseClicked="#lblSignUpClicked" prefHeight="17.0" prefWidth="217.0" text="No Account?  Sign Up" textAlignment="CENTER" />
             <Label fx:id="lblSignInError" layoutX="110.0" layoutY="325.0" prefHeight="17.0" prefWidth="289.0" />
-            <CheckBox fx:id="cbPasswordView" layoutX="110.0" layoutY="289.0" mnemonicParsing="false" onAction="#cbPasswordViewClicked" text="View Password" />
             <Label fx:id="lblSignIn" alignment="CENTER" layoutX="177.0" layoutY="88.0" prefHeight="0.0" prefWidth="91.0" text="Sign In" textAlignment="CENTER">
                <font>
                   <Font name="Segoe UI" size="14.0" />

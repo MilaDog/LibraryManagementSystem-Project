@@ -1,20 +1,16 @@
 package sergeant;
 
-// Daniel-Ryan Sergeant - 28 May 2020
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import librarymanagementsystemproject.LibraryActions;
 import librarymanagementsystemproject.Postgres;
 
 /**
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
-public class SetupProjectDatabase {
 
-    private static LibraryActions libActions = new LibraryActions();
+public class SetupProjectDatabase {
     
     // Postgres Object - allow for connection and querying the database    
     private static Postgres db = new Postgres();

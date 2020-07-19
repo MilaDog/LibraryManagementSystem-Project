@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.io.IOException;
@@ -28,16 +23,18 @@ import librarymanagementsystemproject.RegisteredUsers;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class MemberController implements Initializable {
 
+    // Initializing necessary variables
     private String currentUser = "";
     
     // Ability to mouse the stage (window) - move smoothly
     private double xMouse;
     private double yMouse;
     
+    // Initializing necessary Objects
     private Members mem = new Members();
     private Stage stageMember = null;
     
@@ -105,6 +102,7 @@ public class MemberController implements Initializable {
                 // Getting the Member stage
                 stageMember = (Stage) anchorPaneBackground.getScene().getWindow();   
                 
+                // Getting the current member's object so that their name can be displayed on the stage
                 RegisteredUsers user = mem.getMemberByUserID(currentUser);
                 String userName = user.getFirstName();
                 lblMemberName.setText(userName);
@@ -117,6 +115,11 @@ public class MemberController implements Initializable {
         currentUser = userid;
     }
     
+    /*
+        loadUI - @param takes the stage name, as a String, and loads that stage.
+                 @param goes through checks and if the check is true, it passes the current logged in member's UserID to that stage
+                        so that it can be used in the respective stages
+    */
     private void loadUI(String stage){
         Parent root = null;
         FXMLLoader loader = null;
@@ -125,6 +128,7 @@ public class MemberController implements Initializable {
             loader = new FXMLLoader(getClass().getResource("/stages/"+stage+".fxml"));
             root = (Parent) loader.load();
             
+            // Checks - see which stage needs the current member's UserID
             if(stage.equalsIgnoreCase("takenout")){
                 TakenOutController takenOutController = loader.getController();
                 takenOutController.currentUser(currentUser);
@@ -140,6 +144,7 @@ public class MemberController implements Initializable {
             err.printStackTrace();
         }
         
+        // Displaying the stage on the main stage, Member
         bpMain.setCenter(root);
     }
 
@@ -147,7 +152,7 @@ public class MemberController implements Initializable {
     private void lblExitClicked(MouseEvent event) {
         // Closing Member stage and going to the SignIn stage if the user closes the window
         try{
-            // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
+            // Loading root of SignIn. Getting the stage so that it can be displayed when the current user closes the stage
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/stages/SignIn.fxml"));
             Parent root = (Parent) loader.load();
 
@@ -156,6 +161,7 @@ public class MemberController implements Initializable {
             stageSignIn.initStyle(StageStyle.UNDECORATED);
             stageSignIn.setScene(signin);
 
+            // Displaying the SignIn stage and Hiding the Member stage
             stageSignIn.show();
             stageMember.hide();
         }catch(IOException err){
@@ -163,6 +169,11 @@ public class MemberController implements Initializable {
         }
     }
 
+    /*
+        Below are all of the events for each side menu hBox (field). 
+        Loads respective stage
+    */
+    
     @FXML
     private void hBoxBooksAvailableClicked(MouseEvent event) {
         loadUI("ListAvailableBooks");
@@ -208,6 +219,12 @@ public class MemberController implements Initializable {
         yMouse = event.getSceneY();
     }
 
+    /*
+        Below is for the Setting Icon. When clicked, displays the settings menu, where the user can then interact with what is in the menu.
+        When the icon is clicked again, it is hidden.
+        Also, if the user opens the Settings menu, and tkhen proceeds to open another stage, the Settings menu is hidden
+    */
+    
     @FXML
     private void lblSettingsOpenClicked(MouseEvent event) {
         Parent root = null;
@@ -221,6 +238,7 @@ public class MemberController implements Initializable {
             err.printStackTrace();
         }
         
+        // The are two Settings icons, both with different events. Hides the current setting icon and displays the other icon
         bpSettings.setCenter(root);
         bpSettings.setVisible(true);
         bpSettings.toFront();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.net.URL;
@@ -32,16 +27,20 @@ import librarymanagementsystemproject.Library;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class TakenOutController implements Initializable {
 
+    //Initializing necessary Variables
     private String currentUser = "";
     
+    // Initializing necessary objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
+    
     private Stage stageTakenOut = new Stage();
     
+    // Initializing necessary Oject and ArrayLists
     private Books fetchedBook = null;
     private ArrayList<BooksTakenOutBookDetails> takenOutBooksDetails = new ArrayList<>();
     private ArrayList<BooksTakenOut> takenOutBooks = new ArrayList<>();
@@ -81,8 +80,13 @@ public class TakenOutController implements Initializable {
                 // Getting the TakenOut stage
                 stageTakenOut = (Stage) anchorPaneBackground.getScene().getWindow(); 
                 
+                // Clearing TableView
                 tblTakenOut.getItems().clear();
-                takenOutBooks = lib.fetchTakenOutBooks(currentUser);
+                
+                // Fetching dtaa from PostgreDB - all TakenOutBooks
+                takenOutBooks = lib.fetchTakenOutBooks();
+                
+                // Displaying data
                 defaultDisplay(takenOutBooks);                             
             }
         });        
@@ -96,11 +100,12 @@ public class TakenOutController implements Initializable {
     // Shows all available books by default
     private void defaultDisplay(ArrayList<BooksTakenOut> fetchedTakeOuts){   
         
+        // Clearing TableView
         tblTakenOut.getItems().clear();
         
         // If nothing was found, say so. Else, display what was found
         if(fetchedTakeOuts.isEmpty()){  
-            tblTakenOut.setPlaceholder(new Label("You have not taken a book out yet."));
+            tblTakenOut.setPlaceholder(new Label("There are currently no taken out books."));
         }else{        
             
             // Clearing so no duplicated objects are in the arraylist, and to update the arraylist. (if during the time, the user had a book issued or returned as book)
@@ -127,6 +132,8 @@ public class TakenOutController implements Initializable {
 
                 takenOutBooksDetails.add(new BooksTakenOutBookDetails(takeoutID, userid, dateTakeOut, dateReturn, hasReturned, bookID, title, authors, genres, isbn10, isbn13, amount));     
             }
+            
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
             ObservableList<BooksTakenOutBookDetails> takeOuts = FXCollections.observableArrayList(takenOutBooksDetails);            
             
             colTakeoutID.setCellValueFactory(new PropertyValueFactory<>("takeoutid"));
@@ -138,16 +145,19 @@ public class TakenOutController implements Initializable {
         }// END if-else - any found books
     }
 
-    // Method used to show all books that the user searched for according to their search input
+    // Method used to show all books that the user searched for according to their search input, with necessary details of book
     private void showSearchResults(ArrayList<BooksTakenOutBookDetails> books){   
         
+        // Clearing TableView
         tblTakenOut.getItems().clear();
         
+        // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object  
         colBookID.setCellValueFactory(new PropertyValueFactory<>("bookid"));
         colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
         colTakeoutID.setCellValueFactory(new PropertyValueFactory<>("takeoutid"));
 
+        // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
         ObservableList<BooksTakenOutBookDetails> searchedTakeOuts = FXCollections.observableArrayList(books);
         tblTakenOut.setItems(searchedTakeOuts);
     }
@@ -155,6 +165,7 @@ public class TakenOutController implements Initializable {
     @FXML
     private void btnBooksSearchClicked(MouseEvent event) {   
         
+        // Clearing TableView
         tblTakenOut.getItems().clear();
         
         // If search text field is empty, displays all books. If not, finds a book similar to what is being searched.
@@ -162,7 +173,7 @@ public class TakenOutController implements Initializable {
             ArrayList<BooksTakenOut> takenOutBooksUser = lib.fetchTakenOutBooks(currentUser);
             defaultDisplay(takenOutBooksUser);
         }else{  
-
+            // Initializing a temporary ArrayList to store results
             ArrayList<BooksTakenOutBookDetails> foundBooks = new ArrayList<>();
             foundBooks.clear();
             
@@ -178,19 +189,19 @@ public class TakenOutController implements Initializable {
                     foundBooks.add(book);
                 }else{
                     tblTakenOut.setPlaceholder(new Label("Found no book by that name"));                    
-                }
-            }  
+                }// END if-else - search filter
+            }// END loop
             
+            // Displaying results
             showSearchResults(foundBooks);
             
         }// END if-else - anything to search   
     }
 
+    
+    // Below is the HelpIcon event - displays respective help dialog
     @FXML
     private void imHelpClicked(MouseEvent event) {
         helpHandler.libraryTakenOutHelp(stageTakenOut);
-    }
-    
-
-    
+    }    
 }

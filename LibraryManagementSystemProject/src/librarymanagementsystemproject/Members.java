@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package librarymanagementsystemproject;
 
 import java.sql.ResultSet;
@@ -11,16 +6,24 @@ import librarymanagementsystemproject.RegisteredUsers;
 
 /**
  *
- * @author MilaDog
+ * @author Daniel Ryan Sergeant
  */
 public class Members {
     
     private Postgres db = new Postgres();
     private static ResultSet fetched = null;
 
+    /**
+     *
+     */
     public Members() {
     }
     
+    /**
+     *
+     * @param email Takes in the email of the member
+     * @return Member's Object
+     */
     public RegisteredUsers getMemberByEmail(String email){
         String query = "SELECT * FROM registered_users WHERE email = '" + email + "'";
         fetched = db.fetch(query);
@@ -44,6 +47,12 @@ public class Members {
         return user;
     }// END getMember()
     
+    /**
+     *
+     * @param surname Takes in the surname of the member
+     * @param firstName Takes in the first name of the member
+     * @return Member's Object
+     */
     public RegisteredUsers getMemberByName(String surname, String firstName){
         String query = String.format("SELECT * FROM registered_users WHERE surname = '%s' AND first_name = '%s'", surname, firstName);
         fetched = db.fetch(query);
@@ -66,6 +75,11 @@ public class Members {
         return user;
     }
     
+    /**
+     *
+     * @param userID Takes in the UserID of the member
+     * @return Member's Object
+     */
     public RegisteredUsers getMemberByUserID(String userID){
         String query = String.format("SELECT * FROM registered_users WHERE userid = '%s'", userID);
         fetched = db.fetch(query);

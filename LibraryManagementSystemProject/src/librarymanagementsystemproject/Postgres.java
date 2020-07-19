@@ -1,7 +1,5 @@
 package librarymanagementsystemproject;
 
-// Daniel-Ryan Sergeant - 29 May 2020
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -10,7 +8,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class Postgres {
     

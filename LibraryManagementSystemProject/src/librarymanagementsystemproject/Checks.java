@@ -1,22 +1,29 @@
 package librarymanagementsystemproject;
 
-// Daniel-Ryan Sergeant - 29 May 2020
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-
+/**
+ *
+ * @author Daniel Ryan Sergeant
+ */
 public class Checks {
 
+    // Initializing necessary Objects
     private Postgres db = new Postgres();    
     private ResultSet result = null;
     
+    // Initializing necessary variables
     private static String validNameCharacters = "abcdefghijklmnopqrstuvwxyz-";
     private static String validEmailLocalPartCharacters = "abcdefghijklmnopqrstuvwxyz1234567890.!#$%&'*+-/=?^_`{|}~";
     private static String validEmailDomainCharacters = "abcdefghijklmnopqrstuvwxyz1234567890-.";
     
+    /**
+     *
+     * @param inputEmail Takes in the email to check password against
+     * @param inputPassword Takes in the password to check against email
+     * @return If the account exists or not, as a Boolean
+     */
     public boolean checkLogin(String inputEmail, String inputPassword){
         
         String email = "";
@@ -45,28 +52,12 @@ public class Checks {
         return flag;
     }// END checkLogin()
     
-    public boolean checkExistingPassword(String userid, String password){
-        boolean flag = false;
-        
-        String query = "SELECT password FROM login_details WHERE userid = '" + userid + "'";        
-        ResultSet result = db.fetch(query);
-        try{
-            if(result.isBeforeFirst()){
-                while(result.next()){
-                    String checkPassword = result.getString("password");
-                    System.out.println(checkPassword);
-                    System.out.println(password);
-                    if(checkPassword.equals(password)){
-                        flag = true;
-                    }
-                }
-            }
-        }catch(SQLException err){
-            err.printStackTrace();
-        }
-        return flag;
-    }
-    
+    /**
+     *
+     * @param password1 Takes in the password to have checked
+     * @param password2 Takes in the password to check against first password
+     * @return If the passwords match or not, as a Boolean
+     */
     public boolean checkPassword(String password1, String password2){
         boolean flag = false;
         
@@ -77,7 +68,11 @@ public class Checks {
         return flag;
     }// END checkPassword()
     
-    
+    /**
+     *
+     * @param name Takes in the name of the registering user to check that it contains valid characters
+     * @return If the name if valid or not, as a Boolean
+     */
     public boolean checkNames(String name){
         boolean flag = true;
         
@@ -90,6 +85,11 @@ public class Checks {
         return flag;
     }// END checkNames()
     
+    /**
+     *
+     * @param number Takes in the cell phone number of the registering user to check that it is a valid number
+     * @return If the cell phone number is valid or not, as a Boolean
+     */
     public boolean checkPhoneCell(String number){
         boolean flag = true;
         
@@ -108,6 +108,11 @@ public class Checks {
         return flag;
     }// END checkPhoneCell()
     
+    /**
+     *
+     * @param email Takes in the email of the registering user to see if the email already registered or not
+     * @return If the email is already registered or not, as a Boolean
+     */
     public boolean existingEmail(String email){
         boolean flag = false;
         
@@ -125,6 +130,11 @@ public class Checks {
         return flag;
     }
     
+    /**
+     *
+     * @param email Takes in the email of the registering user to see if it is valid or not
+     * @return If the email is valid or not, as a Boolean
+     */
     public boolean checkEmail(String email){
         boolean flag = true;
         
@@ -186,6 +196,7 @@ public class Checks {
         return flag;
     }// END checkEmail()
     
+    // Checking if the email contains the '@' character. Returns a Boolean
     private boolean containsAT(String email){  
        char characters[] = email.toLowerCase().toCharArray();
        int countAT = 0;
@@ -203,6 +214,11 @@ public class Checks {
        
     }// END containsAT()      
     
+    /**
+     *
+     * @param email Takes in the email of the logging in user to see if it is the registered email of a staff member or not
+     * @return If the email is a staff member email or not, as a Boolean
+     */
     public boolean isStaffEmail(String email){
         boolean flag = false;
         String query = String.format("SELECT * FROM registered_users AS r INNER JOIN staff AS s ON s.UserID = r.UserID WHERE r.email = '%s'", email);
@@ -219,6 +235,11 @@ public class Checks {
         return flag;
     }// END isStaffEmail()    
     
+    /**
+     *
+     * @param user Takes in the RegisateredUsers object of the logging in user to see if they are a staff member or not
+     * @return If the user is a staff member or not, as a Boolean
+     */
     public boolean isStaff(RegisteredUsers user){
         boolean flag = false;
         String query = String.format("SELECT * FROM registered_users AS rm INNER JOIN staff AS s ON s.userid = rm.userid WHERE rm.surname = '%s' AND rm.first_name = '%s'", user.getSurname(), user.getFirstName());

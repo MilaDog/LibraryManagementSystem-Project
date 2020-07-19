@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.net.URL;
@@ -33,12 +28,14 @@ import librarymanagementsystemproject.RegisteredUsers;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class ManageStaffAddController implements Initializable {
     
+    // Initializing necessary ArrayLists
     private ArrayList<RegisteredUsers> registeredUsersNotStaff = new ArrayList<>();
 
+    // Initializing necessary Objects
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private Checks check = new Checks();
@@ -86,9 +83,14 @@ public class ManageStaffAddController implements Initializable {
                 // Getting the StaffAdd stage
                 stageStaffAdd = (Stage) anchorPaneBackground.getScene().getWindow();  
                 
+                
+                // Clearing ArrayList
                 tblViewMembers.getItems().clear();
 
-                registeredUsersNotStaff = lib.fetchMembersNotStaff();                 
+                // Fetching data from PostgreDB - all non-staff members
+                registeredUsersNotStaff = lib.fetchMembersNotStaff();  
+                
+                // Displaying data
                 displayMembers(registeredUsersNotStaff);                            
             }
         }); 
@@ -96,17 +98,20 @@ public class ManageStaffAddController implements Initializable {
     
     private void displayMembers(ArrayList<RegisteredUsers> users){   
         
+        // Clearing TableView
         tblViewMembers.getItems().clear();
 
         // If nothing was found, display all . Else, display what was found
         if(users.isEmpty()){            
             tblViewMembers.setPlaceholder(new Label("There are no Registered Users"));
-        }else{        
+        }else{      
+            // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object   
             colMemberID.setCellValueFactory(new PropertyValueFactory<>("userID"));
             colMemberFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
             colMemberSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
             colMemberEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
             ObservableList<RegisteredUsers> allUsers = FXCollections.observableArrayList(users);
             tblViewMembers.setItems(allUsers);
         }// END if-else - any found books
@@ -115,6 +120,7 @@ public class ManageStaffAddController implements Initializable {
     @FXML
     private void btnMemberSearchClicked(MouseEvent event) {   
         
+        // Clearing TableView
         tblViewMembers.getItems().clear();
         
         
@@ -133,14 +139,16 @@ public class ManageStaffAddController implements Initializable {
                     users.add(user);
                 }else if(user.getSurname().toLowerCase().contains(txfMemberSearchInput.getText().toLowerCase())){
                     users.add(user);
-                }
-            }
+                }// END if-else - search filter
+            }// END loop
             
+            
+            // Displaying lable in TableView is no results were found. Else displaying the results
             if(users.isEmpty()){
                 tblViewMembers.setPlaceholder(new Label("Did not find any member"));   
             }else{
                 displayMembers(users);
-            }
+            }// END chekcing results
             
         }// END if-else - anything to search 
     }
@@ -148,8 +156,10 @@ public class ManageStaffAddController implements Initializable {
     @FXML
     private void btnStaffAddRemoveClicked(MouseEvent event) {        
         if(tblViewMembers.getSelectionModel().getSelectedItem() != null){
+            // Getting selected Member
             RegisteredUsers selectedUser = tblViewMembers.getSelectionModel().getSelectedItem();
             
+            // Adding Member to the staff list
             libActions.addStaff(selectedUser);
             
             // Resetting - user made staff, so remove their name from the table
@@ -158,9 +168,11 @@ public class ManageStaffAddController implements Initializable {
             
         }else{
             errorHandler.staffAddError(stageStaffAdd);
-        }
+        }// END if-else - Staff Member add
     }
 
+    
+    // Below are the HelpIcon events - displays respective help dialog
     private void btnTestClicked(MouseEvent event) {
         helpHandler.staffAddHelp(stageStaffAdd);
     }

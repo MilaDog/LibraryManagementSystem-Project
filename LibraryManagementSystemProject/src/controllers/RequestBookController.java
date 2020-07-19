@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.net.URL;
@@ -34,12 +29,14 @@ import librarymanagementsystemproject.OpenLibraryBooks;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class RequestBookController implements Initializable {
     
+    // Initializing necessary variables
     private String currentUser = "";
     
+    // Initializing necessary Objects
     private LibraryActions libActions = new LibraryActions();
     private OpenLibraryBooks olBooks = new OpenLibraryBooks();
     private ErrorHandling errorHandler = new ErrorHandling();
@@ -104,9 +101,32 @@ public class RequestBookController implements Initializable {
         currentUser = userid;
     }    
 
+    private void displaySearchedBooks(ArrayList<OpenLibrary> fetchedBooks){   
+        
+        // Clearing TableView
+        tblRequestBook.getItems().clear();    
+
+        // If nothing was found, say to. Else, display what was found
+        if(fetchedBooks.isEmpty()){            
+            tblRequestBook.setPlaceholder(new Label("No books found"));
+        }else{        
+            // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object  
+            colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+            colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
+            colBookGenres.setCellValueFactory(new PropertyValueFactory<>("genres"));
+            colBookISBN10.setCellValueFactory(new PropertyValueFactory<>("isbn10"));
+            colBookISBN13.setCellValueFactory(new PropertyValueFactory<>("isbn13"));
+
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
+            ObservableList<OpenLibrary> books = FXCollections.observableArrayList(fetchedBooks);
+            tblRequestBook.setItems(books);
+        }// END if-else - any found books
+    }    
+    
     @FXML
     private void btnBooksSearchClicked(MouseEvent event) {
         
+        // Clearing TableView
         tblRequestBook.getItems().clear();
         
         // Searches what the user wants to search according to the type of search - default title
@@ -115,21 +135,11 @@ public class RequestBookController implements Initializable {
             if(txfBookSearchInput.getText().isEmpty()){
                 tblRequestBook.setPlaceholder(new Label("Enter in a book title to search for"));
             }else{
+                // Initializing a temporary ArrayList to store the results found
                 ArrayList<OpenLibrary> resultTitle = olBooks.searchTitle(txfBookSearchInput.getText());
                 
-                if(resultTitle.isEmpty()){
-                    tblRequestBook.setPlaceholder(new Label("No results found"));
-                }else{
-                    colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-                    colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
-                    colBookGenres.setCellValueFactory(new PropertyValueFactory<>("genres"));
-                    colBookISBN10.setCellValueFactory(new PropertyValueFactory<>("isbn10"));
-                    colBookISBN13.setCellValueFactory(new PropertyValueFactory<>("isbn13"));
-
-                    ObservableList<OpenLibrary> results = FXCollections.observableArrayList(resultTitle);
-                    tblRequestBook.setItems(results);  
-                }
-            }
+                displaySearchedBooks(resultTitle);
+            }// END if-else - book search by Title
             
         }else if(rbBookSearchAuthor.isSelected()){
             // Seeing if the user entered in anything to search. If not, new table label saying so
@@ -138,19 +148,8 @@ public class RequestBookController implements Initializable {
             }else{
                 ArrayList<OpenLibrary> resultAuthor = olBooks.searchAuthor(txfBookSearchInput.getText());
                 
-                if(resultAuthor.isEmpty()){
-                    tblRequestBook.setPlaceholder(new Label("No results found"));
-                }else{
-                    colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-                    colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
-                    colBookGenres.setCellValueFactory(new PropertyValueFactory<>("genres"));
-                    colBookISBN10.setCellValueFactory(new PropertyValueFactory<>("isbn10"));
-                    colBookISBN13.setCellValueFactory(new PropertyValueFactory<>("isbn13"));
-
-                    ObservableList<OpenLibrary> results = FXCollections.observableArrayList(resultAuthor);
-                    tblRequestBook.setItems(results);  
-                }              
-            }
+                displaySearchedBooks(resultAuthor);              
+            }// END if-else - book search by Author
             
         }else if(rbBookSearchISBN.isSelected()){
             // Seeing if the user entered in anything to search. If not, new table label saying so
@@ -159,19 +158,8 @@ public class RequestBookController implements Initializable {
             }else{
                 ArrayList<OpenLibrary> resultISBN = olBooks.searchISBN(txfBookSearchInput.getText());
                 
-                if(resultISBN.isEmpty()){
-                    tblRequestBook.setPlaceholder(new Label("No results found"));
-                }else{
-                    colBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-                    colBookAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
-                    colBookGenres.setCellValueFactory(new PropertyValueFactory<>("genres"));
-                    colBookISBN10.setCellValueFactory(new PropertyValueFactory<>("isbn10"));
-                    colBookISBN13.setCellValueFactory(new PropertyValueFactory<>("isbn13"));
-
-                    ObservableList<OpenLibrary> results = FXCollections.observableArrayList(resultISBN);
-                    tblRequestBook.setItems(results);  
-                }                  
-            }
+                displaySearchedBooks(resultISBN);               
+            }// END if-else - book search by ISBN
             
         }
     }
@@ -179,7 +167,9 @@ public class RequestBookController implements Initializable {
     @FXML
     private void btnRequestBookClicked(MouseEvent event) {
         
+        // Checking to see if the user selected something in the table
         if(tblRequestBook.getSelectionModel().getSelectedItem() != null){
+            // Getting selected Book
             OpenLibrary book = tblRequestBook.getSelectionModel().getSelectedItem();
             
             String title = book.getTitle();
@@ -187,18 +177,18 @@ public class RequestBookController implements Initializable {
             String isbn10 = book.getIsbn10();
             String isbn13 = book.getIsbn13();
             
+            // Adding BookRequest to database
             libActions.requestBook(currentUser, title, authors, isbn10, isbn13);
         }else{
             errorHandler.requestBookError(stageBookRequest);
-        }
+        }// END if-else - book request
         
     }
 
+    // Below is the HelpIcon event - displays the respective help dialog
     @FXML
     private void imHelpClicked(MouseEvent event) {
         helpHandler.libraryRequestBookHelp(stageBookRequest);
     }
-    
-    
     
 }

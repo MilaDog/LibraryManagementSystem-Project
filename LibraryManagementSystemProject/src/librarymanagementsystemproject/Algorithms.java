@@ -1,16 +1,17 @@
 package librarymanagementsystemproject;
 
-// Daniel-Ryan Sergeant - 28 May 2020
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ *
+ * @author Daniel Ryan Sergeant
+ */
 public class Algorithms {
     
-    // Instantiating Dictionarys
+    // Initializing necessary Dictionarys
     private static Map<Character, String> dictAlpha = new HashMap<Character, String>();
     private static Map<Integer, String> dictNumeric = new HashMap<Integer, String>();
         
@@ -60,6 +61,12 @@ public class Algorithms {
     
     
     // BOOKID GENERATOR
+
+    /**
+     *
+     * @param author Takes the Author of the Book
+     * @return BookID for book
+     */
     public String generateBookID(String author){
                         
         /*
@@ -163,6 +170,14 @@ public class Algorithms {
     
     
     // USERID GENERATOR
+
+    /**
+     *
+     * @param firstName Takes in the CurrentUser's first name
+     * @param surname Takes in the CurrentUser's surname
+     * @param date Takes in the current date - the date on which the user signed up
+     * @return UserID for newly registered user
+     */
     public String generateUserID(String firstName, String surname, String date){
         char firstNameChar = firstName.toLowerCase().charAt(0);
         char surnameChar = surname.toLowerCase().charAt(0);
@@ -225,6 +240,13 @@ public class Algorithms {
     
     
     // STAFFID GENERATOR
+
+    /**
+     *
+     * @param firstName Takes in the Staff member's first name
+     * @param surname Takes in the Staff member's surname 
+     * @return StaffID for the new Staff member
+     */
     public String generateStaffID(String firstName, String surname){
         char firstNameChar = firstName.toUpperCase().charAt(0);
         char surnameChar = surname.toUpperCase().charAt(0);
@@ -239,6 +261,12 @@ public class Algorithms {
     
     
     // TAKEOUTID GENERATOR
+
+    /**
+     *
+     * @param returnDate Takes in the date the taken out book needs to be returned
+     * @return TakeoutID for the new book that was taken out
+     */
     public String generateTakeOutID(String returnDate){
         int random1 = (int) (Math.random()*100);
         int random2 = (int) (Math.random()*100);
@@ -259,6 +287,12 @@ public class Algorithms {
     
     
     // BOOKREQUESTID GENERATOR
+
+    /**
+     *
+     * @param userid Takes in the UserID of the member that requested a boook
+     * @return RequestID for the new book request
+     */
     public String generateRequestID(String userid){        
         String requestID = "RQ" + algorithmFixRequest(userid);
         return requestID;        
@@ -266,6 +300,12 @@ public class Algorithms {
     
     
     // FIXID GENERATOR
+
+    /**
+     *
+     * @param bookID Takes in the BookID of the book that needs to be fixed
+     * @return FixID for the book that needs to be fixed
+     */
     public String generateFixID(String bookID){        
         String fixID = "FX" + algorithmFixRequest(bookID);
         return fixID;                

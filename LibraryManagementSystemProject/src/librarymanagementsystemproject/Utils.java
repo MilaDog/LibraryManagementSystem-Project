@@ -1,7 +1,5 @@
 package librarymanagementsystemproject;
 
-// Daniel-Ryan Sergeant - 29 May 2020
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -10,7 +8,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class Utils {
 
@@ -57,22 +55,37 @@ public class Utils {
     
     /**
      * Get the password for Postgres - used for connecting to the database
-     * @return postgresPassword Password
+     * @return Password for Postgres
      */
     public static String getPostgresPassword(){
         getDetails();
         return postgresPassword;
     }
     
+    /**
+     *
+     * @param date Takes in the date that needs to be formatted
+     * @return Formatted date in format 'ddMMyy'
+     */
     public static String formatDate(LocalDate date){
         String formatDOB = date.format(DateTimeFormatter.ofPattern("ddMMyy"));
         return formatDOB;
     }
     
+    /**
+     *
+     * @param str Takes in a String that needs all hyphens removed from
+     * @return New String without any hyphens
+     */
     public static String removeHyphens(String str){
         return str.replace("-", "");
     }
     
+    /**
+     *
+     * @param str Takes in a String that needs to be titled cased (First character of each word capitalised)
+     * @return New String in title case
+     */
     public static String toTitleCase(String str){
         String genre[] = str.split(" ");
         

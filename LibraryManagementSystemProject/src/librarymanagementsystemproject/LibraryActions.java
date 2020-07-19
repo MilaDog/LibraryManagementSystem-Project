@@ -1,12 +1,13 @@
 package librarymanagementsystemproject;
 
-// Daniel-Ryan Sergeant - 28 Jun 2020
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-
+/**
+ *
+ * @author Daniel Ryan Sergeant
+ */
 public class LibraryActions {
     
     private static ResultSet fetched = null;
@@ -14,11 +15,22 @@ public class LibraryActions {
     private Members mem = new Members();
     private Algorithms algor = new Algorithms();
 
+    /**
+     *
+     * @return Date of return of the book as a LocalDate
+     */
     public LocalDate getReturnDate(){
         LocalDate returnDate = LocalDate.now().plusWeeks(2);
         return returnDate;
     }// END getReturnDate()
     
+    /**
+     *
+     * @param member Takes in a RegisteredUsers Object
+     * @param book Takes in a Books Object
+     * @param currDate Takes in the current date as a LocalDate
+     * @param returnDate Takes in the return date as a LocalDate
+     */
     public void issueBook(RegisteredUsers member, Books book, LocalDate currDate, LocalDate returnDate){
         boolean returned = false;
         String bookID = book.getBookid();
@@ -50,7 +62,10 @@ public class LibraryActions {
         
     }// END issueBook()
     
-    
+    /**
+     *
+     * @param book Takes in a BooksTakenOut Object
+     */
     public void returnBook(BooksTakenOut book){
         boolean returned = true;
         String takeOutID = book.getTakeoutID();
@@ -79,6 +94,12 @@ public class LibraryActions {
         db.update(query3);         
     }
     
+    /**
+     *
+     * @param book Takes in a Books Object
+     * @param staffID Takes in the current staff StaffID 
+     * @param reason Takes in the fix reason of the book
+     */
     public void fixBook(Books book, String staffID, String reason){
         boolean fixed = false;
         String bookID = book.getBookid();
@@ -108,6 +129,10 @@ public class LibraryActions {
         db.update(query3);        
     }// END fixBook()
     
+    /**
+     *
+     * @param bookFix Takes in a BookFix Object
+     */
     public void fixedBook(BooksFix bookFix){
         boolean fixed = true;
         String fixID = bookFix.getFixID();
@@ -137,6 +162,14 @@ public class LibraryActions {
         db.update(query3);         
     }// END fixedBook()
     
+    /**
+     *
+     * @param userid Takes in the UserID of the member
+     * @param title Takes in the title of the requested book
+     * @param authors Takes in the authors of the requested book as a String
+     * @param isbn10 Takes in the ISBN10 of the requested book
+     * @param isbn13 Takes in the ISBN13 of the requested book
+     */
     public void requestBook(String userid, String title, String authors, String isbn10, String isbn13){
         String requestID = algor.generateRequestID(userid);
         
@@ -144,7 +177,10 @@ public class LibraryActions {
         db.update(query);
     }// END requestBook()
     
-    
+    /**
+     *
+     * @param member Takes in a RegisteredUsers Object
+     */
     public void addStaff(RegisteredUsers member){
         String firstName = member.getFirstName();
         String surname = member.getSurname();
@@ -156,7 +192,10 @@ public class LibraryActions {
         db.update(query);        
     }// END addStaff()
     
-    
+    /**
+     *
+     * @param staff Takes in a Staff Object
+     */
     public void removeStaff(Staff staff){
         String userID = staff.getUserID();
         

@@ -1,7 +1,5 @@
 package librarymanagementsystemproject;
 
-// Daniel-Ryan Sergeant - 22 Jun 2020
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,15 +11,24 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
-
+/**
+ *
+ * @author Daniel Ryan Sergeant
+ */
 public class OpenLibraryBooks {
 
+    // Initializing necessary ArrayLists
     private ArrayList<OpenLibrary> ol = new ArrayList<>();
     private ArrayList<OpenLibrarySearch> ols = new ArrayList<>();
     
-    // Set genres
+    // Initializing ArrayList of set genres
     private static ArrayList<String> genresAllowed = new ArrayList<String>(Arrays.asList("utopian fiction", "social science fiction", "tragedy", "fantasy", "fantasy fiction", "dystopian fiction", "fiction", "crime", "romance", "mystery", "political fiction", "adventure fiction", "novel", "children literature", "thriller", "science fiction", "non-fiction", "historical fiction", "horror", "biography", "poetry"));
     
+    /**
+     *
+     * @param isbn Takes in the ISBN number of the book to search for
+     * @return All of the book's details fetched by the API
+     */
     public ArrayList<OpenLibrary> searchISBN(String isbn){
         // Clearing array if the user decides to search for another book, as to not have the previous search in it
         ol.clear();
@@ -126,7 +133,11 @@ public class OpenLibraryBooks {
         return ol;
     }// END searchISBN()
     
-    
+    /**
+     *
+     * @param bookTitle Takes in the title of the book to search for
+     * @return All of the book's details fetched by the API
+     */
     public ArrayList<OpenLibrary> searchTitle(String bookTitle){
         // Clearing array if the user decides to search for another book, as to not have the previous search in it
         ol.clear();
@@ -204,7 +215,11 @@ public class OpenLibraryBooks {
         return ol;
     }// END searchTitle()
     
-    
+    /**
+     *
+     * @param bookAuthor Takes in the author of the book to search
+     * @return All of the book's fetched by the API
+     */
     public ArrayList<OpenLibrary> searchAuthor(String bookAuthor){
         // Clearing array if the user decides to search for another book, as to not have the previous search in it
         ol.clear();

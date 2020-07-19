@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controllers;
 
 import java.io.IOException;
@@ -28,13 +24,16 @@ import librarymanagementsystemproject.RegisteredUsers;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class StaffController implements Initializable {
 
     private Stage stageStaff = null;  
+    
+    // Initializing necessary objects
     private Members mem = new Members();
     
+    // Initializing necessary variables
     private String currentUser = "";
         
     // Ability to mouse the stage (window) - move smoothly
@@ -162,6 +161,7 @@ public class StaffController implements Initializable {
                 // Getting the Member stage
                 stageStaff = (Stage) anchorPaneBackground.getScene().getWindow();   
                 
+                // Getting the current member's object so that their name can be displayed on the stage
                 RegisteredUsers user = mem.getMemberByUserID(currentUser);
                 String userName = user.getFirstName();
                 lblMemberName.setText(userName);
@@ -174,6 +174,11 @@ public class StaffController implements Initializable {
         currentUser = userid;
     }
     
+    /*
+        loadUI - @param takes the stage name, as a String, and loads that stage.
+                 @param goes through checks and if the check is true, it passes the current logged in member's UserID to that stage
+                        so that it can be used in the respective stages
+    */    
     private void loadUI(String stage){
         Parent root = null;
         FXMLLoader loader = null;
@@ -182,6 +187,7 @@ public class StaffController implements Initializable {
             loader = new FXMLLoader(getClass().getResource("/stages/"+stage+".fxml"));
             root = (Parent) loader.load();
             
+            // Checks - see which stage needs the current member's UserID            
             if(stage.equalsIgnoreCase("takenout")){
                 TakenOutController takenOutController = loader.getController();
                 takenOutController.currentUser(currentUser);
@@ -203,6 +209,7 @@ public class StaffController implements Initializable {
             err.printStackTrace();
         }
         
+        // Displaying the stage on the main stage, Staff
         bpMain.setCenter(root);
     }
     
@@ -219,6 +226,12 @@ public class StaffController implements Initializable {
         xMouse = event.getSceneX();
         yMouse = event.getSceneY();
     }
+    
+    /*
+        Below is for the Setting Icon. When clicked, displays the settings menu, where the user can then interact with what is in the menu.
+        When the icon is clicked again, it is hidden.
+        Also, if the user opens the Settings menu, and tkhen proceeds to open another stage, the Settings menu is hidden
+    */
     
     @FXML
     private void lblSettingsOpenClicked(MouseEvent event) {
@@ -246,6 +259,12 @@ public class StaffController implements Initializable {
         lblSettingsOpen.setVisible(true);
         lblSettingsClose.setVisible(false);
     }
+
+
+    /*
+        Below are all of the events for each side menu hBox (field). 
+        Loads respective stage
+    */
     
     @FXML
     private void hBoxBooksAvailableClicked(MouseEvent event) {
@@ -346,6 +365,7 @@ public class StaffController implements Initializable {
             stageSignIn.initStyle(StageStyle.UNDECORATED);
             stageSignIn.setScene(signin);
 
+            // Displaying the SignIn stage and Hiding the Staff stage
             stageSignIn.show();
             stageStaff.hide();
         }catch(IOException err){

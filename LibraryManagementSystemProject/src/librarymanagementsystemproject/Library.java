@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package librarymanagementsystemproject;
 
 import java.sql.ResultSet;
@@ -12,13 +7,16 @@ import java.util.ArrayList;
 
 /**
  *
- * @author MilaDog
+ * @author Daniel Ryan Sergeant
  */
 public class Library {
     
+    // Initializing necessary Objects
     private static ResultSet fetched = null;
     private Postgres db = new Postgres();
     
+    
+    // Initializing necessary ArrayLists
     private ArrayList<Books> books = new ArrayList<>();
     private ArrayList<BooksFix> booksFix = new ArrayList<>();
     private ArrayList<BooksRequest> booksRequest = new ArrayList<>();
@@ -26,7 +24,10 @@ public class Library {
     private ArrayList<RegisteredUsers> registeredUsers = new ArrayList<>();
     private ArrayList<Staff> staff = new ArrayList<>();
     
-    
+    /**
+     *
+     * @return ArrayList, of all books, of type Books
+     */
     public ArrayList<Books> fetchBooks(){
         String query = "SELECT * FROM books";
         fetched = db.fetch(query);
@@ -55,6 +56,11 @@ public class Library {
         return books;
     }
     
+    /**
+     *
+     * @param searchBy Takes in the title/authors/isbn10/isbn13 of the book to search
+     * @return ArrayList, of found books, of type Books
+     */
     public ArrayList<Books> fetchBook(String searchBy){
         String query = "SELECT * FROM books WHERE LOWER(title) LIKE '%" + searchBy + "%' OR LOWER(authors) LIKE '%" + searchBy + "%' OR LOWER(isbn10) LIKE '%" + searchBy + "%' OR LOWER(isbn13) LIKE '%" + searchBy + "%'";
         fetched = db.fetch(query);
@@ -82,6 +88,11 @@ public class Library {
         return books;
     }
     
+    /**
+     *
+     * @param bookID BookID to search for
+     * @return Books Object of found book
+     */
     public Books fetchBookByID(String bookID){
         String query = "SELECT * FROM books WHERE LOWER(bookid) = LOWER('" + bookID + "')";
         fetched = db.fetch(query);
@@ -107,6 +118,10 @@ public class Library {
         return fetchedBook;
     }
     
+    /**
+     *
+     * @return ArrayList, of all available books in the library, of type Books
+     */
     public ArrayList<Books> fetchAvailableBooks(){
         String query = "SELECT * FROM books WHERE amount > 0";
         fetched = db.fetch(query);
@@ -135,7 +150,10 @@ public class Library {
         return books;
     }// END fetchAvailableBooks()
     
-    
+    /**
+     *
+     * @return ArrayList, of all book fix requests, of type BooksFix
+     */
     public ArrayList<BooksFix> fetchFixBooks(){
         String query = "SELECT * FROM fix_books WHERE fixed = false";
         fetched = db.fetch(query);
@@ -161,6 +179,10 @@ public class Library {
         return booksFix;        
     }// END fetchFixBooks()
     
+    /**
+     *
+     * @return ArrayList, of all taken out books, of type BooksTakenOut
+     */
     public ArrayList<BooksTakenOut> fetchTakenOutBooks(){
         
         // Clearing ArrayList
@@ -189,6 +211,11 @@ public class Library {
         return booksTakenOut;
     }
     
+    /**
+     *
+     * @param userID Takes in member UserID to use t find any taken out books by the member
+     * @return ArrayList, of all taken out books by the member, of type BooksTakenOut
+     */
     public ArrayList<BooksTakenOut> fetchTakenOutBooks(String userID){
         
         // Clearing ArrayList
@@ -217,7 +244,10 @@ public class Library {
         return booksTakenOut;
     }// END takeOut()
     
-    
+    /**
+     *
+     * @return ArrayList, of all members that have taken out a book, of type RegisteredUsers
+     */
     public ArrayList<RegisteredUsers> fetchTakeOutBookMembers(){
         String query = "SELECT DISTINCT r.* FROM registered_users AS r INNER JOIN taken_out AS t ON r.userID = t.userID WHERE returned = false";
         fetched = db.fetch(query);
@@ -241,7 +271,10 @@ public class Library {
         return registeredUsers;
     }
     
-    
+    /**
+     *
+     * @return ArrayList, of all outstanding books, of type BooksTakenOut
+     */
     public ArrayList<BooksTakenOut> fetchOutstandingBooks(){
         LocalDate dateNow = LocalDate.now();
         String query = "SELECT * FROM taken_out AS t WHERE t.returned = false AND t.date_return < '" + dateNow + "'";
@@ -267,56 +300,12 @@ public class Library {
         }
         return booksTakenOut;
     }// END fetchedOutstandingBooks()
-    
-    
-//    public ArrayList<BooksTakenOut> fetchReturnDates(String userID){
-//        
-//        // Clearing ArrayList
-//        booksTakenOut.clear();
-//        
-//        if(userID == null){
-//            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false";
-//            fetched = db.fetch(query);
-//            
-//            try{
-//                if(fetched.isBeforeFirst()){
-//                    while(fetched.next()){
-//                        String takeoutID = fetched.getString("takeoutid");
-//                        String bookid = fetched.getString("bookid");
-//                        String takeout = fetched.getString("date_takeout");
-//                        String returnDate = fetched.getString("date_return");
-//
-//                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, null, takeout, returnDate, false));                   
-//                    }// END while
-//                }// END if
-//            }catch(SQLException err){
-//                err.printStackTrace();
-//            }// END try-catch  
-//            
-//        }else{
-//            String query = "SELECT TakeoutID, BookID, date_takeout, date_return FROM taken_out WHERE returned = false AND userid = '" + userID + "'";
-//            fetched = db.fetch(query);
-//            
-//            try{
-//                if(fetched.isBeforeFirst()){
-//                    while(fetched.next()){
-//                        String takeoutID = fetched.getString("takeoutid");
-//                        String bookid = fetched.getString("bookid");
-//                        String takeout = fetched.getString("date_taken_out");
-//                        String returnDate = fetched.getString("date_return");
-//
-//                        booksTakenOut.add(new BooksTakenOut(takeoutID, bookid, userID, takeout, returnDate, false));                              
-//                    }// END while
-//                }// END if
-//            }catch(SQLException err){
-//                err.printStackTrace();
-//            }// END try-catch  
-//            
-//        }// END if
-//        return booksTakenOut;
-//    }// END fetchReturnDates()
-    
-    
+
+    /**
+     *
+     * @param userid Takes in the member UserID to be used to filter out of all Staff members 
+     * @return ArrayList, of all staff members except the current staff member, of type Staff
+     */
     public ArrayList<Staff> fetchStaffNotCurrent(String userid){
         String query = "SELECT * FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid WHERE r.userid != '" + userid + "'";
         fetched = db.fetch(query);
@@ -344,6 +333,10 @@ public class Library {
         return staff; 
     }// END fetchStaff()
     
+    /**
+     *
+     * @return ArrayList, of all staff members, of type Staff
+     */
     public ArrayList<Staff> fetchAllStaff(){
         String query = "SELECT * FROM staff AS s INNER JOIN registered_users AS r ON r.userid = s.userid";
         fetched = db.fetch(query);
@@ -371,6 +364,10 @@ public class Library {
         return staff;        
     }// END fetchAllStaff()    
     
+    /**
+     *
+     * @return ArrayList, of all non-staff members, of type RegisteredUsers
+     */
     public ArrayList<RegisteredUsers> fetchMembersNotStaff(){
         String query = "SELECT * FROM registered_users AS r LEFT JOIN staff AS s ON s.userid = r.userid WHERE s.staffid IS NULL";
         fetched = db.fetch(query);
@@ -397,6 +394,10 @@ public class Library {
         return registeredUsers;
     }//END fetchMembersNotStaff()
     
+    /**
+     *
+     * @return ArrayList, of all registered users, of type RegisteredUsers
+     */
     public ArrayList<RegisteredUsers> fetchAllMembers(){
         String query = "SELECT * FROM registered_users ORDER BY surname, first_name";
         fetched = db.fetch(query);
@@ -423,6 +424,10 @@ public class Library {
         return registeredUsers;
     }// END fetchAllMembers()  
     
+    /**
+     *
+     * @return ArrayList, of all requested books, of type BooksRequest
+     */
     public ArrayList<BooksRequest> fetchRequestedBooks(){
         String query = "SELECT * FROM requested_books";
         fetched = db.fetch(query);

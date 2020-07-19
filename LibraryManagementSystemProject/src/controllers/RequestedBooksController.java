@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import java.net.URL;
@@ -30,11 +25,14 @@ import librarymanagementsystemproject.Library;
 /**
  * FXML Controller class
  *
- * @author Daniel
+ * @author Daniel Ryan Sergeant
  */
 public class RequestedBooksController implements Initializable {
     
+    // Initializing necessary ArrayLists
     private ArrayList<BooksRequest> booksRequested = new ArrayList<>();
+    
+    // Initializing necessary Objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
     private Stage stageRequestedBooks = new Stage();
@@ -76,9 +74,13 @@ public class RequestedBooksController implements Initializable {
                 // Getting the RequestedBooks stage
                 stageRequestedBooks = (Stage) anchorPaneBackground.getScene().getWindow();  
         
+                // Clearing TableView
                 tblViewRequestedBooks.getItems().clear(); 
                 
+                // Fetching data from PostgreDB - all RequestedBooks
                 booksRequested = lib.fetchRequestedBooks();
+                
+                // Displaying data
                 displayRequestedBooks(booksRequested);                
             }
         }); 
@@ -86,18 +88,21 @@ public class RequestedBooksController implements Initializable {
     
     private void displayRequestedBooks(ArrayList<BooksRequest> fetchedBooks){   
         
+        // Clearing TableView
         tblViewRequestedBooks.getItems().clear();    
 
         // If nothing was found, say to. Else, display what was found
         if(fetchedBooks.isEmpty()){            
             tblViewRequestedBooks.setPlaceholder(new Label("No available books"));
         }else{        
+            // Creating the CellValues for the table, so that each cell in the table gets the correct data from the Object  
             colRequestedID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
             colRequestedBookTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
             colRequestedAuthors.setCellValueFactory(new PropertyValueFactory<>("authors"));
             colRequestedBookISBN10.setCellValueFactory(new PropertyValueFactory<>("isbn10"));
             colRequestedBookISBN13.setCellValueFactory(new PropertyValueFactory<>("isbn13"));
 
+            // Converting the ArrayList to ObservableList as TableView does not take ArrayLists as a param. Then displaying all data
             ObservableList<BooksRequest> books = FXCollections.observableArrayList(fetchedBooks);
             tblViewRequestedBooks.setItems(books);
         }// END if-else - any found books
@@ -106,6 +111,7 @@ public class RequestedBooksController implements Initializable {
     @FXML
     private void btnRequestedBooksSearchClicked(MouseEvent event) {   
         
+        // Clearing TableView
         tblViewRequestedBooks.getItems().clear();        
         
         // If search text field is empty, displays all takeouts. If not, finds a takeout similar to what is being searched.
@@ -127,18 +133,20 @@ public class RequestedBooksController implements Initializable {
                     booksRequestedSearch.add(book);                    
                 }else if(book.getIsbn13().toLowerCase().contains(txfRequestedBooksSearchInput.getText().toLowerCase())){
                     booksRequestedSearch.add(book);
-                }
-            }
+                }// END if-else - search filter
+            }// END loop
             
             if(booksRequestedSearch.isEmpty()){
                 tblViewRequestedBooks.setPlaceholder(new Label("Did not find any requested books"));   
             }else{
                 displayRequestedBooks(booksRequestedSearch);
-            }
+            }// END if-else - display search results
             
         }// END if-else - anything to search 
     }
 
+    
+    // Below is the HelpIcon event - displays respective help dialog
     @FXML
     private void imHelpClicked(MouseEvent event) {
         helpHandler.booksRequestedHelp(stageRequestedBooks);
