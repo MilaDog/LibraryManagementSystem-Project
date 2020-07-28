@@ -7,6 +7,7 @@ package librarymanagementsystemproject;
 
 public class BooksRequest {
 
+    // Initializing necessary fields
     private String requestID;
     private String userID;
     private String authors;

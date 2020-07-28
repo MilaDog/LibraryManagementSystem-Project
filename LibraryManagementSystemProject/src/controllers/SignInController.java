@@ -31,7 +31,7 @@ import librarymanagementsystemproject.RegisteredUsers;
  */
 public class SignInController implements Initializable {
     
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Checks check = new Checks();
     private Members mem = new Members();
     

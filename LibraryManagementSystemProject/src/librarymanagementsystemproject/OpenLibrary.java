@@ -9,14 +9,13 @@ import java.util.Arrays;
  */
 public class OpenLibrary {
     
+    // Initializing necessary fields
     private String isbn13;
     private String isbn10;
     private String authors;
     private String title;
     private String genres;
-    
-    private static ArrayList<String> genresAllowed = new ArrayList<String>(Arrays.asList("utopian fiction", "social science fiction", "tragedy", "fantasy", "fantasy fiction", "dystopian fiction", "fiction", "crime", "romance", "mystery", "political fiction", "adventure fiction", "novel", "children literature", "thriller", "science fiction", "non-fiction", "historical fiction", "horror", "biography", "poetry"));
-      
+     
     /**
      *
      * @param title Takes in the title of the book

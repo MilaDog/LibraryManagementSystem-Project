@@ -36,7 +36,7 @@ public class RequestBookController implements Initializable {
     // Initializing necessary variables
     private String currentUser = "";
     
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private LibraryActions libActions = new LibraryActions();
     private OpenLibraryBooks olBooks = new OpenLibraryBooks();
     private ErrorHandling errorHandler = new ErrorHandling();

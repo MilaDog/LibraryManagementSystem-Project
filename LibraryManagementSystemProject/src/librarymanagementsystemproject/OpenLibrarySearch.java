@@ -7,6 +7,7 @@ package librarymanagementsystemproject;
 
 public class OpenLibrarySearch extends OpenLibrary{
     
+    // Initializing necessary fields
     private int firstPublish;
     
     /**

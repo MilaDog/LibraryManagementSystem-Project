@@ -30,7 +30,7 @@ public class StaffController implements Initializable {
 
     private Stage stageStaff = null;  
     
-    // Initializing necessary objects
+    // Instantiating necessary objects
     private Members mem = new Members();
     
     // Initializing necessary variables

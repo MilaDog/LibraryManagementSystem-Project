@@ -7,6 +7,7 @@ package librarymanagementsystemproject;
 
 public class BooksTakenOut {
 
+    // Initializing necessary fields
     private String takeoutID;
     private String bookID;
     private String userID;

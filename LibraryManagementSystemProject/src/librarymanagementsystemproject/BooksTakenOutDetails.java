@@ -7,6 +7,7 @@ package librarymanagementsystemproject;
 
 public class BooksTakenOutDetails extends Books{
 
+    // Initializing necessary fields
     private String takeoutid;
 
     /**

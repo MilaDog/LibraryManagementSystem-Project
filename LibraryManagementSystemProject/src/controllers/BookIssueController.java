@@ -37,7 +37,7 @@ public class BookIssueController implements Initializable {
     private ArrayList<RegisteredUsers> registeredUsers = new ArrayList<>();
     private ArrayList<Books> booksAvailable = new ArrayList<>();
 
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private ErrorHandling errorHandler = new ErrorHandling();

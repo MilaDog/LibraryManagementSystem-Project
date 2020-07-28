@@ -34,7 +34,7 @@ public class MemberController implements Initializable {
     private double xMouse;
     private double yMouse;
     
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Members mem = new Members();
     private Stage stageMember = null;
     

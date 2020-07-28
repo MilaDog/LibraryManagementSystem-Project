@@ -205,8 +205,10 @@ public class Algorithms {
     
     
     private int algorithmUser(String value){
+        // Spliting string to get each digits on its own
         String digits[] = value.split("");
         
+        // Digits from right to left
         int num1 = Integer.parseInt(digits[11]);
         int num2 = Integer.parseInt(digits[10]);
         int num3 = Integer.parseInt(digits[9]);
@@ -220,6 +222,7 @@ public class Algorithms {
         int num11 = Integer.parseInt(digits[1]);
         int num12 = Integer.parseInt(digits[0]);
         
+        // Odd positioned digits - times by remainder when subtracted from 10
         int numm1 = num1 * (10-num1); 
         int numm3 = num3 * (10-num3); 
         int numm5 = num5 * (10-num5); 
@@ -227,6 +230,7 @@ public class Algorithms {
         int numm9 = num9 * (10-num9); 
         int numm11 = num11 * (10-num11); 
         
+        // Seeing if the multiplied digits is greater than 9
         int nummm1 = addDigits(numm1);
         int nummm3 = addDigits(numm3);
         int nummm5 = addDigits(numm5);
@@ -234,6 +238,7 @@ public class Algorithms {
         int nummm9 = addDigits(numm9);
         int nummm11 = addDigits(numm11);
         
+        // Summing all digits and returning
         return nummm1 + nummm3 + nummm5 + nummm7 + nummm9 + nummm11 + num2 + num4 + num6 + num8 + num10 + num12;
         
     }// END algorithmUser()
@@ -290,7 +295,7 @@ public class Algorithms {
 
     /**
      *
-     * @param userid Takes in the UserID of the member that requested a boook
+     * @param userid Takes in the UserID of the member that requested a book
      * @return RequestID for the new book request
      */
     public String generateRequestID(String userid){        

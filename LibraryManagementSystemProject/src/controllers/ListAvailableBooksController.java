@@ -32,9 +32,9 @@ public class ListAvailableBooksController implements Initializable {
     // Initializing necessary ArrayLists
     private ArrayList<Books> availableBooks = new ArrayList<>();
     
-    // Initializing necessary Objects
     private Stage stageAvailableBooks = new Stage();
     
+    // Instantiating necessary Objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
     

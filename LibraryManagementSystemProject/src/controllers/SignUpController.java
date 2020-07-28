@@ -34,7 +34,7 @@ import librarymanagementsystemproject.Utils;
  */
 public class SignUpController implements Initializable {
 
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Checks check = new Checks(); 
     private Postgres db = new Postgres();
     private Algorithms algor = new Algorithms();

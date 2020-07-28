@@ -35,7 +35,7 @@ public class FixBookController implements Initializable {
     // Initializing necessary ArrayLists
     private ArrayList<Books> booksAvailable = new ArrayList<>();
 
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private ErrorHandling errorHandler = new ErrorHandling(); 

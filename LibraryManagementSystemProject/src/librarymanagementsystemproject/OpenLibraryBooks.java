@@ -19,7 +19,6 @@ public class OpenLibraryBooks {
 
     // Initializing necessary ArrayLists
     private ArrayList<OpenLibrary> ol = new ArrayList<>();
-    private ArrayList<OpenLibrarySearch> ols = new ArrayList<>();
     
     // Initializing ArrayList of set genres
     private static ArrayList<String> genresAllowed = new ArrayList<String>(Arrays.asList("utopian fiction", "social science fiction", "tragedy", "fantasy", "fantasy fiction", "dystopian fiction", "fiction", "crime", "romance", "mystery", "political fiction", "adventure fiction", "novel", "children literature", "thriller", "science fiction", "non-fiction", "historical fiction", "horror", "biography", "poetry"));

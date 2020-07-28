@@ -34,14 +34,14 @@ public class TakenOutController implements Initializable {
     //Initializing necessary Variables
     private String currentUser = "";
     
-    // Initializing necessary objects
+    // Instantiating necessary objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
+    private Books fetchedBook = null;
     
     private Stage stageTakenOut = new Stage();
     
-    // Initializing necessary Oject and ArrayLists
-    private Books fetchedBook = null;
+    // Initializing necessary ArrayLists
     private ArrayList<BooksTakenOutBookDetails> takenOutBooksDetails = new ArrayList<>();
     private ArrayList<BooksTakenOut> takenOutBooks = new ArrayList<>();
     

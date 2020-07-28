@@ -35,7 +35,7 @@ public class ManageStaffAddController implements Initializable {
     // Initializing necessary ArrayLists
     private ArrayList<RegisteredUsers> registeredUsersNotStaff = new ArrayList<>();
 
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Library lib = new Library();
     private LibraryActions libActions = new LibraryActions();
     private Checks check = new Checks();

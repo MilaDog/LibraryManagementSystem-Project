@@ -11,8 +11,9 @@ import java.time.LocalDate;
 public class LibraryActions {
     
     private static ResultSet fetched = null;
+    
+    // Instantiating necessary Objects
     private Postgres db = new Postgres();
-    private Members mem = new Members();
     private Algorithms algor = new Algorithms();
 
     /**

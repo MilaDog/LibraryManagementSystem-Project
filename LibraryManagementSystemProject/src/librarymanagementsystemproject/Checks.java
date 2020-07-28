@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class Checks {
 
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Postgres db = new Postgres();    
     private ResultSet result = null;
     

@@ -7,6 +7,7 @@ package librarymanagementsystemproject;
 
 public class BooksFix {
 
+    // Initializing necessary fields
     private String fixID;
     private String bookID;
     private String staffID;

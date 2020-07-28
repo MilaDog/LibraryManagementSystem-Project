@@ -7,7 +7,7 @@ package librarymanagementsystemproject;
 
 public class Books {
 
-    // Books Books
+    // Initializing necessary fields
     private String bookid;
     private String title;
     private String authors;

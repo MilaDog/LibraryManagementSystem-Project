@@ -7,6 +7,7 @@ package librarymanagementsystemproject;
 
 public class Staff extends RegisteredUsers{
     
+    // Initializing necessary fields
     private String staffID;
 
     /**

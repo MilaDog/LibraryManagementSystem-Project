@@ -10,7 +10,9 @@ import librarymanagementsystemproject.RegisteredUsers;
  */
 public class Members {
     
+    // Instantiating necessary Object
     private Postgres db = new Postgres();
+    
     private static ResultSet fetched = null;
 
     /**

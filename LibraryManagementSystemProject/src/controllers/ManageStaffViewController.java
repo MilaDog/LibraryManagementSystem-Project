@@ -32,7 +32,7 @@ public class ManageStaffViewController implements Initializable {
     // Initializing necessary ArrayLists
     private ArrayList<Staff> staffMembers = new ArrayList<>();
 
-    //Initializing necessary Objects
+    //Instantiating necessary Objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
     

@@ -34,7 +34,7 @@ public class ReturnDatesController implements Initializable {
     // Initializing necessary variables
     private String currentUser = "";
     
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
     

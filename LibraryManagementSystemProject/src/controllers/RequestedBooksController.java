@@ -32,7 +32,7 @@ public class RequestedBooksController implements Initializable {
     // Initializing necessary ArrayLists
     private ArrayList<BooksRequest> booksRequested = new ArrayList<>();
     
-    // Initializing necessary Objects
+    // Instantiating necessary Objects
     private Library lib = new Library();
     private HelpHandling helpHandler = new HelpHandling();
     private Stage stageRequestedBooks = new Stage();

@@ -6,6 +6,7 @@ package librarymanagementsystemproject;
  */
 public class RegisteredUsers {
     
+    // Initializing necessary fields
     private String userID;
     private String firstName;
     private String surname;

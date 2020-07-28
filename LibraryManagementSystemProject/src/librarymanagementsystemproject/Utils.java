@@ -11,7 +11,8 @@ import java.util.Scanner;
  * @author Daniel Ryan Sergeant
  */
 public class Utils {
-
+ 
+    // Initializing necessary fields
     private static String postgresUser;
     private static String postgresPassword;
     

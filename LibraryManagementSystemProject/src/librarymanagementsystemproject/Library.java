@@ -11,9 +11,10 @@ import java.util.ArrayList;
  */
 public class Library {
     
-    // Initializing necessary Objects
-    private static ResultSet fetched = null;
+    // Instantiating necessary Objects
     private Postgres db = new Postgres();
+    
+    private ResultSet fetched = null;
     
     
     // Initializing necessary ArrayLists
