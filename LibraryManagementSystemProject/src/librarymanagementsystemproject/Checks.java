@@ -90,7 +90,24 @@ public class Checks {
      * @param number Takes in the cell phone number of the registering user to check that it is a valid number
      * @return If the cell phone number is valid or not, as a Boolean
      */
-    public boolean checkPhoneCell(String number){
+    public boolean checkPhoneCellLength(String number){
+        boolean flag = true;
+        
+        // Checks length of number - default is 10
+        System.out.println(number.length());
+        if(number.length() != 10){
+            flag = false;
+        }
+        
+        return flag;
+    }// END checkPhoneCellLength()
+      
+    /**
+     *
+     * @param number Takes in the cell phone number of the registering user to check that it is a valid number
+     * @return If the cell phone number is valid or not, as a Boolean
+     */ 
+    public boolean checkPhoneCellValidCharactersOrZero(String number){
         boolean flag = true;
         
         // Checks if the number does not contain an alphabetic letters or any other characters
@@ -100,13 +117,8 @@ public class Checks {
             flag = false;
         }
         
-        // Checks length of number - default is 10
-        if(number.length() != 10){
-            flag = false;
-        }
-        
         return flag;
-    }// END checkPhoneCell()
+    }// END checkPhoneCellValidCharactersOrZero()
     
     /**
      *
@@ -138,66 +150,65 @@ public class Checks {
     public boolean checkEmail(String email){
         boolean flag = true;
         
-        if(containsAT(email)){
-            String parts[] = email.toLowerCase().split("@");
-            String localPart[] = parts[0].split("");
-            String domain[] = parts[1].split("");
-            
-            // Checking of the LocalPart - before the @
-            for(String x: localPart)
-                // Checking if each character is a valid character - if invalid, email is invalid
-                if(validEmailLocalPartCharacters.contains(x) == false)
-                    flag = false;
-            
-            // Checking local-part length -  x > 64 characters is invalid
-            if(parts[0].length() > 64)
+        String parts[] = email.toLowerCase().split("@");
+        String localPart[] = parts[0].split("");
+        String domain[] = parts[1].split("");
+
+        // Checking of the LocalPart - before the @
+        for(String x: localPart)
+            // Checking if each character is a valid character - if invalid, email is invalid
+            if(validEmailLocalPartCharacters.contains(x) == false)
                 flag = false;
-            
-            // Checking if there are any consecutive dots - if so, invalid
-            if(parts[0].contains(".."))
+
+        // Checking local-part length -  x > 64 characters is invalid
+        if(parts[0].length() > 64)
+            flag = false;
+
+        // Checking if there are any consecutive dots - if so, invalid
+        if(parts[0].contains(".."))
+            flag = false;
+
+        // Checking if the local-part starts or ends with a dot - if so, invalid
+        if(parts[0].startsWith(".") || parts[0].endsWith("."))
+            flag = false;
+
+
+        // Checking of the Domain - after the @
+        for(String x: domain)
+            // Check if each character is a vliad character - if invalid, email is invalid
+            if(validEmailDomainCharacters.contains(x) == false)
                 flag = false;
-            
-            // Checking if the local-part starts or ends with a dot - if so, invalid
-            if(parts[0].startsWith(".") || parts[0].endsWith("."))
-                flag = false;
-            
-           
-            // Checking of the Domain - after the @
-            for(String x: domain)
-                // Check if each character is a vliad character - if invalid, email is invalid
-                if(validEmailDomainCharacters.contains(x) == false)
-                    flag = false;
-            
-            // Checking domain length - (x > 63) characters is invalid
-            if(parts[1].length() > 63)
-                flag = false;
-            
-            // Checking if the domain contains at least one dot - valid subdomain. If not, email is invalid
-            if(!parts[1].contains(".")){
-                flag = false;
-            }
-            
-            // Checking if the domain starts or ends with a dot - if so, invalid
-            if(parts[1].startsWith(".") || parts[1].endsWith("."))
-                flag = false;
-            
-            // Checking if the domain starts or ends with a hyphen - if so, invalid
-            if(parts[1].startsWith("-") || parts[1].endsWith("-"))
-                flag = false;
-            
-            // Checking if there are any consecutive dots - if so, invalid
-            if(parts[1].contains(".."))
-                flag = false;
-            
-        }else{
-            flag = false;  
+
+        // Checking domain length - (x > 63) characters is invalid
+        if(parts[1].length() > 63)
+            flag = false;
+
+        // Checking if the domain contains at least one dot - valid subdomain. If not, email is invalid
+        if(!parts[1].contains(".")){
+            flag = false;
         }
+
+        // Checking if the domain starts or ends with a dot - if so, invalid
+        if(parts[1].startsWith(".") || parts[1].endsWith("."))
+            flag = false;
+
+        // Checking if the domain starts or ends with a hyphen - if so, invalid
+        if(parts[1].startsWith("-") || parts[1].endsWith("-"))
+            flag = false;
+
+        // Checking if there are any consecutive dots - if so, invalid
+        if(parts[1].contains(".."))
+            flag = false;
                 
         return flag;
     }// END checkEmail()
     
-    // Checking if the email contains the '@' character. Returns a Boolean
-    private boolean containsAT(String email){  
+    /**
+     *
+     * @param email Takes in the email of the registering user to see if it is valid or not
+     * @return If the email contains an '@' character, as a Boolean
+     */
+    public boolean emailContainsAT(String email){  
        char characters[] = email.toLowerCase().toCharArray();
        int countAT = 0;
        

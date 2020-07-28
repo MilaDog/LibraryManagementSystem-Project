@@ -101,40 +101,40 @@ public class SignInController implements Initializable {
         yMouse = event.getSceneY();
     }
     
-    
     @FXML
-    private void btnSignInClicked(ActionEvent event) {
-        // Reseting error labels
+    private void btnSignInClicked(ActionEvent event) {       
+        
+        // Reseting error labels and styles
         lblSignInError.setText("");
         
+        txfEmail.getStyleClass().removeAll("error");
+        pfPassword.getStyleClass().removeAll("errror");        
+        txfPasswordView.getStyleClass().removeAll("error");
+        
         boolean loginFlag = true;
-        String email = "";
+        String email = "";        
+        String password = pfPassword.getText();
         
         if(cbPasswordView.isSelected()){
             pfPassword.setText(txfPasswordView.getText());
         }// END if - check if user left 'View password' on. Gets that input
-        
-        String password = pfPassword.getText();
 
-        // Checking for password - Presence, valid
-        if(password.isEmpty()){
+        // Checking for password and email - Presence, valid
+        if(password.isEmpty() && txfEmail.getText().isEmpty()){
+            lblSignInError.setText("Enter in your email address and password.");
+            
+            txfEmail.getStyleClass().add("error");
+            pfPassword.getStyleClass().add("error");
+            txfPasswordView.getStyleClass().add("error");
+            
+            loginFlag = false;
+        }else if(password.isEmpty()){
             lblSignInError.setText("Enter in your password.");
+            pfPassword.getStyleClass().add("error");
+            txfPasswordView.getStyleClass().add("error");            
             loginFlag = false;
-        }        
-        
-        // Checking for email - Presence, valid
-        if(!txfEmail.getText().isEmpty()){
-            email = txfEmail.getText().replace(" ", "");
-            
-            if(!check.existingEmail(email)){// Checking if the member is registered
-                lblSignInError.setText("You are not a registered member.");
-                loginFlag = false;
-            }
-            
-        }else{
-            lblSignInError.setText("Enter in your email.");
-            loginFlag = false;
-        }        
+        }   
+    
         
         // Checking if everything is valid. If so, proceeds to next stage
         if(loginFlag){
@@ -143,62 +143,68 @@ public class SignInController implements Initializable {
                 If the logging in user is in the Staff Table, they proceed to the StaffMenuGUI
             */    
             
-            // Checking that the inputed details correspond - password is correct for inputted email address
-            if(!check.checkLogin(email, password)){
-                lblSignInError.setText("Your email and password do not match.");
-                loginFlag = false;
-            }else{       
-                // Getting the member object
-                RegisteredUsers user = mem.getMemberByEmail(email); 
-                String userID = user.getUserID();
+            email = txfEmail.getText().replace(" ", "");
+            
+            // Checking for email existence - Presence
+            if(!check.existingEmail(email)){// Checking if the member is registered
+                    lblSignInError.setText("You are not a registered member.");
+            }else{  
+                // Checking that the inputed details correspond - password is correct for inputted email address
+                if(!check.checkLogin(email, password)){
+                    lblSignInError.setText("Your email and password do not match.");
+                    loginFlag = false;
+                }else{       
+                    // Getting the member object
+                    RegisteredUsers user = mem.getMemberByEmail(email); 
+                    String userID = user.getUserID();
 
-                try{
-                    FXMLLoader loader = null;
-                    Parent root = null;
-                    if(check.isStaffEmail(email)){
+                    try{
+                        FXMLLoader loader = null;
+                        Parent root = null;
+                        if(check.isStaffEmail(email)){
 
-                        // Loading root of Staff. Getting a stage so that it can be viewed and the user can create their new accont
-                        loader = new FXMLLoader(getClass().getResource("/stages/Staff.fxml"));
-                        root = (Parent) loader.load();
-                        
-                        // Passing currentUser to StaffController so that it can be used
-                        StaffController staffController = loader.getController();
-                        staffController.currentUser(userID);
-                        
-                        // Setting up the stage
-                        Scene staff = new Scene(root);
-                        Stage stageStaff = new Stage();            
-                        stageStaff.initStyle(StageStyle.UNDECORATED);
-                        stageStaff.setScene(staff);
-                        
-                        stageStaff.show();
-                        stageSignIn.hide();
-                        
-                    }else{
-                        
-                        
-                        // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
-                        loader = new FXMLLoader(getClass().getResource("/stages/Member.fxml"));                        
-                        root = (Parent) loader.load();
-                        
-                        // Passing currentUser to MemberController so that it can be used
-                        MemberController memberController = loader.getController();
-                        memberController.currentUser(userID);
-                        
-                        // Setting up the stage
-                        Scene member = new Scene(root);
-                        Stage stageMember = new Stage();            
-                        stageMember.initStyle(StageStyle.UNDECORATED);
-                        stageMember.setScene(member);
-                        
-                        stageMember.show();
-                        stageSignIn.hide();              
-                    }// END if
-                }catch(IOException err){
-                    err.printStackTrace();
+                            // Loading root of Staff. Getting a stage so that it can be viewed and the user can create their new accont
+                            loader = new FXMLLoader(getClass().getResource("/stages/Staff.fxml"));
+                            root = (Parent) loader.load();
+
+                            // Passing currentUser to StaffController so that it can be used
+                            StaffController staffController = loader.getController();
+                            staffController.currentUser(userID);
+
+                            // Setting up the stage
+                            Scene staff = new Scene(root);
+                            Stage stageStaff = new Stage();            
+                            stageStaff.initStyle(StageStyle.UNDECORATED);
+                            stageStaff.setScene(staff);
+
+                            stageStaff.show();
+                            stageSignIn.hide();
+
+                        }else{
+
+
+                            // Loading root of Member. Getting a stage so that it can be viewed and the user can create their new accont
+                            loader = new FXMLLoader(getClass().getResource("/stages/Member.fxml"));                        
+                            root = (Parent) loader.load();
+
+                            // Passing currentUser to MemberController so that it can be used
+                            MemberController memberController = loader.getController();
+                            memberController.currentUser(userID);
+
+                            // Setting up the stage
+                            Scene member = new Scene(root);
+                            Stage stageMember = new Stage();            
+                            stageMember.initStyle(StageStyle.UNDECORATED);
+                            stageMember.setScene(member);
+
+                            stageMember.show();
+                            stageSignIn.hide();              
+                        }// END if
+                    }catch(IOException err){
+                        err.printStackTrace();
+                    }
                 }
-                
-            }// END if
+                }// END if
         }// END if
     }
 
@@ -226,6 +232,10 @@ public class SignInController implements Initializable {
             // Loading root of SignUp. Getting a stage so that it can be viewed and the user can create their new accont
             Parent root = FXMLLoader.load(getClass().getResource("/stages/SignUp.fxml"));
             Scene signUp = new Scene(root);
+            
+            // loading scene custom stylesheet for errors
+            signUp.getStylesheets().add(getClass().getResource("/stylesheets/errors.css").toExternalForm());
+            
             Stage stageSignUp = new Stage();            
             stageSignUp.initStyle(StageStyle.UNDECORATED);
             stageSignUp.setScene(signUp);

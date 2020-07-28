@@ -29,13 +29,13 @@ public class ErrorHandling {
      */
     public void bookIssueError(Stage stage, String errorType){
         if(errorType.equalsIgnoreCase("member")){
-            String dialog = "Did not select a Member.";
+            String dialog = "Did not select a Member in the table.";
             displayErrorDialog(stage, dialog);
         }else if(errorType.equalsIgnoreCase("book")){
-            String dialog = "Did not select a Book.";
+            String dialog = "Did not select a Book in the table.";
             displayErrorDialog(stage, dialog);
         }else{
-            String dialog = "Did not select a Book and User.";
+            String dialog = "Did not select a Book and User in the tables.";
             displayErrorDialog(stage, dialog);
         }
     }
@@ -45,7 +45,7 @@ public class ErrorHandling {
      * @param stage Takes in the BooksReturn stage
      */
     public void bookReturnError(Stage stage){
-        String dialog = "Did not select a Book to return.";
+        String dialog = "Did not select a Book to return in the table.";
         displayErrorDialog(stage, dialog);
     }
     
@@ -54,7 +54,7 @@ public class ErrorHandling {
      * @param stage Takes in the ManageStaffAdd stage
      */
     public void staffAddError(Stage stage){
-        String dialog = "Did not select a Member.";
+        String dialog = "Did not select a Member in the table.";
         displayErrorDialog(stage, dialog);        
     }
     
@@ -63,7 +63,7 @@ public class ErrorHandling {
      * @param stage Takes in the ManageStaffRemove stage
      */
     public void staffRemoveError(Stage stage){ 
-        String dialog = "Did not select a Staff Member.";
+        String dialog = "Did not select a Staff Member in the table.";
         displayErrorDialog(stage, dialog);        
     }
     
@@ -72,7 +72,7 @@ public class ErrorHandling {
      * @param stage Takes in the RequestBook stage
      */
     public void requestBookError(Stage stage){  
-        String dialog = "Did not select a Book to request.";
+        String dialog = "Did not select a Book to request in the table.";
         displayErrorDialog(stage, dialog);       
     }
     
@@ -83,13 +83,13 @@ public class ErrorHandling {
      */
     public void fixBookError(Stage stage, String errorType){
         if(errorType.equalsIgnoreCase("book")){
-            String dialog = "Did not select a Book.";
+            String dialog = "Did not select a Book in the table.";
             displayErrorDialog(stage, dialog);
         }else if(errorType.equalsIgnoreCase("reason")){
-            String dialog = "Did not give a fix reason.";
+            String dialog = "Did not give a fix reason in the text area.";
             displayErrorDialog(stage, dialog);
         }else{
-            String dialog = "Did not select a Book and no fix reason given.";
+            String dialog = "Did not select a Book in the table and no fix reason given in the text area.";
             displayErrorDialog(stage, dialog);
         }
     }
@@ -99,7 +99,7 @@ public class ErrorHandling {
      * @param stage Takes in the FixedBooks stage
      */
     public void fixedBooksError(Stage stage){  
-        String dialog = "Did not select a Book to mark as fixed.";
+        String dialog = "Did not select a Book in the table to mark as fixed.";
         displayErrorDialog(stage, dialog);       
     }
 

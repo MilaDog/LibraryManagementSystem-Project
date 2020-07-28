@@ -38,6 +38,20 @@ public class SignUpController implements Initializable {
     private Checks check = new Checks(); 
     private Postgres db = new Postgres();
     private Algorithms algor = new Algorithms();
+    @FXML
+    private Label lblFirstNameError;
+    @FXML
+    private Label lblSurnameError;
+    @FXML
+    private Label lblPhoneCellNumberError;
+    @FXML
+    private Label lblEmailError;
+    @FXML
+    private Label lblDOBError;
+    @FXML
+    private Label lblPasswordError;
+    @FXML
+    private Label lblPasswordCheckError;
     public void testMethod() {
         
     }
@@ -122,16 +136,25 @@ public class SignUpController implements Initializable {
 
     @FXML
     private void btnSignUpClicked(ActionEvent event) {
-        // Resetting all error labels        
-        lblFirstName.setText("First Name");
-        lblSurname.setText("Surname");
-        lblEmail.setText("Email Address");
-        lblPhoneCellNumber.setText("Phone/Cell Number");
-        lblDOB.setText("Date of Birth");
-        lblPassword.setText("Password");
-        lblPasswordCheck.setText("Re-enter Password");
+        // Resetting all error labels and styles      
+        lblFirstNameError.setText("");
+        lblSurnameError.setText("");
+        lblEmailError.setText("");
+        lblPhoneCellNumberError.setText("");
+        lblDOBError.setText("");
+        lblPasswordError.setText("");
+        lblPasswordCheckError.setText("");
         lblAccountExists.setText("");
         
+        txfFirstName.getStyleClass().removeAll("error");
+        txfSurname.getStyleClass().removeAll("error");
+        txfPhoneCellNumber.getStyleClass().removeAll("error");
+        txfEmail.getStyleClass().removeAll("error");
+        dpDOB.getStyleClass().removeAll("errorDP");
+        pfPassword.getStyleClass().removeAll("error");
+        pfPasswordCheck.getStyleClass().removeAll("error");
+        txfPasswordView.getStyleClass().removeAll("error");
+        txfPasswordCheckView.getStyleClass().removeAll("error");
 
         
         // Getting all inputed information
@@ -142,26 +165,30 @@ public class SignUpController implements Initializable {
         String phone = "";        
         String formatDob = "";
         
+        // Getting passwords entered
+        String password1 = pfPassword.getText();
+        String password2 = pfPasswordCheck.getText();
+        
+        // Option to display inputted password - see what the user has typed in
         if(cbPasswordView.isSelected()){
             pfPassword.setText(txfPasswordView.getText());
             pfPasswordCheck.setText(txfPasswordCheckView.getText());
         }// END if - check if user has left 'View password' checked
-        
-        String password1 = pfPassword.getText();
-        String password2 = pfPasswordCheck.getText();
         
         
         // Checking FirstName - Presence, Valid, Logic
         if(!txfFirstName.getText().isEmpty()){
             firstName = txfFirstName.getText();
             
-            if(!check.checkNames(firstName)){
-                lblFirstName.setText("First Name - Not Valid.");
+            if(!check.checkNames(firstName)){ // if name contains invalid characters
+                lblFirstNameError.setText("Conatins invalid characters.");
+                txfFirstName.getStyleClass().add("error");
                 accountFlag = false;
             }
             
-        }else{
-            lblFirstName.setText("First Name - Please provide.");
+        }else{ // field left empty
+            lblFirstNameError.setText("Please provide.");
+            txfFirstName.getStyleClass().add("error");
             accountFlag = false;
         }
         
@@ -170,13 +197,15 @@ public class SignUpController implements Initializable {
         if(!txfSurname.getText().isEmpty()){
             surname = txfSurname.getText();
             
-            if(!check.checkNames(surname)){
-                lblSurname.setText("Surname - Not Valid.");
+            if(!check.checkNames(surname)){ // if surname contains invalid characters
+                lblSurnameError.setText("Conatins invalid characters.");
+                txfSurname.getStyleClass().add("error");
                 accountFlag = false;
             }
             
-        }else{
-            lblSurname.setText("Surname - Please provide.");
+        }else{ // field left empty
+            lblSurnameError.setText("Please provide.");
+            txfSurname.getStyleClass().add("error");
             accountFlag = false;
         }       
         
@@ -185,18 +214,26 @@ public class SignUpController implements Initializable {
         if(!txfEmail.getText().isEmpty()){
             email = txfEmail.getText();
                         
-            if(!check.existingEmail(email)){
-                if(!check.checkEmail(email)){
-                    lblEmail.setText("Email - Invalid.");
+            if(!check.existingEmail(email)){ // if email exists
+                if(check.emailContainsAT(email)){ // if email contains '@' character
+                    if(!check.checkEmail(email)){ // if email contains invalid characters / missing domain or local part
+                        lblEmailError.setText("Conatins invalid characters / missing domain or local part.");
+                        txfEmail.getStyleClass().add("error");
+                        accountFlag = false;
+                    }
+                }else{
+                    lblEmailError.setText("Does not contain the '@' character.");
+                    txfEmail.getStyleClass().add("error");
                     accountFlag = false;
                 }
-            }else{
+            }else{ // if email exists
                 lblAccountExists.setText("Account with such email already exists.");
                 accountFlag = false;
             }
             
-        }else{
-            lblEmail.setText("Email - Please provide.");
+        }else{ // field is empty
+            lblEmailError.setText("Please provide.");
+            txfEmail.getStyleClass().add("error");
             accountFlag = false;
         }
 
@@ -204,14 +241,21 @@ public class SignUpController implements Initializable {
         // Checking Phone number - Presence
         if(!txfPhoneCellNumber.getText().isEmpty()){
             phone = txfPhoneCellNumber.getText();  
-            
-            if(!check.checkPhoneCell(phone)){
-                lblPhoneCellNumber.setText("Phone/Cell Number - Invalid.");
+             
+            // checking phone length and valid characters
+            if(!check.checkPhoneCellLength(phone)){
+                lblPhoneCellNumberError.setText("Length does not equal 10.");
+                txfPhoneCellNumber.getStyleClass().add("error");
+                accountFlag = false;
+            }else if(!check.checkPhoneCellValidCharactersOrZero(phone)){
+                lblPhoneCellNumberError.setText("Contains non-numeric characters / does not start with 0");
+                txfPhoneCellNumber.getStyleClass().add("error");
                 accountFlag = false;
             }
             
-        }else{
-            lblPhoneCellNumber.setText("Phone/Cell Number - Please provide.");
+        }else{ // field is empty
+            lblPhoneCellNumberError.setText("Please provide.");
+            txfPhoneCellNumber.getStyleClass().add("error");
             accountFlag = false;
         }
         
@@ -221,27 +265,38 @@ public class SignUpController implements Initializable {
             dob = dpDOB.getValue();
             formatDob = Utils.formatDate(dob);
         }catch(NullPointerException err){
-            lblDOB.setText("Date of Birth - Please provide.");
+            lblDOBError.setText("Please provide.");
+            dpDOB.getStyleClass().add("errorDP");
             accountFlag = false;
         }
         
         
         // Checking if password was entered and correct - Presence, Valid, Logic
         if(password1.isEmpty() && password2.isEmpty()){
-            lblPassword.setText("Password - Please provide.");
+            lblPasswordError.setText("Please provide.");
+            pfPassword.getStyleClass().add("error");
+            txfPasswordView.getStyleClass().add("error");
             accountFlag = false;
         }        
         else if(password2.isEmpty() && !password1.isEmpty()){
-            lblPasswordCheck.setText("Password - Please re-enter password.");
+            lblPasswordCheckError.setText("Please re-enter password.");
+            pfPasswordCheck.getStyleClass().add("error");
+            txfPasswordCheckView.getStyleClass().add("error");
             accountFlag = false;
         }        
         else if(!password1.isEmpty() && password2.isEmpty()){
-            lblPasswordCheck.setText("Re-enter Password - Please provide.");
+            lblPasswordCheckError.setText("Please provide.");
+            pfPasswordCheck.getStyleClass().add("error");
+            txfPasswordCheckView.getStyleClass().add("error");
             accountFlag = false;
         }else{
             if(!check.checkPassword(password1, password2)){
-                lblPassword.setText("Password - Does not match");
-                lblPasswordCheck.setText("Re-enter Password - Does not match.");
+                lblPasswordError.setText("Does not match");
+                pfPassword.getStyleClass().add("error");
+                txfPasswordView.getStyleClass().add("error");
+                lblPasswordCheckError.setText("Does not match.");
+                pfPasswordCheck.getStyleClass().add("error");
+                txfPasswordCheckView.getStyleClass().add("error");
                 accountFlag = false;
             }
         }

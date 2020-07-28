@@ -35,7 +35,7 @@
             <PasswordField fx:id="pfPasswordCheck" layoutX="600.0" layoutY="260.0" prefHeight="35.0" prefWidth="300.0" promptText="Re-enter Password" />
             <TextField fx:id="txfPasswordView" focusTraversable="false" layoutX="600.0" layoutY="180.0" prefHeight="35.0" prefWidth="300.0" visible="false" />
             <TextField fx:id="txfPasswordCheckView" focusTraversable="false" layoutX="600.0" layoutY="260.0" prefHeight="35.0" prefWidth="300.0" visible="false" />
-            <CheckBox fx:id="cbPasswordView" layoutX="603.0" layoutY="305.0" mnemonicParsing="false" onAction="#cbPasswordViewClicked" text="View Password" />
+            <CheckBox fx:id="cbPasswordView" layoutX="603.0" layoutY="314.0" mnemonicParsing="false" onAction="#cbPasswordViewClicked" text="View Password" />
             <Label fx:id="lblFirstName" layoutX="100.0" layoutY="81.0" prefHeight="17.0" prefWidth="300.0" text="First Name">
                <font>
                   <Font name="Segoe UI" size="12.0" />
@@ -77,6 +77,41 @@
                </font>
             </Label>
             <Label fx:id="lblAccountExists" alignment="CENTER" layoutX="358.0" layoutY="404.0" prefHeight="17.0" prefWidth="245.0" />
+            <Label fx:id="lblFirstNameError" layoutX="100.0" layoutY="135.0" prefHeight="17.0" prefWidth="300.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblSurnameError" layoutX="100.0" layoutY="215.0" prefHeight="17.0" prefWidth="300.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblPhoneCellNumberError" layoutX="100.0" layoutY="297.0" prefHeight="17.0" prefWidth="300.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblEmailError" layoutX="100.0" layoutY="375.0" prefHeight="17.0" prefWidth="300.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDOBError" layoutX="600.0" layoutY="135.0" prefHeight="17.0" prefWidth="300.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblPasswordError" layoutX="600.0" layoutY="215.0" prefHeight="17.0" prefWidth="300.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblPasswordCheckError" layoutX="600.0" layoutY="297.0" prefHeight="17.0" prefWidth="300.0">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <ImageView fx:id="lblExit" fitHeight="25.0" fitWidth="25.0" layoutX="1006.0" layoutY="2.0" onMouseClicked="#lblExitClicked" pickOnBounds="true" preserveRatio="true">
